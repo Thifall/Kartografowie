@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33526cfc12443a44aa0c8d697406175, type: 3}
+  m_Name: Miasto
+  m_EditorClassIdentifier: 
+  CardName: Miasto
+  TimeValue: 1
+  availableShapes:
+  - {fileID: 6010614872694177905, guid: 51bfb71fa1919474f9a82483ce9af467, type: 3}
+  - {fileID: 6010614872694177905, guid: 5b558679b9b600f41ae63385f0aba479, type: 3}
+  availableTerrains: 03000000
+  bonusShape: 1
