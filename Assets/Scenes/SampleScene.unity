@@ -861,7 +861,7 @@ MonoBehaviour:
   seasonManager: {fileID: 1926959781}
   cardDrawEvent: {fileID: 11400000, guid: f4e4c980189dd444ebcb14e73c97018f, type: 2}
   shapeSelectedEvent: {fileID: 11400000, guid: 298d7cc83d3b8d345837c9e7ff822a49, type: 2}
-  terrainSelectedEvent: {fileID: 0}
+  terrainSelectedEvent: {fileID: 11400000, guid: 3db2a27be2e7fbc44b78c00b459326b5, type: 2}
 --- !u!4 &868853765
 Transform:
   m_ObjectHideFlags: 0
