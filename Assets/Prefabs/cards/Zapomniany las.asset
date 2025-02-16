@@ -17,5 +17,9 @@ MonoBehaviour:
   availableShapes:
   - {fileID: 6010614872694177905, guid: 010fe200c2d1fc041ae1f97f21a06c79, type: 3}
   - {fileID: 7717274111496671683, guid: bca3fe8ddffdb694595f3377b296fdcc, type: 3}
+  ShapeIcons:
+  - {fileID: 21300000, guid: 734a31b925fec834eb1032ced74ec106, type: 3}
+  - {fileID: 21300000, guid: 6dde0fef2b10f9341897bb8ba0107d2f, type: 3}
   availableTerrains: 01000000
   bonusShape: 1
+  BackgroundImage: {fileID: 0}

@@ -1,21 +1,44 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class ShapePreview : MonoBehaviour
 {
-    public GameObject currentGhostShape;
-    public SeasonManager seasonManager;
+    public TerrainSelectedEventSO TerrainSelectedEvent; 
+    public ShapeSelectedEventSO ShapeSelectedEvent;
+    private GameObject currentGhostShape;
     private Vector3 gridOrigin;
     private const float GRID_CELL_SIZE = 1.05f;
     private ShapeSelector shapeSelector;
-    private CellType[] AvailableTerains;
-    private int currentTerrainIndex = 0;
+    private CellType currentCellType;
     private GridManager gridManager;
     private bool shapeUsed = true;
     private int shapeRotation = 0;
     private bool isFlipped = false;
     private bool altPressed = false;
+
+    private void OnEnable()
+    {
+        TerrainSelectedEvent.OnTerrainSelected += UpdateTerrainSelected;
+        ShapeSelectedEvent.OnShapeSelected += UpdateShapeSelected;
+    }
+
+    private void OnDisable()
+    {
+        TerrainSelectedEvent.OnTerrainSelected -= UpdateTerrainSelected;
+        ShapeSelectedEvent.OnShapeSelected -= UpdateShapeSelected;
+    }
+
+    private void UpdateTerrainSelected(CellType terrainSelected)
+    {
+        currentCellType = terrainSelected;
+    }
+
+    private void UpdateShapeSelected(Sprite obj)
+    {
+        shapeUsed = false;
+    }
 
     void Start()
     {
@@ -29,14 +52,6 @@ public class ShapePreview : MonoBehaviour
         if (shapeUsed)
         {
             return;
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            UpdateCurrentTerrain(++currentTerrainIndex);
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            UpdateCurrentTerrain(--currentTerrainIndex);
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -81,21 +96,6 @@ public class ShapePreview : MonoBehaviour
         {
             isFlipped = !isFlipped;
         }
-    }
-
-    private void UpdateCurrentTerrain(int index)
-    {
-        if (AvailableTerains is null) return;
-        if (index < 0)
-        {
-            index = AvailableTerains.Length - 1;
-        }
-        if (index >= AvailableTerains.Length)
-        {
-            index = 0;
-        }
-        currentTerrainIndex = index;
-        Debug.Log($"Wybrano teren {AvailableTerains[currentTerrainIndex]}");
     }
 
     void UpdateGhostShape()
@@ -146,11 +146,12 @@ public class ShapePreview : MonoBehaviour
             GridCell gridCell = GetGridCellAtPosition(cell.position);
             if (gridCell != null)
             {
-                gridCell.SetCellType(AvailableTerains[currentTerrainIndex]);
+                gridCell.SetCellType(currentCellType);
             }
         }
         shapeUsed = true;
-        Destroy(currentGhostShape); // Usuwamy ducha po zatwierdzeniu
+        shapeSelector.ResetShape();
+        Destroy(currentGhostShape);
     }
 
     GridCell GetGridCellAtPosition(Vector3 position)
@@ -219,13 +220,6 @@ public class ShapePreview : MonoBehaviour
     {
         var SRs = FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None);
         return SRs.Select((r) => new Vector2(r.transform.position.x, r.transform.position.y));
-    }
-
-    internal void SetAvailableTerrains(CellType[] availableTerrains)
-    {
-        AvailableTerains = availableTerrains;
-        currentTerrainIndex = 0;
-        shapeUsed = false;
     }
 
     public bool WasShapePlaced()

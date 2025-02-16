@@ -1,42 +1,42 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ShapeSelector : MonoBehaviour
 {
-    public GameObject[] shapePrefabs;
-    private int selectedShapeIndex = 0;
 
-    void Update()
+    public ShapeSelectedEventSO shapeSelectedEvent;
+    public Transform previewParent;
+    private GameObject currentGhostShape;
+
+    public GameObject[] shapePrefabs;
+    private Dictionary<string, GameObject> shapeDictionary;
+
+    private void Awake()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-            SelectShape(++selectedShapeIndex);
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-            SelectShape(--selectedShapeIndex);
+        shapeDictionary = new Dictionary<string, GameObject>();
+        foreach (var shape in shapePrefabs)
+        {
+            var shapeComponent = shape.GetComponent<Shape>();
+            Debug.Log(shapeComponent.name);
+            shapeDictionary[shapeComponent.Icon.name] = shape;
+        }
     }
 
-    void SelectShape(int index)
+    private void OnEnable() => shapeSelectedEvent.OnShapeSelected += UpdateSelectedShape;
+    private void OnDisable() => shapeSelectedEvent.OnShapeSelected -= UpdateSelectedShape;
+
+    private void UpdateSelectedShape(Sprite sprite)
     {
-        if(shapePrefabs is null) return;
-        if (index < 0)
-        {
-            index = shapePrefabs.Length - 1;
-        }
-        if (index >= shapePrefabs.Length)
-        {
-            index = 0;
-        }
-        selectedShapeIndex = index;
-        Debug.Log("Wybrano kszta³t: " + shapePrefabs[selectedShapeIndex].name);
+        currentGhostShape = shapeDictionary[sprite.name];
+    }
+
+    public void ResetShape()
+    {
+        currentGhostShape = null;
     }
 
     public GameObject GetSelectedShape()
     {
-        return shapePrefabs[selectedShapeIndex];
-    }
-
-    internal void SetAvailableShapes(GameObject[] availableShapes)
-    {
-        shapePrefabs = availableShapes;
-        selectedShapeIndex = 0;
+        return currentGhostShape;
     }
 }

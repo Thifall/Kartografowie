@@ -16,5 +16,8 @@ MonoBehaviour:
   TimeValue: 2
   availableShapes:
   - {fileID: 6010614872694177905, guid: 63e6228ccca3b0045accab4b29c31f52, type: 3}
+  ShapeIcons:
+  - {fileID: 21300000, guid: 2a9f6885f795b0046b7f63106054eb0f, type: 3}
   availableTerrains: 0300000004000000
   bonusShape: 0
+  BackgroundImage: {fileID: 0}

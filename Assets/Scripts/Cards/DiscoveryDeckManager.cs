@@ -8,6 +8,9 @@ public class DiscoveryDeckManager : MonoBehaviour
     private List<DiscoveryCard> seasonDeck; //u¿ywany do manipulacji tali¹ podczas rozgrywki
     public SeasonManager seasonManager;
     private DiscoveryCard currentCard;
+    public CardDrawEventSO cardDrawEvent;
+    public ShapeSelectedEventSO shapeSelectedEvent;
+    public TerrainSelectedEventSO terrainSelectedEvent;
     private bool gameOver = false;
 
     void Start()
@@ -42,14 +45,14 @@ public class DiscoveryDeckManager : MonoBehaviour
         currentCard = seasonDeck[0];
         seasonDeck.RemoveAt(0);
         ApplyCardEffects(currentCard);
+
+        cardDrawEvent.RaiseEvent(currentCard);
+        shapeSelectedEvent.RaiseEvent(currentCard.ShapeIcons[0]);
+        terrainSelectedEvent.RaiseEvent(currentCard.availableTerrains[0]);
     }
 
     void ApplyCardEffects(DiscoveryCard card)
     {
-        Debug.Log($"Wylosowano kartê: {card.CardName}");
-        FindFirstObjectByType<ShapeSelector>().SetAvailableShapes(card.availableShapes);
-        FindFirstObjectByType<ShapePreview>().SetAvailableTerrains(card.availableTerrains);
-
         if (seasonDeck.Count < 1)
         {
             BlockDrawButton();

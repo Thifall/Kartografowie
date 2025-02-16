@@ -23,36 +23,6 @@ public class GridManager : MonoBehaviour
         Vector2 gridPos = WorldToGrid(worldPos);
         return gridCells.ContainsKey(gridPos) && gridCells[gridPos].IsRestricted();
     }
-    //private bool CanPlaceShape(Vector3 worldPos, ShapePreview shape)
-    //{
-    //    foreach (Vector2 cellOffset in shape.GetCellOffsets())
-    //    {
-    //        Vector3 cellWorldPos = new Vector3(
-    //            worldPos.x + cellOffset.x * cellSize,
-    //            worldPos.y + cellOffset.y * cellSize,
-    //            0
-    //        );
-
-    //        Vector2 gridCoords = WorldToGrid(cellWorldPos);
-
-    //        // Sprawdzenie czy wspó³rzêdne s¹ w zakresie siatki
-    //        if (!IsWithinGridBounds(gridCoords))
-    //        {
-    //            return false;
-    //        }
-
-    //        // Pobranie komórki z siatki
-    //        GridCell cell = GetCellAt(gridCoords);
-
-    //        // Jeœli jest to teren, na którym nie mo¿na rysowaæ – zwróæ false
-    //        if (cell != null && cell.IsRestricted())
-    //        {
-    //            return false;
-    //        }
-    //    }
-
-    //    return true;
-    //}
 
     private Vector2 WorldToGrid(Vector3 worldPos)
     {
