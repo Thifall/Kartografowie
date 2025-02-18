@@ -30,15 +30,6 @@ public class GridManager : MonoBehaviour
         int y = Mathf.RoundToInt((worldPos.y - gridOrigin.y) / cellSize);
         return new Vector2(x, y);
     }
-    private bool IsWithinGridBounds(Vector2 coords)
-    {
-        return coords.x >= 0 && coords.x < (gridWidth * cellSize) && coords.y >= 0 && coords.y < (gridHeight * cellSize);
-    }
-
-    private GridCell GetCellAt(Vector2 coords)
-    {
-        return gridCells[coords];
-    }
 
     internal GridCell GetCellAt(int x, int y)
     {
