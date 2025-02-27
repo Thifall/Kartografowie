@@ -13,16 +13,25 @@ public class CardUI : MonoBehaviour
     public Button[] terrainButtons;
     public Button[] shapeButtons;
 
-    private void OnEnable() => CardDrawEvent.OnCardDrawn += LoadCard;
-    private void OnDisable() => CardDrawEvent.OnCardDrawn -= LoadCard;
+    public void SetupCardUI(DiscoveryCard card)
+    {
+        LoadCard(card);
+    }
 
     private void LoadCard(DiscoveryCard card)
     {
         CardNameTextBox.text = card.CardName;
         SeasonTimeValueTextBox.text = card.TimeValue.ToString();
         BackgroundImage.sprite = card.BackgroundImage;
-        SetTerains(card.availableTerrains);
-        SetShapeIcons(card.ShapeIcons);
+        if (card.IsRuins)
+        {
+
+        }
+        else
+        {
+            SetTerains(card.availableTerrains);
+            SetShapeIcons(card.ShapeIcons);
+        }
     }
 
     private void SetTerains(CellType[] availableTerrains)
@@ -36,7 +45,8 @@ public class CardUI : MonoBehaviour
 
                 int index = i;
                 terrainButtons[i].onClick.RemoveAllListeners();
-                terrainButtons[i].onClick.AddListener(() => {
+                terrainButtons[i].onClick.AddListener(() =>
+                {
                     SelectTerrain(availableTerrains[index]);
                 });
             }
@@ -58,9 +68,10 @@ public class CardUI : MonoBehaviour
 
                 int index = i;
                 shapeButtons[i].onClick.RemoveAllListeners();
-                shapeButtons[i].onClick.AddListener(() => {
+                shapeButtons[i].onClick.AddListener(() =>
+                {
                     SelectShape(shapeIcons[index]);
-                    });
+                });
             }
             else
             {
@@ -78,4 +89,5 @@ public class CardUI : MonoBehaviour
     {
         ShapeSelectedEvent.RaiseEvent(shapeIcon);
     }
+
 }

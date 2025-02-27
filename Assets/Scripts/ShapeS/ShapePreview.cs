@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class ShapePreview : MonoBehaviour
 {
-    public TerrainSelectedEventSO TerrainSelectedEvent; 
+    public TerrainSelectedEventSO TerrainSelectedEvent;
     public ShapeSelectedEventSO ShapeSelectedEvent;
+    public CardDrawEventSO CardDrawEvent;
     private GameObject currentGhostShape;
     private Vector3 gridOrigin;
     private const float GRID_CELL_SIZE = 1.05f;
@@ -22,12 +23,14 @@ public class ShapePreview : MonoBehaviour
     {
         TerrainSelectedEvent.OnTerrainSelected += UpdateTerrainSelected;
         ShapeSelectedEvent.OnShapeSelected += UpdateShapeSelected;
+        CardDrawEvent.OnCardDrawn += OnCardDrawn;
     }
 
     private void OnDisable()
     {
         TerrainSelectedEvent.OnTerrainSelected -= UpdateTerrainSelected;
         ShapeSelectedEvent.OnShapeSelected -= UpdateShapeSelected;
+        CardDrawEvent.OnCardDrawn -= OnCardDrawn;
     }
 
     private void UpdateTerrainSelected(CellType terrainSelected)
@@ -37,6 +40,12 @@ public class ShapePreview : MonoBehaviour
 
     private void UpdateShapeSelected(Sprite obj)
     {
+        //shapeUsed = false;
+    }
+
+    private void OnCardDrawn(DiscoveryCard obj)
+    {
+        if (obj.IsRuins) { return; }
         shapeUsed = false;
     }
 
@@ -90,7 +99,8 @@ public class ShapePreview : MonoBehaviour
         }
         shapeRotation = (shapeRotation + rotation) % 360;
     }
-    void FlipShape()
+
+    private void FlipShape()
     {
         if (currentGhostShape != null)
         {
@@ -98,7 +108,7 @@ public class ShapePreview : MonoBehaviour
         }
     }
 
-    void UpdateGhostShape()
+    private void UpdateGhostShape()
     {
         if (currentGhostShape != null)
             Destroy(currentGhostShape);

@@ -7,5 +7,5 @@ public enum CellType
     Water,
     Mountain,
     Chasm,
-    Monster
+    Monster,
 }

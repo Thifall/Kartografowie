@@ -190,6 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellType: 0
+  HasRuins: 0
 --- !u!61 &1269541247214055041
 BoxCollider2D:
   m_ObjectHideFlags: 0

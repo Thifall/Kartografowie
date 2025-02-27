@@ -10,5 +10,5 @@ public class DiscoveryCard : ScriptableObject
     public CellType[] availableTerrains; // Dostêpne tereny do wyboru
     public bool bonusShape;
     public Sprite BackgroundImage;
-
+    public bool IsRuins = false;
 }

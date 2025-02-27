@@ -4,6 +4,7 @@ using UnityEngine;
 public class GridCell : MonoBehaviour
 {
     public CellType cellType = CellType.Default;
+    public bool HasRuins = false;
 
     private SpriteRenderer spriteRenderer;
     private Coroutine currentCoroutine;
