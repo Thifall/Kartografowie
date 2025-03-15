@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,5 +36,11 @@ public class GridManager : MonoBehaviour
     {
         Vector2 cellCords = new Vector2(x, y);
         return gridCells[cellCords];
+    }
+
+    internal bool HasRuins(Vector3 worldPos)
+    {
+        Vector2 gridPos = WorldToGrid(worldPos);
+        return gridCells[gridPos].HasRuins;
     }
 }

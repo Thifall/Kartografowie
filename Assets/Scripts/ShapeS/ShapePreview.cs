@@ -15,6 +15,7 @@ public class ShapePreview : MonoBehaviour
     private CellType currentCellType;
     private GridManager gridManager;
     private bool shapeUsed = true;
+    private bool requiresRuins = false;
     private int shapeRotation = 0;
     private bool isFlipped = false;
     private bool altPressed = false;
@@ -43,10 +44,20 @@ public class ShapePreview : MonoBehaviour
         //shapeUsed = false;
     }
 
-    private void OnCardDrawn(DiscoveryCard obj)
+    private void OnCardDrawn(DiscoveryCard newCard)
     {
-        if (obj.IsRuins) { return; }
+        if (newCard.IsRuins)
+        {
+            requiresRuins = true;
+            return;
+        }
+        CanFitShape(newCard.availableShapes);
         shapeUsed = false;
+    }
+
+    private void CanFitShape(GameObject[] availableShapes)
+    {
+        //throw new NotImplementedException();
     }
 
     void Start()
@@ -160,6 +171,7 @@ public class ShapePreview : MonoBehaviour
             }
         }
         shapeUsed = true;
+        requiresRuins = false;
         shapeSelector.ResetShape();
         Destroy(currentGhostShape);
     }
@@ -190,13 +202,30 @@ public class ShapePreview : MonoBehaviour
         {
             gridManager = FindFirstObjectByType<GridManager>();
         }
-        foreach (Transform cell in ghost.GetComponentsInChildren<Transform>())
+        Transform[] ghostCells = ghost.GetComponentsInChildren<Transform>();
+        foreach (Transform cell in ghostCells)
         {
             if (!IsWithinGridBounds(cell.position) || gridManager.IsCellRestricted(cell.position))
             {
                 return true;
             }
         }
+        //we're in bounds, and not over restricted squares
+        //now we check if ruins are required, we check for at elast one cell hovering ruins square
+        if (requiresRuins)
+        {
+            foreach (Transform cell in ghostCells)
+            {
+                if (gridManager.HasRuins(cell.position))
+                {
+                    //we found ruins square, so we return false as we are over good squares
+                    return false;
+                }
+            }
+            //if none ruins found, we are over invalid squares
+            return true;
+        }
+        //all checks passed, squares are OK
         return false;
     }
 
