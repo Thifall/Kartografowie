@@ -1,12 +1,13 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ShapePreview : MonoBehaviour
 {
     public TerrainSelectedEventSO TerrainSelectedEvent;
     public ShapeSelectedEventSO ShapeSelectedEvent;
+    public ForceSingleSquareEventSO ForceSingleSquareEvent;
     public CardDrawEventSO CardDrawEvent;
     private GameObject currentGhostShape;
     private Vector3 gridOrigin;
@@ -14,6 +15,7 @@ public class ShapePreview : MonoBehaviour
     private ShapeSelector shapeSelector;
     private CellType currentCellType;
     private GridManager gridManager;
+    private ShapeValidator shapeValidator;
     private bool shapeUsed = true;
     private bool requiresRuins = false;
     private int shapeRotation = 0;
@@ -51,24 +53,32 @@ public class ShapePreview : MonoBehaviour
             requiresRuins = true;
             return;
         }
-        CanFitShape(newCard.availableShapes);
-        shapeUsed = false;
-    }
 
-    private void CanFitShape(GameObject[] availableShapes)
-    {
-        //throw new NotImplementedException();
+        if (!shapeValidator.CanFitShape(newCard.availableShapes, requiresRuins))
+        {
+            ForceSingleSquareEvent.RaiseEvent();
+        }
+        
+        shapeUsed = false;
     }
 
     void Start()
     {
         shapeSelector = FindFirstObjectByType<ShapeSelector>();
-        gridManager = FindFirstObjectByType<GridManager>();
         gridOrigin = new Vector3(1, -5, 0);
     }
 
     void Update()
     {
+        if (gridManager is null)
+        {
+            var gridman = FindFirstObjectByType<GridManager>();
+            if (gridman is not null)
+            {
+                gridManager = gridman;
+                shapeValidator = new ShapeValidator(gridManager);
+            }
+        }
         if (shapeUsed)
         {
             return;
@@ -134,7 +144,7 @@ public class ShapePreview : MonoBehaviour
         ApplyGhostTransformations();
 
         // Sprawdzamy, czy kszta³t nachodzi na niedozwolone pola
-        if (IsOverInvalidCells(currentGhostShape))
+        if (shapeValidator.IsOverInvalidCells(currentGhostShape))
         {
             SetGhostColor(Color.red);
         }
@@ -156,7 +166,7 @@ public class ShapePreview : MonoBehaviour
     {
         if (currentGhostShape == null) return;
 
-        if (IsOverInvalidCells(currentGhostShape))
+        if (shapeValidator.IsOverInvalidCells(currentGhostShape))
         {
             Debug.Log("Cannot draw shape here");
             return;
@@ -164,11 +174,7 @@ public class ShapePreview : MonoBehaviour
 
         foreach (Transform cell in currentGhostShape.GetComponentsInChildren<Transform>())
         {
-            GridCell gridCell = GetGridCellAtPosition(cell.position);
-            if (gridCell != null)
-            {
-                gridCell.SetCellType(currentCellType);
-            }
+            DrawTerrainAtPosition(cell);
         }
         shapeUsed = true;
         requiresRuins = false;
@@ -176,12 +182,12 @@ public class ShapePreview : MonoBehaviour
         Destroy(currentGhostShape);
     }
 
-    GridCell GetGridCellAtPosition(Vector3 position)
+    private void DrawTerrainAtPosition(Transform cell)
     {
-        Vector3 snappedPos = new Vector3(Mathf.Round((position.x - gridOrigin.x) / GRID_CELL_SIZE),
-                                        Mathf.Round((position.y - gridOrigin.y) / GRID_CELL_SIZE),
-                                        0);
-        return gridManager.GetCellAt((int)snappedPos.x, (int)snappedPos.y);
+        Vector3 snappedPos = new Vector3(Mathf.Round((cell.position.x - gridOrigin.x) / GRID_CELL_SIZE),
+                                                Mathf.Round((cell.position.y - gridOrigin.y) / GRID_CELL_SIZE),
+                                                0);
+        gridManager.PaintCellAt(new Vector2(snappedPos.x, snappedPos.y), currentCellType);
     }
 
     Vector3 GetSnappedPosition()
@@ -194,47 +200,6 @@ public class ShapePreview : MonoBehaviour
         int gridY = Mathf.RoundToInt(localY);
 
         return new Vector3(gridOrigin.x + gridX * GRID_CELL_SIZE, gridOrigin.y + gridY * GRID_CELL_SIZE, 0);
-    }
-
-    bool IsOverInvalidCells(GameObject ghost)
-    {
-        if (gridManager is null)
-        {
-            gridManager = FindFirstObjectByType<GridManager>();
-        }
-        Transform[] ghostCells = ghost.GetComponentsInChildren<Transform>();
-        foreach (Transform cell in ghostCells)
-        {
-            if (!IsWithinGridBounds(cell.position) || gridManager.IsCellRestricted(cell.position))
-            {
-                return true;
-            }
-        }
-        //we're in bounds, and not over restricted squares
-        //now we check if ruins are required, we check for at elast one cell hovering ruins square
-        if (requiresRuins)
-        {
-            foreach (Transform cell in ghostCells)
-            {
-                if (gridManager.HasRuins(cell.position))
-                {
-                    //we found ruins square, so we return false as we are over good squares
-                    return false;
-                }
-            }
-            //if none ruins found, we are over invalid squares
-            return true;
-        }
-        //all checks passed, squares are OK
-        return false;
-    }
-
-    bool IsWithinGridBounds(Vector3 position)
-    {
-        int gridX = Mathf.RoundToInt((position.x - gridOrigin.x) / GRID_CELL_SIZE);
-        int gridY = Mathf.RoundToInt((position.y - gridOrigin.y) / GRID_CELL_SIZE);
-
-        return gridX >= 0 && gridX < 11 && gridY >= 0 && gridY < 11; // 11x11 to rozmiar siatki
     }
 
     void SetGhostTransparency(float alpha)

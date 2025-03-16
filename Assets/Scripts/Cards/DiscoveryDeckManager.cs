@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DiscoveryDeckManager : MonoBehaviour
 {
@@ -72,7 +73,7 @@ public class DiscoveryDeckManager : MonoBehaviour
     private void CreateNewCardUI()
     {
         GameObject cardUI = Instantiate(currentCard.IsRuins ? RuinsCardPrefab : NormalCardPrefab, CardStackParent);
-        cardUI.transform.localPosition = new Vector3(0, -40 * activeCards.Count);
+        cardUI.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -40 * activeCards.Count);
         cardUI.GetComponent<CardUI>().SetupCardUI(currentCard);
         activeCards.Add(cardUI);
     }
@@ -89,7 +90,7 @@ public class DiscoveryDeckManager : MonoBehaviour
 
     private void BlockDrawButton()
     {
-        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        gameObject.GetComponent<Image>().color = Color.red;
     }
 
     public void OnSeasonEnd(bool gameEnded)
@@ -102,10 +103,5 @@ public class DiscoveryDeckManager : MonoBehaviour
             return;
         }
         ShuffleDeck();
-    }
-
-    private void OnMouseDown()
-    {
-        DrawCard();
     }
 }

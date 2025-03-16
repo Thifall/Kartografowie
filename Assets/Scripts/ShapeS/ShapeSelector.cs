@@ -5,11 +5,13 @@ public class ShapeSelector : MonoBehaviour
 {
 
     public ShapeSelectedEventSO shapeSelectedEvent;
+    public ForceSingleSquareEventSO ForceSingleSquareEvent;
     public Transform previewParent;
-    private GameObject currentGhostShape;
-
     public GameObject[] shapePrefabs;
+
     private Dictionary<string, GameObject> shapeDictionary;
+    private GameObject currentGhostShape;
+    private bool shapeWasForced;
 
     private void Awake()
     {
@@ -22,17 +24,34 @@ public class ShapeSelector : MonoBehaviour
         }
     }
 
-    private void OnEnable() => shapeSelectedEvent.OnShapeSelected += UpdateSelectedShape;
-    private void OnDisable() => shapeSelectedEvent.OnShapeSelected -= UpdateSelectedShape;
+    private void OnEnable()
+    {
+        shapeSelectedEvent.OnShapeSelected += UpdateSelectedShape;
+        ForceSingleSquareEvent.OnForceSingleSquare += OnForceSingleSquare;
+    }
+
+    private void OnDisable()
+    {
+        shapeSelectedEvent.OnShapeSelected -= UpdateSelectedShape;
+        ForceSingleSquareEvent.OnForceSingleSquare -= OnForceSingleSquare;
+    }
+
+    private void OnForceSingleSquare()
+    {
+        currentGhostShape = shapeDictionary["singlesquare"];
+        shapeWasForced = true;
+    }
 
     private void UpdateSelectedShape(Sprite sprite)
     {
+        if(shapeWasForced) { return; }
         currentGhostShape = shapeDictionary[sprite.name];
     }
 
     public void ResetShape()
     {
         currentGhostShape = null;
+        shapeWasForced = false;
     }
 
     public GameObject GetSelectedShape()

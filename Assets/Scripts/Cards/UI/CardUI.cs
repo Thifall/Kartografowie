@@ -23,11 +23,7 @@ public class CardUI : MonoBehaviour
         CardNameTextBox.text = card.CardName;
         SeasonTimeValueTextBox.text = card.TimeValue.ToString();
         BackgroundImage.sprite = card.BackgroundImage;
-        if (card.IsRuins)
-        {
-
-        }
-        else
+        if (!card.IsRuins)
         {
             SetTerains(card.availableTerrains);
             SetShapeIcons(card.ShapeIcons);

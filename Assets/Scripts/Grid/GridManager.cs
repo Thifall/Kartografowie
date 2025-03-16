@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
@@ -38,9 +39,19 @@ public class GridManager : MonoBehaviour
         return gridCells[cellCords];
     }
 
+    public void PaintCellAt(Vector2 position, CellType targetCellType)
+    {
+       gridCells[position].SetCellType(targetCellType);
+    }
+
     internal bool HasRuins(Vector3 worldPos)
     {
         Vector2 gridPos = WorldToGrid(worldPos);
         return gridCells[gridPos].HasRuins;
+    }
+
+    internal bool HasAvailableRuinsSquare()
+    {
+        return gridCells.Values.Where(gc => gc.HasRuins && gc.cellType == CellType.Default).Any();
     }
 }
