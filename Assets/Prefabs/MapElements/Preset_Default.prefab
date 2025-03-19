@@ -165,8 +165,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 223d6c3e0d60063419861954bc78f535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 11
-  gridHeight: 11
 --- !u!1001 &6605037407142651
 PrefabInstance:
   m_ObjectHideFlags: 0

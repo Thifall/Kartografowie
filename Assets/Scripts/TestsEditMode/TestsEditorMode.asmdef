@@ -1,6 +1,6 @@
 {
-    "name": "Tests",
-    "rootNamespace": "",
+    "name": "TestsEditorMode",
+    "rootNamespace": "Kartografowie.TestsEditorMode",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",

@@ -7,7 +7,6 @@ namespace Kartografowie.Grid
 {
     public class GridManager : MonoBehaviour
     {
-        public int gridWidth = 11, gridHeight = 11;
         private readonly Dictionary<Vector2, GridCell> gridCells = new();
         private const float GRID_CELL_SIZE = 1.05f;
         private Vector3 gridOrigin = new(1, -5, 0);
@@ -40,28 +39,28 @@ namespace Kartografowie.Grid
             gridCells[position].SetCellType(targetCellType);
         }
 
-        internal bool HasRuinsAtPosition(Vector3 worldPos)
+        public bool HasRuinsAtPosition(Vector3 worldPos)
         {
             Vector2 gridPos = WorldToGrid(worldPos);
             return gridCells[gridPos].HasRuins;
         }
 
-        internal IEnumerable<GridCell> GetAvailableEmptySquares(bool requiresRuins = false)
+        public IEnumerable<GridCell> GetAvailableEmptySquares(bool requiresRuins = false)
         {
-            return gridCells.Values.Where(gc => gc.HasRuins == requiresRuins && gc.cellType == CellType.Default);
+            return gridCells.Values.Where(gc => gc.HasRuins == requiresRuins && gc.CellType == CellType.Default);
         }
 
-        internal bool CanDrawOnSquares(IEnumerable<Vector3> traversedAndOffsettedPositions)
+        public bool CanDrawOnSquares(IEnumerable<Vector3> traversedAndOffsettedPositions)
         {
             return traversedAndOffsettedPositions
             .All((v) =>
             {
                 Vector2 key = new(Mathf.Round(v.x / GRID_CELL_SIZE), Mathf.Round(v.y / GRID_CELL_SIZE));
-                return gridCells.ContainsKey(key) && gridCells[key].cellType == CellType.Default;
+                return gridCells.ContainsKey(key) && gridCells[key].CellType == CellType.Default;
             });
         }
 
-        internal string GetCellNameAtPosition(Vector3 pos)
+        public string GetCellNameAtPosition(Vector3 pos)
         {
             return gridCells[new Vector2(Mathf.Round(pos.x / GRID_CELL_SIZE), Mathf.Round(pos.y / GRID_CELL_SIZE))].name;
         }

@@ -5,7 +5,7 @@ namespace Kartografowie.Grid
 {
     public class GridCell : MonoBehaviour
     {
-        public CellType cellType = CellType.Default;
+        public CellType CellType { get; private set;} = CellType.Default;
         public bool HasRuins = false;
 
         private SpriteRenderer spriteRenderer;
@@ -27,17 +27,17 @@ namespace Kartografowie.Grid
         {
             if (spriteRenderer == null) return;
 
-            spriteRenderer.color = Generals.CellTypeColors[cellType];
+            spriteRenderer.color = Generals.CellTypeColors[CellType];
         }
 
-        internal bool IsRestricted()
+        public bool IsRestricted()
         {
-            return cellType != CellType.Default;
+            return CellType != CellType.Default;
         }
 
         public void SetCellType(CellType newType)
         {
-            cellType = newType;
+            CellType = newType;
             UpdateVisual();
         }
     }
