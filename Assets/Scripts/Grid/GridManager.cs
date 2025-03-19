@@ -1,57 +1,69 @@
-using System;
+using Kartografowie.General;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class GridManager : MonoBehaviour
+namespace Kartografowie.Grid
 {
-    public int gridWidth = 11, gridHeight = 11;
-    private Dictionary<Vector2, GridCell> gridCells = new Dictionary<Vector2, GridCell>();
-    private float cellSize = 1.05f;
-    private Vector3 gridOrigin = new Vector3(1, -5, 0);
-
-    void Start()
+    public class GridManager : MonoBehaviour
     {
-        GridCell[] allCells = FindObjectsByType<GridCell>(FindObjectsSortMode.None);
-        foreach (GridCell cell in allCells)
+        public int gridWidth = 11, gridHeight = 11;
+        private readonly Dictionary<Vector2, GridCell> gridCells = new();
+        private const float GRID_CELL_SIZE = 1.05f;
+        private Vector3 gridOrigin = new(1, -5, 0);
+
+        void Start()
         {
-            Vector2 pos = WorldToGrid(cell.transform.position);
-            gridCells[pos] = cell;
+            GridCell[] allCells = FindObjectsByType<GridCell>(FindObjectsSortMode.None);
+            foreach (GridCell cell in allCells)
+            {
+                Vector2 pos = WorldToGrid(cell.transform.position);
+                gridCells[pos] = cell;
+            }
         }
-    }
 
-    public bool IsCellRestricted(Vector3 worldPos)
-    {
-        Vector2 gridPos = WorldToGrid(worldPos);
-        return gridCells.ContainsKey(gridPos) && gridCells[gridPos].IsRestricted();
-    }
+        public bool IsCellRestricted(Vector3 worldPos)
+        {
+            Vector2 gridPos = WorldToGrid(worldPos);
+            return gridCells.ContainsKey(gridPos) && gridCells[gridPos].IsRestricted();
+        }
 
-    private Vector2 WorldToGrid(Vector3 worldPos)
-    {
-        int x = Mathf.RoundToInt((worldPos.x - gridOrigin.x) / cellSize);
-        int y = Mathf.RoundToInt((worldPos.y - gridOrigin.y) / cellSize);
-        return new Vector2(x, y);
-    }
+        private Vector2 WorldToGrid(Vector3 worldPos)
+        {
+            int x = Mathf.RoundToInt((worldPos.x - gridOrigin.x) / GRID_CELL_SIZE);
+            int y = Mathf.RoundToInt((worldPos.y - gridOrigin.y) / GRID_CELL_SIZE);
+            return new Vector2(x, y);
+        }
 
-    internal GridCell GetCellAt(int x, int y)
-    {
-        Vector2 cellCords = new Vector2(x, y);
-        return gridCells[cellCords];
-    }
+        public void PaintCellAt(Vector2 position, CellType targetCellType)
+        {
+            gridCells[position].SetCellType(targetCellType);
+        }
 
-    public void PaintCellAt(Vector2 position, CellType targetCellType)
-    {
-       gridCells[position].SetCellType(targetCellType);
-    }
+        internal bool HasRuinsAtPosition(Vector3 worldPos)
+        {
+            Vector2 gridPos = WorldToGrid(worldPos);
+            return gridCells[gridPos].HasRuins;
+        }
 
-    internal bool HasRuins(Vector3 worldPos)
-    {
-        Vector2 gridPos = WorldToGrid(worldPos);
-        return gridCells[gridPos].HasRuins;
-    }
+        internal IEnumerable<GridCell> GetAvailableEmptySquares(bool requiresRuins = false)
+        {
+            return gridCells.Values.Where(gc => gc.HasRuins == requiresRuins && gc.cellType == CellType.Default);
+        }
 
-    internal bool HasAvailableRuinsSquare()
-    {
-        return gridCells.Values.Where(gc => gc.HasRuins && gc.cellType == CellType.Default).Any();
-    }
+        internal bool CanDrawOnSquares(IEnumerable<Vector3> traversedAndOffsettedPositions)
+        {
+            return traversedAndOffsettedPositions
+            .All((v) =>
+            {
+                Vector2 key = new(Mathf.Round(v.x / GRID_CELL_SIZE), Mathf.Round(v.y / GRID_CELL_SIZE));
+                return gridCells.ContainsKey(key) && gridCells[key].cellType == CellType.Default;
+            });
+        }
+
+        internal string GetCellNameAtPosition(Vector3 pos)
+        {
+            return gridCells[new Vector2(Mathf.Round(pos.x / GRID_CELL_SIZE), Mathf.Round(pos.y / GRID_CELL_SIZE))].name;
+        }
+    } 
 }

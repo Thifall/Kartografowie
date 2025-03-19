@@ -1,7 +1,10 @@
-public enum Seasons
+namespace Kartografowie.General
 {
-    Wiosna,
-    Lato,
-    Jesieñ,
-    Zima
+    public enum Seasons
+    {
+        Wiosna,
+        Lato,
+        Jesieñ,
+        Zima
+    }
 }

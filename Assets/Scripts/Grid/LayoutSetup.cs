@@ -1,21 +1,24 @@
 using UnityEngine;
 
-public class LayoutSetup : MonoBehaviour
+namespace Kartografowie.Grid
 {
-    public GameObject[] mapVariants; //warianty mapy
-
-    void Start()
+    public class LayoutSetup : MonoBehaviour
     {
-        if (mapVariants.Length == 0)
+        public GameObject[] mapVariants; //warianty mapy
+
+        void Start()
         {
-            Debug.LogError("Brak wariantów mapy do losowania!");
-            return;
+            if (mapVariants.Length == 0)
+            {
+                Debug.LogError("Brak wariantów mapy do losowania!");
+                return;
+            }
+
+            int randomIndex = Random.Range(0, mapVariants.Length);
+
+            GameObject selectedMap = Instantiate(mapVariants[randomIndex], gameObject.transform);
+
+            Debug.Log($"Wylosowano mapê: {selectedMap.name}");
         }
-        
-        int randomIndex = Random.Range(0, mapVariants.Length);
-
-        GameObject selectedMap = Instantiate(mapVariants[randomIndex], gameObject.transform);
-
-        Debug.Log($"Wylosowano mapê: {selectedMap.name}");
     }
 }

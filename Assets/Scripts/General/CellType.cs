@@ -1,11 +1,14 @@
-public enum CellType
+namespace Kartografowie.General
 {
-    Default,
-    Forest,
-    Field,
-    Vilage,
-    Water,
-    Mountain,
-    Chasm,
-    Monster,
+    public enum CellType
+    {
+        Default,
+        Forest,
+        Field,
+        Vilage,
+        Water,
+        Mountain,
+        Chasm,
+        Monster,
+    } 
 }

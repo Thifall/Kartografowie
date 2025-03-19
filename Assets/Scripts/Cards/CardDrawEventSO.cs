@@ -1,15 +1,19 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Events/Card Draw Event")]
-public class CardDrawEventSO : ScriptableObject
+namespace Kartografowie.Cards
 {
-    public event Action<DiscoveryCard> OnCardDrawn;
-    public void RaiseEvent(DiscoveryCard card)
+
+    [CreateAssetMenu(menuName = "Events/Card Draw Event")]
+    public class CardDrawEventSO : ScriptableObject
     {
-        if (OnCardDrawn != null)
+        public event Action<DiscoveryCard> OnCardDrawn;
+        public void RaiseEvent(DiscoveryCard card)
         {
-            OnCardDrawn?.Invoke(card);
+            if (OnCardDrawn != null)
+            {
+                OnCardDrawn?.Invoke(card);
+            }
         }
     }
 }

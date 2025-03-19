@@ -1,13 +1,16 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Events/Force Single Square Event")]
-public class ForceSingleSquareEventSO : ScriptableObject
+namespace Kartografowie.Shapes
 {
-    public event Action OnForceSingleSquare;
-
-    public void RaiseEvent()
+    [CreateAssetMenu(menuName = "Events/Force Single Square Event")]
+    public class ForceSingleSquareEventSO : ScriptableObject
     {
-        OnForceSingleSquare?.Invoke();
-    }
+        public event Action OnForceSingleSquare;
+
+        public void RaiseEvent()
+        {
+            OnForceSingleSquare?.Invoke();
+        }
+    } 
 }

@@ -1,69 +1,44 @@
-using System.Collections;
+using Kartografowie.General;
 using UnityEngine;
 
-public class GridCell : MonoBehaviour
+namespace Kartografowie.Grid
 {
-    public CellType cellType = CellType.Default;
-    public bool HasRuins = false;
-
-    private SpriteRenderer spriteRenderer;
-    private Coroutine currentCoroutine;
-
-    void Start()
+    public class GridCell : MonoBehaviour
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+        public CellType cellType = CellType.Default;
+        public bool HasRuins = false;
 
-    void OnMouseDown()
-    {
-        if (IsRestricted())
+        private SpriteRenderer spriteRenderer;
+
+        void Start()
         {
-            if (currentCoroutine != null)
-            {
-                StopCoroutine(currentCoroutine); // Zatrzymanie poprzedniej korutyny
-            }
-            currentCoroutine = StartCoroutine(FlashRed());
-            return;
-        }
-    }
-
-    private IEnumerator FlashRed()
-    {
-        float elapsedTime = 0f;
-        var originalColor = spriteRenderer.color;
-        spriteRenderer.color = Color.red;
-        while (elapsedTime < 1.5f)
-        {
-            elapsedTime += Time.deltaTime;
-            spriteRenderer.color = Color.Lerp(spriteRenderer.color, originalColor, elapsedTime / 5f);
-            yield return null;
-        }
-        spriteRenderer.color = originalColor;
-    }
-
-    private void OnValidate()
-    {
-        if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
+        }
 
-        UpdateVisual(); // Aktualizuje kolor po zmianie wartoœci w Inspectorze
-    }
+        private void OnValidate()
+        {
+            if (spriteRenderer == null)
+                spriteRenderer = GetComponent<SpriteRenderer>();
 
-    private void UpdateVisual()
-    {
-        if (spriteRenderer == null) return;
+            UpdateVisual(); // Aktualizuje kolor po zmianie wartoœci w Inspectorze
+        }
 
-        spriteRenderer.color = Generals.CellTypeColors[cellType];
-    }
+        private void UpdateVisual()
+        {
+            if (spriteRenderer == null) return;
 
-    internal bool IsRestricted()
-    {
-        return cellType != CellType.Default;
-    }
+            spriteRenderer.color = Generals.CellTypeColors[cellType];
+        }
 
-    public void SetCellType(CellType newType)
-    {
-        cellType = newType;
-        UpdateVisual(); 
+        internal bool IsRestricted()
+        {
+            return cellType != CellType.Default;
+        }
+
+        public void SetCellType(CellType newType)
+        {
+            cellType = newType;
+            UpdateVisual();
+        }
     }
 }

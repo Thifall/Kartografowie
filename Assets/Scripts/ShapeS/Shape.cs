@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class Shape : MonoBehaviour
+namespace Kartografowie.Shapes
 {
-    public Sprite Icon;
+	public class Shape : MonoBehaviour
+	{
+		public Sprite Icon;
+	}
 }

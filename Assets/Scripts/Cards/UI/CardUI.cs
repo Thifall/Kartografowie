@@ -1,89 +1,96 @@
+using Kartografowie.General;
+using Kartografowie.Shapes;
+using Kartografowie.Terrains;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardUI : MonoBehaviour
+namespace Kartografowie.Cards.UI
 {
-    public CardDrawEventSO CardDrawEvent;
-    public ShapeSelectedEventSO ShapeSelectedEvent;
-    public TerrainSelectedEventSO TerrainSelectedEvent;
-    public TextMeshProUGUI CardNameTextBox;
-    public TextMeshProUGUI SeasonTimeValueTextBox;
-    public Image BackgroundImage;
-    public Button[] terrainButtons;
-    public Button[] shapeButtons;
 
-    public void SetupCardUI(DiscoveryCard card)
+    public class CardUI : MonoBehaviour
     {
-        LoadCard(card);
-    }
+        public CardDrawEventSO CardDrawEvent;
+        public ShapeSelectedEventSO ShapeSelectedEvent;
+        public TerrainSelectedEventSO TerrainSelectedEvent;
+        public TextMeshProUGUI CardNameTextBox;
+        public TextMeshProUGUI SeasonTimeValueTextBox;
+        public Image BackgroundImage;
+        public Button[] terrainButtons;
+        public Button[] shapeButtons;
 
-    private void LoadCard(DiscoveryCard card)
-    {
-        CardNameTextBox.text = card.CardName;
-        SeasonTimeValueTextBox.text = card.TimeValue.ToString();
-        BackgroundImage.sprite = card.BackgroundImage;
-        if (!card.IsRuins)
+        public void SetupCardUI(DiscoveryCard card)
         {
-            SetTerains(card.availableTerrains);
-            SetShapeIcons(card.ShapeIcons);
+            LoadCard(card);
         }
-    }
 
-    private void SetTerains(CellType[] availableTerrains)
-    {
-        for (int i = 0; i < terrainButtons.Length; i++)
+        private void LoadCard(DiscoveryCard card)
         {
-            if (i < availableTerrains.Length)
+            CardNameTextBox.text = card.CardName;
+            SeasonTimeValueTextBox.text = card.TimeValue.ToString();
+            BackgroundImage.sprite = card.BackgroundImage;
+            if (!card.IsRuins)
             {
-                terrainButtons[i].image.color = Generals.CellTypeColors[availableTerrains[i]];
-                terrainButtons[i].gameObject.SetActive(true);
+                SetTerains(card.availableTerrains);
+                SetShapeIcons(card.ShapeIcons);
+            }
+        }
 
-                int index = i;
-                terrainButtons[i].onClick.RemoveAllListeners();
-                terrainButtons[i].onClick.AddListener(() =>
+        private void SetTerains(CellType[] availableTerrains)
+        {
+            for (int i = 0; i < terrainButtons.Length; i++)
+            {
+                if (i < availableTerrains.Length)
                 {
-                    SelectTerrain(availableTerrains[index]);
-                });
-            }
-            else
-            {
-                terrainButtons[i].gameObject.SetActive(false);
-            }
-        }
-    }
+                    terrainButtons[i].image.color = Generals.CellTypeColors[availableTerrains[i]];
+                    terrainButtons[i].gameObject.SetActive(true);
 
-    private void SetShapeIcons(Sprite[] shapeIcons)
-    {
-        for (int i = 0; i < shapeButtons.Length; i++)
-        {
-            if (i < shapeIcons.Length)
-            {
-                shapeButtons[i].image.sprite = shapeIcons[i];
-                shapeButtons[i].gameObject.SetActive(true);
-
-                int index = i;
-                shapeButtons[i].onClick.RemoveAllListeners();
-                shapeButtons[i].onClick.AddListener(() =>
+                    int index = i;
+                    terrainButtons[i].onClick.RemoveAllListeners();
+                    terrainButtons[i].onClick.AddListener(() =>
+                    {
+                        SelectTerrain(availableTerrains[index]);
+                    });
+                }
+                else
                 {
-                    SelectShape(shapeIcons[index]);
-                });
-            }
-            else
-            {
-                shapeButtons[i].gameObject.SetActive(false);
+                    terrainButtons[i].gameObject.SetActive(false);
+                }
             }
         }
-    }
 
-    private void SelectTerrain(CellType cellType)
-    {
-        TerrainSelectedEvent.RaiseEvent(cellType);
-    }
+        private void SetShapeIcons(Sprite[] shapeIcons)
+        {
+            for (int i = 0; i < shapeButtons.Length; i++)
+            {
+                if (i < shapeIcons.Length)
+                {
+                    shapeButtons[i].image.sprite = shapeIcons[i];
+                    shapeButtons[i].gameObject.SetActive(true);
 
-    private void SelectShape(Sprite shapeIcon)
-    {
-        ShapeSelectedEvent.RaiseEvent(shapeIcon);
-    }
+                    int index = i;
+                    shapeButtons[i].onClick.RemoveAllListeners();
+                    shapeButtons[i].onClick.AddListener(() =>
+                    {
+                        SelectShape(shapeIcons[index]);
+                    });
+                }
+                else
+                {
+                    shapeButtons[i].gameObject.SetActive(false);
+                }
+            }
+        }
 
+        private void SelectTerrain(CellType cellType)
+        {
+            TerrainSelectedEvent.RaiseEvent(cellType);
+        }
+
+        private void SelectShape(Sprite shapeIcon)
+        {
+            ShapeSelectedEvent.RaiseEvent(shapeIcon);
+        }
+
+    }
 }

@@ -1,13 +1,17 @@
+using Kartografowie.General;
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Events/Terrain Selected Event")]
-public class TerrainSelectedEventSO : ScriptableObject
+namespace Kartografowie.Terrains
 {
-    public event Action<CellType> OnTerrainSelected;
-
-    public void RaiseEvent(CellType terrainSelected)
+    [CreateAssetMenu(menuName = "Events/Terrain Selected Event")]
+    public class TerrainSelectedEventSO : ScriptableObject
     {
-        OnTerrainSelected?.Invoke(terrainSelected);
-    }
+        public event Action<CellType> OnTerrainSelected;
+
+        public void RaiseEvent(CellType terrainSelected)
+        {
+            OnTerrainSelected?.Invoke(terrainSelected);
+        }
+    } 
 }

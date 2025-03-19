@@ -1,13 +1,16 @@
 using UnityEngine;
 using System;
 
-[CreateAssetMenu(menuName = "Events/Shape Selected Event")]
-public class ShapeSelectedEventSO : ScriptableObject
+namespace Kartografowie.Shapes
 {
-    public event Action<Sprite> OnShapeSelected;
-
-    public void RaiseEvent(Sprite shapeIcon)
+    [CreateAssetMenu(menuName = "Events/Shape Selected Event")]
+    public class ShapeSelectedEventSO : ScriptableObject
     {
-        OnShapeSelected?.Invoke(shapeIcon);
-    }
+        public event Action<Sprite> OnShapeSelected;
+
+        public void RaiseEvent(Sprite shapeIcon)
+        {
+            OnShapeSelected?.Invoke(shapeIcon);
+        }
+    } 
 }
