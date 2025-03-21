@@ -7,15 +7,11 @@ namespace Kartografowie.Shapes
 {
     public class ShapeValidator
     {
-        private const float GRID_CELL_SIZE = 1.05f;
-
         private readonly GridManager gridManager;
-        private Vector3 gridOrigin;
 
         public ShapeValidator(GridManager gridManager)
         {
             this.gridManager = gridManager;
-            gridOrigin = new Vector3(1, -5, 0);
         }
 
         public bool IsOverInvalidCells(GameObject shapePreview, bool requiresRuins)
@@ -23,7 +19,7 @@ namespace Kartografowie.Shapes
             Transform[] ghostCells = shapePreview.GetComponentsInChildren<Transform>();
             foreach (Transform cell in ghostCells)
             {
-                if (!IsWithinGridBounds(cell.position) || gridManager.IsCellRestricted(cell.position))
+                if (!gridManager.IsWithinGridBounds(cell.position) || gridManager.IsCellRestricted(cell.position))
                 {
                     return true;
                 }
@@ -134,14 +130,6 @@ namespace Kartografowie.Shapes
         private IEnumerable<Vector3> RotateShapeSquares(IEnumerable<Vector3> shapeSquares)
         {
             return shapeSquares.Select(v => new Vector3(-v.y, v.x, 0f));
-        }
-
-        private bool IsWithinGridBounds(Vector3 position)
-        {
-            int gridX = Mathf.RoundToInt((position.x - gridOrigin.x) / GRID_CELL_SIZE);
-            int gridY = Mathf.RoundToInt((position.y - gridOrigin.y) / GRID_CELL_SIZE);
-
-            return gridX >= 0 && gridX < 11 && gridY >= 0 && gridY < 11; // 11x11 to rozmiar siatki
         }
     } 
 }

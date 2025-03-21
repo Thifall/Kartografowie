@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace Kartografowie.TestsEditorMode
 {
-    public class GridCellTests
+    public class GridCellTestsEditorMode
     {
         [TestCase(CellType.Forest)]
         [TestCase(CellType.Field)]

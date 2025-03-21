@@ -2,8 +2,6 @@ using Kartografowie.Cards;
 using Kartografowie.General;
 using Kartografowie.Grid;
 using Kartografowie.Terrains;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Kartografowie.Shapes
@@ -15,8 +13,6 @@ namespace Kartografowie.Shapes
         public ForceSingleSquareEventSO ForceSingleSquareEvent;
         public CardDrawEventSO CardDrawEvent;
         private GameObject currentGhostShape;
-        private Vector3 gridOrigin;
-        private const float GRID_CELL_SIZE = 1.05f;
         private ShapeSelector shapeSelector;
         private CellType currentCellType;
         private GridManager gridManager;
@@ -26,6 +22,50 @@ namespace Kartografowie.Shapes
         private int shapeRotation = 0;
         private bool isFlipped = false;
         private bool altPressed = false;
+
+        private void Start()
+        {
+            shapeSelector = FindFirstObjectByType<ShapeSelector>();
+        }
+
+        private void Update()
+        {
+            if (gridManager == null)
+            {
+                var gridman = FindFirstObjectByType<GridManager>();
+                if (gridman != null)
+                {
+                    gridManager = gridman;
+                    shapeValidator = new ShapeValidator(gridManager);
+                }
+            }
+            if (shapeUsed)
+            {
+                return;
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                RotateShape();
+            }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                FlipShape();
+            }
+            if (Input.GetKeyDown(KeyCode.LeftAlt))
+            {
+                altPressed = true;
+            }
+            if (Input.GetKeyUp(KeyCode.LeftAlt))
+            {
+                altPressed = false;
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                ConfirmDrawing();
+                return;
+            }
+            UpdateGhostShape();
+        }
 
         private void OnEnable()
         {
@@ -67,51 +107,6 @@ namespace Kartografowie.Shapes
             }
 
             shapeUsed = false;
-        }
-
-        void Start()
-        {
-            shapeSelector = FindFirstObjectByType<ShapeSelector>();
-            gridOrigin = new Vector3(1, -5, 0);
-        }
-
-        void Update()
-        {
-            if (gridManager == null)
-            {
-                var gridman = FindFirstObjectByType<GridManager>();
-                if (gridman != null)
-                {
-                    gridManager = gridman;
-                    shapeValidator = new ShapeValidator(gridManager);
-                }
-            }
-            if (shapeUsed)
-            {
-                return;
-            }
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                RotateShape();
-            }
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                FlipShape();
-            }
-            if (Input.GetKeyDown(KeyCode.LeftAlt))
-            {
-                altPressed = true;
-            }
-            if (Input.GetKeyUp(KeyCode.LeftAlt))
-            {
-                altPressed = false;
-            }
-            if (Input.GetMouseButtonDown(0))
-            {
-                ConfirmDrawing();
-                return;
-            }
-            UpdateGhostShape();
         }
 
         private void RotateShape()
@@ -171,7 +166,7 @@ namespace Kartografowie.Shapes
             currentGhostShape.transform.localScale = new Vector3(flipValue, 1f, 1f);
         }
 
-        void ConfirmDrawing()
+        private void ConfirmDrawing()
         {
             if (currentGhostShape == null) return;
 
@@ -183,7 +178,7 @@ namespace Kartografowie.Shapes
 
             foreach (Transform cell in currentGhostShape.GetComponentsInChildren<Transform>())
             {
-                DrawTerrainAtPosition(cell);
+                gridManager.PaintCellAt(cell.transform.position, currentCellType);
             }
             shapeUsed = true;
             requiresRuins = false;
@@ -191,27 +186,12 @@ namespace Kartografowie.Shapes
             Destroy(currentGhostShape);
         }
 
-        private void DrawTerrainAtPosition(Transform cell)
+        private Vector3 GetSnappedPosition()
         {
-            Vector3 snappedPos = new(Mathf.Round((cell.position.x - gridOrigin.x) / GRID_CELL_SIZE),
-                                                    Mathf.Round((cell.position.y - gridOrigin.y) / GRID_CELL_SIZE),
-                                                    0);
-            gridManager.PaintCellAt(snappedPos, currentCellType);
+            return gridManager.GetCellPositionFromCursorPosition();
         }
 
-        Vector3 GetSnappedPosition()
-        {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            float localX = (mousePos.x - gridOrigin.x) / GRID_CELL_SIZE;
-            float localY = (mousePos.y - gridOrigin.y) / GRID_CELL_SIZE;
-
-            int gridX = Mathf.RoundToInt(localX);
-            int gridY = Mathf.RoundToInt(localY);
-
-            return new Vector3(gridOrigin.x + gridX * GRID_CELL_SIZE, gridOrigin.y + gridY * GRID_CELL_SIZE, 0);
-        }
-
-        void SetGhostTransparency(float alpha)
+        private void SetGhostTransparency(float alpha)
         {
             foreach (SpriteRenderer sr in currentGhostShape.GetComponentsInChildren<SpriteRenderer>())
             {
@@ -221,18 +201,12 @@ namespace Kartografowie.Shapes
             }
         }
 
-        void SetGhostColor(Color color)
+        private void SetGhostColor(Color color)
         {
             foreach (SpriteRenderer sr in currentGhostShape.GetComponentsInChildren<SpriteRenderer>())
             {
                 sr.color = color;
             }
-        }
-
-        internal IEnumerable<Vector2> GetCellOffsets()
-        {
-            var SRs = FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None);
-            return SRs.Select((r) => new Vector2(r.transform.position.x, r.transform.position.y));
         }
 
         public bool WasShapePlaced()
