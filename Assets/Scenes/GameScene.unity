@@ -1240,6 +1240,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bdcf74b8f495c164f84bf0cd381304d5, type: 2}
   - {fileID: 11400000, guid: 41c386d82fb192749875c20af42fad8e, type: 2}
   - {fileID: 11400000, guid: 41c386d82fb192749875c20af42fad8e, type: 2}
+  ambushDeck:
+  - {fileID: 11400000, guid: 79d59aa49a5e013459e70ddbd30d31bf, type: 2}
   seasonManager: {fileID: 1926959781}
   cardDrawEvent: {fileID: 11400000, guid: f4e4c980189dd444ebcb14e73c97018f, type: 2}
   shapeSelectedEvent: {fileID: 11400000, guid: 298d7cc83d3b8d345837c9e7ff822a49, type: 2}
@@ -1421,7 +1423,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2043049068}
   m_FillRect: {fileID: 696438384}
   m_HandleRect: {fileID: 2043049067}

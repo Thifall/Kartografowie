@@ -1929,6 +1929,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: GridCell (K1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4796446811978799056, guid: b9e57ca3d78ced74d960627ecb57ba19, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5510414413702173199, guid: b9e57ca3d78ced74d960627ecb57ba19, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5510414413702173199, guid: b9e57ca3d78ced74d960627ecb57ba19, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

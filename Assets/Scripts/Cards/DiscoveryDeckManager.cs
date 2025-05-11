@@ -12,6 +12,7 @@ namespace Kartografowie.Cards
     public class DiscoveryDeckManager : MonoBehaviour
     {
         public List<DiscoveryCard> deck; // Lista wszystkich kart, punkt wyjœcia sezonu
+        public List<AmbushCard> ambushDeck;
         public SeasonManager seasonManager;
         public CardDrawEventSO cardDrawEvent;
         public ShapeSelectedEventSO shapeSelectedEvent;
@@ -20,24 +21,44 @@ namespace Kartografowie.Cards
         public GameObject RuinsCardPrefab;
         public Transform CardStackParent;
 
-        private List<DiscoveryCard> seasonDeck; //u¿ywany do manipulacji tali¹ podczas rozgrywki
+        private List<DiscoveryCard> seasonDeck = new(); //u¿ywany do manipulacji tali¹ podczas rozgrywki
         private readonly List<GameObject> activeCards = new();
         private bool gameOver = false;
         private DiscoveryCard currentCard;
 
         void Start()
         {
-            ShuffleDeck();
+            AddAmbushCard();
+            PrepareDeckForNewSeason();
         }
 
-        void ShuffleDeck()
+        void PrepareDeckForNewSeason()
         {
             ClearCardStack();
             if (gameOver)
             {
                 return;
             }
-            seasonDeck = new List<DiscoveryCard>(deck.OrderBy(c => Random.value)); // Tasowanie kart
+            var unusedAmbushCards = seasonDeck.Where(x => x.availableTerrains.Count() == 1 && x.availableTerrains[0] == CellType.Monster);
+            seasonDeck = new List<DiscoveryCard>(deck);
+            seasonDeck.AddRange(unusedAmbushCards);
+            ShuffleSeasonDeck();
+            // Tasowanie kart
+        }
+
+        private void AddAmbushCard()
+        {
+            if (ambushDeck.Count > 0)
+            {
+                var ambushCard = ambushDeck[Random.Range(0, ambushDeck.Count - 1)];
+                seasonDeck.Add(ambushCard);
+                ambushDeck.Remove(ambushCard);
+            }
+        }
+
+        private void ShuffleSeasonDeck()
+        {
+            seasonDeck = seasonDeck.OrderBy(c => Random.value).ToList();
         }
 
         private void ClearCardStack()
@@ -103,7 +124,7 @@ namespace Kartografowie.Cards
         {
             gameOver = gameEnded;
             // Mo¿esz dodaæ logikê np. dodawania specjalnych kart przed tasowaniem
-            ShuffleDeck();
+            PrepareDeckForNewSeason();
             if (gameOver)
             {
                 BlockDrawButton();

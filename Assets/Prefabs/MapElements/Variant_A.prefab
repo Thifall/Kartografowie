@@ -630,6 +630,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.4528302
       objectReference: {fileID: 0}
+    - target: {fileID: 6019997618379020350, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6206251602038041343, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: cellType
       value: 5

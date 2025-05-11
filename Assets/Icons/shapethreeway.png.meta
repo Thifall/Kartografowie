@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 43aad22c5ba9ab34bb57f5d6d6d62400
+guid: 52068f60e0033ac45ad4d772e856bb6f
 TextureImporter:
   internalIDToNameTable:
   - first:
       213: -7208000728865022742
     second: shapethreeway_0
-  - first:
-      213: 3490986562887899532
-    second: shapethreeway_1
-  - first:
-      213: 6757152256551438040
-    second: shapethreeway_2
-  - first:
-      213: 2775072688738833499
-    second: shapethreeway_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -55,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -105,6 +96,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -112,10 +116,10 @@ TextureImporter:
       name: shapethreeway_0
       rect:
         serializedVersion: 2
-        x: 100
-        y: 100
-        width: 88
-        height: 88
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,77 +134,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: shapethreeway_1
-      rect:
-        serializedVersion: 2
-        x: 11
-        y: 11
-        width: 89
-        height: 87
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c89589c68c9727030800000000000000
-      internalID: 3490986562887899532
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: shapethreeway_2
-      rect:
-        serializedVersion: 2
-        x: 100
-        y: 11
-        width: 88
-        height: 87
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8d64af82d2a36cd50800000000000000
-      internalID: 6757152256551438040
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: shapethreeway_3
-      rect:
-        serializedVersion: 2
-        x: 189
-        y: 11
-        width: 88
-        height: 87
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b549a2e48e9038620800000000000000
-      internalID: 2775072688738833499
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -209,11 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      shapethreeway_0: -7208000728865022742
-      shapethreeway_1: 3490986562887899532
-      shapethreeway_2: 6757152256551438040
-      shapethreeway_3: 2775072688738833499
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

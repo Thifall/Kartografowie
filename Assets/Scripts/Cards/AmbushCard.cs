@@ -1,10 +1,14 @@
 ﻿using System.ComponentModel;
+using UnityEngine;
 
 namespace Kartografowie.Cards
 {
+    [CreateAssetMenu(fileName = "NewCard", menuName = "Cards/New Ambush Card")]
     public class AmbushCard : DiscoveryCard
     {
-        private readonly AmbushStartingCorner startingCorner = AmbushStartingCorner.BOTTOM_LEFT;
+        [Header("Ambush")]
+        public AmbushStartingCorner startingCorner = AmbushStartingCorner.BOTTOM_LEFT;
+        public AmbushCheckingDirection checkDirection = AmbushCheckingDirection.COUNTERCLOCKWISE;
     }
 
     public enum AmbushCheckingDirection

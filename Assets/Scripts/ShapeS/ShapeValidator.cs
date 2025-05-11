@@ -1,6 +1,7 @@
 using Kartografowie.Grid;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace Kartografowie.Shapes
@@ -52,7 +53,7 @@ namespace Kartografowie.Shapes
             //3) ruins card is inactive, can fit shape anywhere with regular drawing ruleset
 
             //Take all empty squares, if requiresRuinsSquare == true, then we only take empty ruins squares
-            var emptySquares = gridManager.GetAvailableEmptySquares(requiresRuins: requiresRuinsSquare);
+            var emptySquares = gridManager.GetAvailableEmptySquares(requiresRuins: requiresRuinsSquare).ToList();
             if (!emptySquares.Any())
             {
                 //we don't have any free squares matching criteria, so we cannot fit shape :)
@@ -85,12 +86,16 @@ namespace Kartografowie.Shapes
             Debug.Log($"Checking square {checkedSquare.transform.localPosition}");
 
             //Getting shape square positions
-            var shapeSquaresBasePositions = GetShapeSquaresBasePositions(shape);
+            var shapeSquaresBasePositions = GetShapeSquaresBasePositions(shape).ToList();
             //starting with no rotation
             var rotation = 0;
             while (rotation < 360)
             {
                 Debug.Log($"Shape: {shape.name}, rotation: {rotation},squares base positions:");
+                foreach (var square in shapeSquaresBasePositions)
+                {
+                    Debug.Log(square);
+                }
 
                 //Offsetting squares by position of our square, to match it on grid (based from [0,0])
                 var offsettedPositions = shapeSquaresBasePositions.Select(x => x + checkedSquare.transform.localPosition);
@@ -104,7 +109,7 @@ namespace Kartografowie.Shapes
                     var traversedAndOffsettedPositions = offsettedPositions.Select(x => x - traverse);
 
                     //now with such prepared positions, we ask grid manager, if we can draw on those squares
-                    if (gridManager.CanDrawOnSquares(traversedAndOffsettedPositions))
+                    if (gridManager.CanDrawOnSquares(traversedAndOffsettedPositions.ToList()))
                     {
                         Debug.Log("Can draw shape. Match found on positions:");
                         foreach (var squarePosition in traversedAndOffsettedPositions)

@@ -2,6 +2,7 @@ using Kartografowie.Cards;
 using Kartografowie.General;
 using Kartografowie.Grid;
 using Kartografowie.Terrains;
+using System.Linq;
 using UnityEngine;
 
 namespace Kartografowie.Shapes
@@ -19,8 +20,6 @@ namespace Kartografowie.Shapes
         private ShapeValidator shapeValidator;
         private bool shapeUsed = true;
         private bool requiresRuins = false;
-        private int shapeRotation = 0;
-        private bool isFlipped = false;
         private bool altPressed = false;
 
         private void Start()
@@ -100,6 +99,11 @@ namespace Kartografowie.Shapes
                 return;
             }
 
+            if (newCard is AmbushCard)
+            {
+                Debug.Log("Ambush!");
+            }
+
             if (!shapeValidator.CanFitShape(newCard.availableShapes, requiresRuins))
             {
                 ForceSingleSquareEvent.RaiseEvent();
@@ -115,19 +119,27 @@ namespace Kartografowie.Shapes
             {
                 return;
             }
-            int rotation = 90;
-            if (altPressed)
+            var transforms = currentGhostShape.GetComponentsInChildren<Transform>()
+                .Where(t => t != currentGhostShape.transform).ToArray();
+            foreach (Transform t in transforms)
             {
-                rotation = -rotation;
+                t.localPosition = altPressed ?
+                    new Vector3(t.localPosition.y, -t.localPosition.x) :
+                    new Vector3(-t.localPosition.y, t.localPosition.x);
             }
-            shapeRotation = (shapeRotation + rotation) % 360;
         }
 
         private void FlipShape()
         {
-            if (currentGhostShape != null)
+            if (currentGhostShape == null)
             {
-                isFlipped = !isFlipped;
+                return;
+            }
+            var transforms = currentGhostShape.GetComponentsInChildren<Transform>()
+                .Where(t => t != currentGhostShape.transform).ToArray();
+            foreach (Transform t in transforms)
+            {
+                t.localPosition = new Vector3(-t.localPosition.x, t.localPosition.y);
             }
         }
 
@@ -145,7 +157,6 @@ namespace Kartografowie.Shapes
             }
 
             currentGhostShape.transform.position = GetSnappedPosition();
-            ApplyGhostTransformations();
 
             // Sprawdzamy, czy kszta³t nachodzi na niedozwolone pola
             if (shapeValidator.IsOverInvalidCells(currentGhostShape, requiresRuins))
@@ -159,13 +170,6 @@ namespace Kartografowie.Shapes
             }
         }
 
-        private void ApplyGhostTransformations()
-        {
-            currentGhostShape.transform.rotation = Quaternion.Euler(0f, 0f, shapeRotation);
-            float flipValue = isFlipped ? -1f : 1f;
-            currentGhostShape.transform.localScale = new Vector3(flipValue, 1f, 1f);
-        }
-
         private void ConfirmDrawing()
         {
             if (currentGhostShape == null) return;
@@ -176,7 +180,7 @@ namespace Kartografowie.Shapes
                 return;
             }
 
-            foreach (Transform cell in currentGhostShape.GetComponentsInChildren<Transform>())
+            foreach (Transform cell in currentGhostShape.GetComponentsInChildren<Transform>().Where(t => t != currentGhostShape.transform))
             {
                 gridManager.PaintCellAt(cell.transform.position, currentCellType);
             }
@@ -213,5 +217,5 @@ namespace Kartografowie.Shapes
         {
             return shapeUsed;
         }
-    } 
+    }
 }

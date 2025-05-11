@@ -1,5 +1,4 @@
 using Kartografowie.General;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +7,7 @@ namespace Kartografowie.Grid
 {
     public class GridManager : MonoBehaviour
     {
-        private readonly Dictionary<Vector2, GridCell> gridCells = new();
+        private readonly Dictionary<Vector2Int, GridCell> gridCells = new();
         private const float GRID_CELL_SIZE = 1.05f;
         private Vector3 gridOriginTraverse = Vector3.zero;
 
@@ -18,14 +17,14 @@ namespace Kartografowie.Grid
             GridCell[] allCells = FindObjectsByType<GridCell>(FindObjectsSortMode.None);
             foreach (GridCell cell in allCells)
             {
-                Vector2 pos = WorldToGrid(cell.transform.position);
-                gridCells[pos] = cell;
+                Vector2Int gridPos = WorldToGrid(cell.transform.position);
+                gridCells[gridPos] = cell;
             }
         }
 
         public bool IsCellRestricted(Vector3 worldPos)
         {
-            Vector2 gridPos = WorldToGrid(worldPos);
+            Vector2Int gridPos = WorldToGrid(worldPos);
             return gridCells.ContainsKey(gridPos) && gridCells[gridPos].IsRestricted();
         }
 
@@ -37,7 +36,7 @@ namespace Kartografowie.Grid
 
         public bool HasRuinsAtPosition(Vector3 worldPos)
         {
-            Vector2 gridPos = WorldToGrid(worldPos);
+            Vector2Int gridPos = WorldToGrid(worldPos);
             return gridCells[gridPos].HasRuins;
         }
 
@@ -46,19 +45,19 @@ namespace Kartografowie.Grid
             return gridCells.Values.Where(gc => gc.HasRuins == requiresRuins && gc.CellType == CellType.Default);
         }
 
-        public bool CanDrawOnSquares(IEnumerable<Vector3> traversedAndOffsettedPositions)
+        public bool CanDrawOnSquares(IList<Vector3> traversedAndOffsettedPositions)
         {
             return traversedAndOffsettedPositions
             .All((v) =>
             {
-                Vector2 key = new(Mathf.Round(v.x / GRID_CELL_SIZE), Mathf.Round(v.y / GRID_CELL_SIZE));
+                Vector2Int key = new(Mathf.RoundToInt(v.x / GRID_CELL_SIZE), Mathf.RoundToInt(v.y / GRID_CELL_SIZE));
                 return gridCells.ContainsKey(key) && gridCells[key].CellType == CellType.Default;
             });
         }
 
         public string GetCellNameAtPosition(Vector3 pos)
         {
-            return gridCells[new Vector2(Mathf.Round(pos.x / GRID_CELL_SIZE), Mathf.Round(pos.y / GRID_CELL_SIZE))].name;
+            return gridCells[new Vector2Int(Mathf.RoundToInt(pos.x / GRID_CELL_SIZE), Mathf.RoundToInt(pos.y / GRID_CELL_SIZE))].name;
         }
 
         public float GetCellSize()
@@ -73,6 +72,7 @@ namespace Kartografowie.Grid
 
         public bool IsWithinGridBounds(Vector3 position)
         {
+
             return gridCells.ContainsKey(WorldToGrid(position));
         }
 
@@ -85,26 +85,31 @@ namespace Kartografowie.Grid
             }
         }
 
-        private Vector2 WorldToGrid(Vector3 worldPos)
+        private Vector2Int WorldToGrid(Vector3 worldPos)
         {
-            int x = Mathf.RoundToInt(worldPos.x - gridOriginTraverse.x / GRID_CELL_SIZE);
-            int y = Mathf.RoundToInt(worldPos.y - gridOriginTraverse.y / GRID_CELL_SIZE);
-            return new Vector2(x, y);
+            Vector3 offset = worldPos - gridOriginTraverse;
+            float epsilon = 0.00001f;
+            int x = Mathf.FloorToInt((offset.x + epsilon) / GRID_CELL_SIZE);
+            int y = Mathf.FloorToInt((offset.y + epsilon) / GRID_CELL_SIZE);
+            return new Vector2Int(x, y);
         }
 
         public Vector3 GetCellPositionFromCursorPosition()
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //prze³o¿enie pozycji na wspó³rzêdne x/y 
-            Vector3 pos = new(Mathf.Round(mousePos.x / GRID_CELL_SIZE), Mathf.Round(mousePos.y / GRID_CELL_SIZE));
 
-            //obliczenie wierszy/kolumn wzglêdem punktu rozpoczêcia siatki
-            var offsett = gridOriginTraverse - pos;
+            var adjustedTraverse = gridOriginTraverse - new Vector3(GRID_CELL_SIZE / 2f, GRID_CELL_SIZE / 2f, 0f);
 
-            //Obliczanie pozycji, zak³adaj¹c, ¿e nie musi byæ ona na gridzie. 
-            //Do zaokr¹glonej pozycji dodajemy ró¿nice miêdzy iloœci¹ komórek a ich faktycznym rozmiarem
-            var position = new Vector3(pos.x + (offsett.x - offsett.x * GRID_CELL_SIZE), pos.y + (offsett.y - offsett.y * GRID_CELL_SIZE));
-            return position;
+            float localX = mousePos.x - adjustedTraverse.x;
+            float localY = mousePos.y - adjustedTraverse.y;
+
+            int cellX = Mathf.FloorToInt(localX / GRID_CELL_SIZE);
+            int cellY = Mathf.FloorToInt(localY / GRID_CELL_SIZE);
+
+            float snappedX = cellX * GRID_CELL_SIZE + gridOriginTraverse.x;
+            float snappedY = cellY * GRID_CELL_SIZE + gridOriginTraverse.y;
+
+            return new Vector3(snappedX, snappedY, 0f);
         }
     }
 }
