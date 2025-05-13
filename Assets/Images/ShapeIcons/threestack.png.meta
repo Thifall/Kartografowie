@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: 25b98e22d40f01840b7cb825ab073821
+guid: 39ce464e8c47acc42bae0fffb3ce2e71
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2611865649511127045
-    second: shapeLsmall_0
+      213: 185161184268181195
+    second: threestack_0
   - first:
-      213: -3576830640430081769
-    second: shapeLsmall_1
+      213: 2678573871895064926
+    second: threestack_1
   - first:
-      213: 4386798066245007412
-    second: shapeLsmall_2
+      213: -4260881251715844022
+    second: threestack_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -102,17 +102,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: shapeLsmall_0
+      name: threestack_0
       rect:
         serializedVersion: 2
-        x: 7
-        y: 117
+        x: 10
+        y: 10
         width: 109
-        height: 107
+        height: 108
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -121,20 +134,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 508d72058f53f3420800000000000000
-      internalID: 2611865649511127045
+      spriteID: bcede76bd13d19200800000000000000
+      internalID: 185161184268181195
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: shapeLsmall_1
+      name: threestack_1
       rect:
         serializedVersion: 2
-        x: 7
-        y: 7
+        x: 120
+        y: 10
         width: 109
-        height: 107
+        height: 108
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,20 +156,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7199e6fbb7b8c5ec0800000000000000
-      internalID: -3576830640430081769
+      spriteID: e51b2faaeb43c2520800000000000000
+      internalID: 2678573871895064926
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: shapeLsmall_2
+      name: threestack_2
       rect:
         serializedVersion: 2
-        x: 117
-        y: 7
+        x: 230
+        y: 10
         width: 109
-        height: 107
+        height: 108
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,8 +178,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 43877e7599901ec30800000000000000
-      internalID: 4386798066245007412
+      spriteID: a48fa51a31f4ed4c0800000000000000
+      internalID: -4260881251715844022
       vertices: []
       indices: 
       edges: []
@@ -185,9 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      shapeLsmall_0: 2611865649511127045
-      shapeLsmall_1: -3576830640430081769
-      shapeLsmall_2: 4386798066245007412
+      threestack_0: 185161184268181195
+      threestack_1: 2678573871895064926
+      threestack_2: -4260881251715844022
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

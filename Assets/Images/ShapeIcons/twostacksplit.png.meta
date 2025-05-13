@@ -1,19 +1,13 @@
 fileFormatVersion: 2
-guid: 6dde0fef2b10f9341897bb8ba0107d2f
+guid: 6163bfc01ad794d46acc640ef745972a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4303819070683295949
-    second: shapeZ_0
+      213: -9172460803178496784
+    second: TwoStackSplit_0
   - first:
-      213: 943018133515430566
-    second: shapeZ_1
-  - first:
-      213: -6143142761420506198
-    second: shapeZ_2
-  - first:
-      213: -5468367713320944459
-    second: shapeZ_3
+      213: -9217416538611801204
+    second: TwoStackSplit_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +40,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -105,17 +99,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: shapeZ_0
+      name: TwoStackSplit_0
       rect:
         serializedVersion: 2
-        x: 7
-        y: 147
-        width: 70
-        height: 71
+        x: 1
+        y: 6
+        width: 12
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +131,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dc031a564ac3abb30800000000000000
-      internalID: 4303819070683295949
+      spriteID: 0fcf95e4f7fd4b080800000000000000
+      internalID: -9172460803178496784
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: shapeZ_1
+      name: TwoStackSplit_1
       rect:
         serializedVersion: 2
-        x: 7
-        y: 76
-        width: 70
-        height: 70
+        x: 19
+        y: 6
+        width: 12
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,52 +153,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6aa60f00ff5461d00800000000000000
-      internalID: 943018133515430566
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: shapeZ_2
-      rect:
-        serializedVersion: 2
-        x: 77
-        y: 76
-        width: 71
-        height: 70
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: aabb40dc43c2fbaa0800000000000000
-      internalID: -6143142761420506198
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: shapeZ_3
-      rect:
-        serializedVersion: 2
-        x: 77
-        y: 5
-        width: 71
-        height: 70
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5bc3a4299847c14b0800000000000000
-      internalID: -5468367713320944459
+      spriteID: c83ab3d7e78251080800000000000000
+      internalID: -9217416538611801204
       vertices: []
       indices: 
       edges: []
@@ -210,10 +173,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      shapeZ_0: 4303819070683295949
-      shapeZ_1: 943018133515430566
-      shapeZ_2: -6143142761420506198
-      shapeZ_3: -5468367713320944459
+      TwoStackSplit_0: -9172460803178496784
+      TwoStackSplit_1: -9217416538611801204
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

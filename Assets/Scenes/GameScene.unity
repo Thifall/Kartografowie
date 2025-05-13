@@ -1159,6 +1159,10 @@ MonoBehaviour:
   - {fileID: 6010614872694177905, guid: ddfec18402bc21c4e9df0484c05569f0, type: 3}
   - {fileID: 7717274111496671683, guid: bca3fe8ddffdb694595f3377b296fdcc, type: 3}
   - {fileID: 7717274111496671683, guid: 5e6eb5a3b92d5284eb9621683db78aaa, type: 3}
+  - {fileID: 6010614872694177905, guid: 92bd47d225efc6a4f8f126de2ac78a5e, type: 3}
+  - {fileID: 6010614872694177905, guid: 0c388164002494243a661869a2e9ca67, type: 3}
+  - {fileID: 6010614872694177905, guid: 739370a39c17a1b4d96ccc72a12f4fde, type: 3}
+  - {fileID: 6010614872694177905, guid: 6ad4a9127710e694aaf77a64d2cfe801, type: 3}
 --- !u!4 &1481530499
 Transform:
   m_ObjectHideFlags: 0
@@ -1241,6 +1245,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 41c386d82fb192749875c20af42fad8e, type: 2}
   - {fileID: 11400000, guid: 41c386d82fb192749875c20af42fad8e, type: 2}
   ambushDeck:
+  - {fileID: 11400000, guid: b0673a9b80cc27647a9a8f77de496582, type: 2}
+  - {fileID: 11400000, guid: baf3c6d38f26ebe41ad7575ceb0951a8, type: 2}
+  - {fileID: 11400000, guid: d972da8f2d50a78419305074d1d6d112, type: 2}
   - {fileID: 11400000, guid: 79d59aa49a5e013459e70ddbd30d31bf, type: 2}
   seasonManager: {fileID: 1926959781}
   cardDrawEvent: {fileID: 11400000, guid: f4e4c980189dd444ebcb14e73c97018f, type: 2}

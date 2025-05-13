@@ -11,8 +11,8 @@ namespace Kartografowie.Cards
 {
     public class DiscoveryDeckManager : MonoBehaviour
     {
-        public List<DiscoveryCard> deck; // Lista wszystkich kart, punkt wyjœcia sezonu
-        public List<AmbushCard> ambushDeck;
+        public List<DiscoveryCard> deck; // Lista wszystkich kart odkryæ, punkt wyjœcia sezonu
+        public List<AmbushCard> ambushDeck; // List kart zasadzki
         public SeasonManager seasonManager;
         public CardDrawEventSO cardDrawEvent;
         public ShapeSelectedEventSO shapeSelectedEvent;
@@ -28,7 +28,6 @@ namespace Kartografowie.Cards
 
         void Start()
         {
-            AddAmbushCard();
             PrepareDeckForNewSeason();
         }
 
@@ -39,9 +38,10 @@ namespace Kartografowie.Cards
             {
                 return;
             }
-            var unusedAmbushCards = seasonDeck.Where(x => x.availableTerrains.Count() == 1 && x.availableTerrains[0] == CellType.Monster);
+            var unusedAmbushCards = seasonDeck.Where(x => x.availableTerrains.Any(t => t == CellType.Monster));
             seasonDeck = new List<DiscoveryCard>(deck);
             seasonDeck.AddRange(unusedAmbushCards);
+            AddAmbushCard();
             ShuffleSeasonDeck();
             // Tasowanie kart
         }

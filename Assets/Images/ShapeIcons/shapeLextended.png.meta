@@ -1,19 +1,22 @@
 fileFormatVersion: 2
-guid: 2a9f6885f795b0046b7f63106054eb0f
+guid: 6eb6b1c261641984d98bf716a18c6d49
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4937200484460217005
-    second: fourstack_0
+      213: -2784600488824311421
+    second: shapeLextended_0
   - first:
-      213: -7892664974064383395
-    second: fourstack_1
+      213: 2676588790204218399
+    second: shapeLextended_1
   - first:
-      213: -6611532942187344972
-    second: fourstack_2
+      213: 2689842104546340514
+    second: shapeLextended_2
   - first:
-      213: -6662490409164240023
-    second: fourstack_3
+      213: 5680195153234830423
+    second: shapeLextended_3
+  - first:
+      213: -7563229539525265573
+    second: shapeLextended_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -105,17 +108,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: fourstack_0
+      name: shapeLextended_0
       rect:
         serializedVersion: 2
-        x: 25
-        y: 37
-        width: 84
-        height: 84
+        x: 4
+        y: 172
+        width: 81
+        height: 81
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +140,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 35dbcda515a8b7bb0800000000000000
-      internalID: -4937200484460217005
+      spriteID: 3817f3edb9c1b59d0800000000000000
+      internalID: -2784600488824311421
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fourstack_1
+      name: shapeLextended_1
       rect:
         serializedVersion: 2
-        x: 110
-        y: 37
-        width: 84
-        height: 84
+        x: 4
+        y: 91
+        width: 81
+        height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,20 +162,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d5a89b1f50f977290800000000000000
-      internalID: -7892664974064383395
+      spriteID: f1c3ae1d257252520800000000000000
+      internalID: 2676588790204218399
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fourstack_2
+      name: shapeLextended_2
       rect:
         serializedVersion: 2
-        x: 195
-        y: 37
-        width: 84
-        height: 84
+        x: 4
+        y: 9
+        width: 81
+        height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,20 +184,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4bb412881dd1f34a0800000000000000
-      internalID: -6611532942187344972
+      spriteID: 2aeaf57842d345520800000000000000
+      internalID: 2689842104546340514
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fourstack_3
+      name: shapeLextended_3
       rect:
         serializedVersion: 2
-        x: 279
-        y: 37
-        width: 85
-        height: 84
+        x: 86
+        y: 9
+        width: 81
+        height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -190,8 +206,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 96b8152b5441a83a0800000000000000
-      internalID: -6662490409164240023
+      spriteID: 754257b956b14de40800000000000000
+      internalID: 5680195153234830423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shapeLextended_4
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 9
+        width: 81
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b57fad53ec20a0790800000000000000
+      internalID: -7563229539525265573
       vertices: []
       indices: 
       edges: []
@@ -210,10 +248,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      fourstack_0: -4937200484460217005
-      fourstack_1: -7892664974064383395
-      fourstack_2: -6611532942187344972
-      fourstack_3: -6662490409164240023
+      shapeLextended_0: -2784600488824311421
+      shapeLextended_1: 2676588790204218399
+      shapeLextended_2: 2689842104546340514
+      shapeLextended_3: 5680195153234830423
+      shapeLextended_4: -7563229539525265573
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

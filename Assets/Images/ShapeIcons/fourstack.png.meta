@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 8f6b23fa7b70cb443ac4822dcd07e7a8
+guid: 2a9f6885f795b0046b7f63106054eb0f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8664214513083820009
-    second: ruiny-removebg-preview_0
+      213: -4937200484460217005
+    second: fourstack_0
+  - first:
+      213: -7892664974064383395
+    second: fourstack_1
+  - first:
+      213: -6611532942187344972
+    second: fourstack_2
+  - first:
+      213: -6662490409164240023
+    second: fourstack_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +55,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -96,17 +105,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ruiny-removebg-preview_0
+      name: fourstack_0
       rect:
         serializedVersion: 2
-        x: 22
-        y: 23
-        width: 459
-        height: 461
+        x: 25
+        y: 37
+        width: 84
+        height: 84
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +137,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 718dad92ec682c780800000000000000
-      internalID: -8664214513083820009
+      spriteID: 35dbcda515a8b7bb0800000000000000
+      internalID: -4937200484460217005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fourstack_1
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 37
+        width: 84
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5a89b1f50f977290800000000000000
+      internalID: -7892664974064383395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fourstack_2
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 37
+        width: 84
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bb412881dd1f34a0800000000000000
+      internalID: -6611532942187344972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fourstack_3
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 37
+        width: 85
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96b8152b5441a83a0800000000000000
+      internalID: -6662490409164240023
       vertices: []
       indices: 
       edges: []
@@ -125,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -134,7 +222,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      fourstack_0: -4937200484460217005
+      fourstack_1: -7892664974064383395
+      fourstack_2: -6611532942187344972
+      fourstack_3: -6662490409164240023
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

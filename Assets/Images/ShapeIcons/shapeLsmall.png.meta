@@ -1,22 +1,16 @@
 fileFormatVersion: 2
-guid: 83c9111382a151b4384344b0808ce42d
+guid: 25b98e22d40f01840b7cb825ab073821
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7825212752003023657
-    second: clump_0
+      213: 2611865649511127045
+    second: shapeLsmall_0
   - first:
-      213: -3947935514517443204
-    second: clump_1
+      213: -3576830640430081769
+    second: shapeLsmall_1
   - first:
-      213: 522103648723106538
-    second: clump_2
-  - first:
-      213: -7377687904184704292
-    second: clump_3
-  - first:
-      213: -9104105621729395664
-    second: clump_4
+      213: 4386798066245007412
+    second: shapeLsmall_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -108,15 +102,28 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: clump_0
+      name: shapeLsmall_0
       rect:
         serializedVersion: 2
-        x: 152
-        y: 148
+        x: 7
+        y: 117
         width: 109
         height: 107
       alignment: 0
@@ -127,18 +134,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9234ff6c98db89c60800000000000000
-      internalID: 7825212752003023657
+      spriteID: 508d72058f53f3420800000000000000
+      internalID: 2611865649511127045
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: clump_1
+      name: shapeLsmall_1
       rect:
         serializedVersion: 2
-        x: 262
-        y: 148
+        x: 7
+        y: 7
         width: 109
         height: 107
       alignment: 0
@@ -149,18 +156,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c7de90d019d1639c0800000000000000
-      internalID: -3947935514517443204
+      spriteID: 7199e6fbb7b8c5ec0800000000000000
+      internalID: -3576830640430081769
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: clump_2
+      name: shapeLsmall_2
       rect:
         serializedVersion: 2
-        x: 41
-        y: 38
+        x: 117
+        y: 7
         width: 109
         height: 107
       alignment: 0
@@ -171,52 +178,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: aea73169082ee3700800000000000000
-      internalID: 522103648723106538
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: clump_3
-      rect:
-        serializedVersion: 2
-        x: 152
-        y: 38
-        width: 109
-        height: 107
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: cd2ef5790ff2d9990800000000000000
-      internalID: -7377687904184704292
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: clump_4
-      rect:
-        serializedVersion: 2
-        x: 262
-        y: 38
-        width: 109
-        height: 107
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 03cbe233c28b7a180800000000000000
-      internalID: -9104105621729395664
+      spriteID: 43877e7599901ec30800000000000000
+      internalID: 4386798066245007412
       vertices: []
       indices: 
       edges: []
@@ -235,11 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      clump_0: 7825212752003023657
-      clump_1: -3947935514517443204
-      clump_2: 522103648723106538
-      clump_3: -7377687904184704292
-      clump_4: -9104105621729395664
+      shapeLsmall_0: 2611865649511127045
+      shapeLsmall_1: -3576830640430081769
+      shapeLsmall_2: 4386798066245007412
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

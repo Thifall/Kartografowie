@@ -1,22 +1,19 @@
 fileFormatVersion: 2
-guid: 1bf13639705b3604e89a2962359bec82
+guid: ff3f2fb4b10f8d44188dfa995dffa4d6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3058415124831443892
-    second: squiglyline_0
+      213: 5130803068239427708
+    second: shapeL_0
   - first:
-      213: -7082589348980533551
-    second: squiglyline_1
+      213: 8328930066772071093
+    second: shapeL_1
   - first:
-      213: 8182178923240935902
-    second: squiglyline_2
+      213: -9168914504508760764
+    second: shapeL_2
   - first:
-      213: -6236878863614273118
-    second: squiglyline_3
-  - first:
-      213: 2874619214354941414
-    second: squiglyline_4
+      213: -6903901549726648398
+    second: shapeL_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -108,17 +105,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: squiglyline_0
+      name: shapeL_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 170
-        width: 81
-        height: 79
+        x: 11
+        y: 168
+        width: 77
+        height: 78
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -127,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c446dbce5a35e85d0800000000000000
-      internalID: -3058415124831443892
+      spriteID: c7835e6d436443740800000000000000
+      internalID: 5130803068239427708
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: squiglyline_1
+      name: shapeL_1
       rect:
         serializedVersion: 2
-        x: 89
-        y: 170
-        width: 81
-        height: 79
+        x: 11
+        y: 91
+        width: 77
+        height: 77
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,20 +159,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1d6dc04238695bd90800000000000000
-      internalID: -7082589348980533551
+      spriteID: 5b2150564cd469370800000000000000
+      internalID: 8328930066772071093
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: squiglyline_2
+      name: shapeL_2
       rect:
         serializedVersion: 2
-        x: 89
-        y: 88
-        width: 81
-        height: 80
+        x: 11
+        y: 14
+        width: 77
+        height: 76
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +181,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ed1d6703160fc8170800000000000000
-      internalID: 8182178923240935902
+      spriteID: 44d14de46d871c080800000000000000
+      internalID: -9168914504508760764
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: squiglyline_3
+      name: shapeL_3
       rect:
         serializedVersion: 2
-        x: 171
-        y: 88
-        width: 80
-        height: 80
+        x: 88
+        y: 14
+        width: 77
+        height: 76
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,30 +203,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2a9112bc7b72279a0800000000000000
-      internalID: -6236878863614273118
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: squiglyline_4
-      rect:
-        serializedVersion: 2
-        x: 171
-        y: 7
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6e58320f1f2b4e720800000000000000
-      internalID: 2874619214354941414
+      spriteID: 2b736447e1a6030a0800000000000000
+      internalID: -6903901549726648398
       vertices: []
       indices: 
       edges: []
@@ -235,11 +223,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      squiglyline_0: -3058415124831443892
-      squiglyline_1: -7082589348980533551
-      squiglyline_2: 8182178923240935902
-      squiglyline_3: -6236878863614273118
-      squiglyline_4: 2874619214354941414
+      shapeL_0: 5130803068239427708
+      shapeL_1: 8328930066772071093
+      shapeL_2: -9168914504508760764
+      shapeL_3: -6903901549726648398
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

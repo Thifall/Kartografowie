@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: ff3f2fb4b10f8d44188dfa995dffa4d6
+guid: 32b0edf13c97deb4b90f54a2ce84e97b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5130803068239427708
-    second: shapeL_0
-  - first:
-      213: 8328930066772071093
-    second: shapeL_1
-  - first:
-      213: -9168914504508760764
-    second: shapeL_2
-  - first:
-      213: -6903901549726648398
-    second: shapeL_3
+      213: 6437738476519406127
+    second: farm_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -55,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -105,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: shapeL_0
+      name: farm_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 168
-        width: 77
-        height: 78
+        x: 0
+        y: 0
+        width: 600
+        height: 466
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,74 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c7835e6d436443740800000000000000
-      internalID: 5130803068239427708
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: shapeL_1
-      rect:
-        serializedVersion: 2
-        x: 11
-        y: 91
-        width: 77
-        height: 77
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5b2150564cd469370800000000000000
-      internalID: 8328930066772071093
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: shapeL_2
-      rect:
-        serializedVersion: 2
-        x: 11
-        y: 14
-        width: 77
-        height: 76
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 44d14de46d871c080800000000000000
-      internalID: -9168914504508760764
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: shapeL_3
-      rect:
-        serializedVersion: 2
-        x: 88
-        y: 14
-        width: 77
-        height: 76
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2b736447e1a6030a0800000000000000
-      internalID: -6903901549726648398
+      spriteID: f2abdc92901775950800000000000000
+      internalID: 6437738476519406127
       vertices: []
       indices: 
       edges: []
@@ -200,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -210,10 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      shapeL_0: 5130803068239427708
-      shapeL_1: 8328930066772071093
-      shapeL_2: -9168914504508760764
-      shapeL_3: -6903901549726648398
+      farm_0: 6437738476519406127
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

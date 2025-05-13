@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 32b0edf13c97deb4b90f54a2ce84e97b
+guid: 52068f60e0033ac45ad4d772e856bb6f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6437738476519406127
-    second: farm_0
+      213: -7208000728865022742
+    second: shapethreeway_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -96,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: farm_0
+      name: shapethreeway_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 600
-        height: 466
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f2abdc92901775950800000000000000
-      internalID: 6437738476519406127
+      spriteID: aec5e37d68908fb90800000000000000
+      internalID: -7208000728865022742
       vertices: []
       indices: 
       edges: []
@@ -134,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      shapethreeway_0: -7208000728865022742
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
