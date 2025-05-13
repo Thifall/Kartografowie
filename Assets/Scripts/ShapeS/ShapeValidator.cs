@@ -17,7 +17,7 @@ namespace Kartografowie.Shapes
 
         public bool IsOverInvalidCells(GameObject shapePreview, bool requiresRuins)
         {
-            Transform[] ghostCells = shapePreview.GetComponentsInChildren<Transform>();
+            Transform[] ghostCells = shapePreview.GetComponentsInChildren<Transform>().Where(t => t != shapePreview.transform).ToArray();
             foreach (Transform cell in ghostCells)
             {
                 if (!gridManager.IsWithinGridBounds(cell.position) || gridManager.IsCellRestricted(cell.position))
