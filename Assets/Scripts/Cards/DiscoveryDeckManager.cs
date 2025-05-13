@@ -38,7 +38,7 @@ namespace Kartografowie.Cards
             {
                 return;
             }
-            var unusedAmbushCards = seasonDeck.Where(x => x.availableTerrains.Any() && x.availableTerrains.All(t => t == CellType.Monster)).ToList();
+            var unusedAmbushCards = seasonDeck.Where(x => x.availableTerrains.Any() && x.availableTerrains.All(t => t == CellType.Monster));
             seasonDeck = new List<DiscoveryCard>(deck);
             seasonDeck.AddRange(unusedAmbushCards);
             AddAmbushCard();
