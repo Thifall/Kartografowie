@@ -39,7 +39,7 @@ namespace Kartografowie.Shapes
 
         private void OnForceSingleSquare()
         {
-            currentGhostShape = shapeDictionary["singlesquare"];
+            currentGhostShape = shapeDictionary["single"];
             shapeWasForced = true;
         }
 

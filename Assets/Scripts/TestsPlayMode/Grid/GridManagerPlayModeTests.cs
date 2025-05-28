@@ -48,7 +48,7 @@ namespace Kartografowie.TestsPlayMode
 
             Assert.AreEqual(CellType.Default, gridCell.CellType, "Starting celltype is default");
 
-            gridManager.PaintCellAt(new Vector2(0, 0), CellType.Forest);
+            gridManager.PaintCellAtWorldPos(new Vector2(0, 0), CellType.Forest);
 
             Assert.AreEqual(CellType.Forest, gridCell.CellType, "Celltype should be changed");
         }

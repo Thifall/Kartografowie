@@ -18,8 +18,9 @@ MonoBehaviour:
   - {fileID: 6010614872694177905, guid: c02b52f8499c23b4d99bdf940fcaa1b2, type: 3}
   - {fileID: 7717274111496671683, guid: d8ba91f519e82b24990a8973886abc3b, type: 3}
   ShapeIcons:
-  - {fileID: 21300000, guid: 39ce464e8c47acc42bae0fffb3ce2e71, type: 3}
-  - {fileID: 21300000, guid: 1bf13639705b3604e89a2962359bec82, type: 3}
+  - {fileID: 21300000, guid: b487975709b4aae46be9074a31849d03, type: 3}
+  - {fileID: 21300000, guid: 6b5fa73a26751584cbfaf1cac1ed791a, type: 3}
   availableTerrains: 04000000
   bonusShape: 1
   BackgroundImage: {fileID: 0}
+  IsRuins: 0

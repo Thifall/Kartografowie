@@ -99,9 +99,13 @@ namespace Kartografowie.Shapes
                 return;
             }
 
+
             if (newCard is AmbushCard)
             {
                 Debug.Log("Ambush!");
+                shapeValidator.HandleAmbushShape(newCard as AmbushCard);
+                shapeUsed = true;
+                return;
             }
 
             if (!shapeValidator.CanFitShape(newCard.availableShapes, requiresRuins))
@@ -182,7 +186,7 @@ namespace Kartografowie.Shapes
 
             foreach (Transform cell in currentGhostShape.GetComponentsInChildren<Transform>().Where(t => t != currentGhostShape.transform))
             {
-                gridManager.PaintCellAt(cell.transform.position, currentCellType);
+                gridManager.PaintCellAtWorldPos(cell.transform.position, currentCellType);
             }
             shapeUsed = true;
             requiresRuins = false;

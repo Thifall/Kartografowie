@@ -1,4 +1,5 @@
 using Kartografowie.General;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -19,6 +20,7 @@ namespace Kartografowie.Grid
             {
                 Vector2Int gridPos = WorldToGrid(cell.transform.position);
                 gridCells[gridPos] = cell;
+                cell.GridPosition = gridPos;
             }
         }
 
@@ -28,10 +30,15 @@ namespace Kartografowie.Grid
             return gridCells.ContainsKey(gridPos) && gridCells[gridPos].IsRestricted();
         }
 
-        public void PaintCellAt(Vector3 position, CellType targetCellType)
+        public void PaintCellAtWorldPos(Vector3 position, CellType targetCellType)
         {
             var pos = WorldToGrid(position);
             gridCells[pos].SetCellType(targetCellType);
+        }
+
+        public void PaintCellAtGridPos(Vector2Int position, CellType targetCellType)
+        {
+            gridCells[position].SetCellType(targetCellType);
         }
 
         public bool HasRuinsAtPosition(Vector3 worldPos)
@@ -76,21 +83,17 @@ namespace Kartografowie.Grid
             return gridCells.ContainsKey(WorldToGrid(position));
         }
 
-        private void AssignGridOriginTraverse()
-        {
-            var gridLayoutPlaceholder = FindFirstObjectByType<LayoutSetup>();
-            if (gridLayoutPlaceholder != null)
-            {
-                gridOriginTraverse = gridLayoutPlaceholder.transform.position;
-            }
-        }
-
-        private Vector2Int WorldToGrid(Vector3 worldPos)
+        public Vector2Int WorldToGrid(Vector3 worldPos)
         {
             Vector3 offset = worldPos - gridOriginTraverse;
+            return PositionToGrid(offset);
+        }
+
+        public Vector2Int PositionToGrid(Vector3 position)
+        {
             float epsilon = 0.00001f;
-            int x = Mathf.FloorToInt((offset.x + epsilon) / GRID_CELL_SIZE);
-            int y = Mathf.FloorToInt((offset.y + epsilon) / GRID_CELL_SIZE);
+            int x = Mathf.FloorToInt((position.x + epsilon) / GRID_CELL_SIZE);
+            int y = Mathf.FloorToInt((position.y + epsilon) / GRID_CELL_SIZE);
             return new Vector2Int(x, y);
         }
 
@@ -110,6 +113,34 @@ namespace Kartografowie.Grid
             float snappedY = cellY * GRID_CELL_SIZE + gridOriginTraverse.y;
 
             return new Vector3(snappedX, snappedY, 0f);
+        }
+
+        private void AssignGridOriginTraverse()
+        {
+            var gridLayoutPlaceholder = FindFirstObjectByType<LayoutSetup>();
+            if (gridLayoutPlaceholder != null)
+            {
+                gridOriginTraverse = gridLayoutPlaceholder.transform.position;
+            }
+        }
+
+        public List<GridCell> GetCellsInLine(IEnumerable<GridCell> cells, Vector2Int direction, Vector2Int corner)
+        {
+            // Filtr — zale¿nie od kierunku porównujemy albo oœ Y (dla poziomego ruchu), albo X (dla pionowego)
+            Func<GridCell, bool> filter = direction.x != 0
+                ? c => c.GridPosition.y == corner.y
+                : c => c.GridPosition.x == corner.x;
+
+            // Klucz sortuj¹cy — zale¿nie od kierunku porz¹dkujemy rosn¹co lub malej¹co
+            Func<GridCell, int> keySelector = direction.x != 0
+                ? (direction.x > 0 ?
+                    new Func<GridCell, int>(c => c.GridPosition.x) :
+                    new Func<GridCell, int>(c => -c.GridPosition.x))
+                : (direction.y > 0 ?
+                    new Func<GridCell, int>(c => c.GridPosition.y) :
+                    new Func<GridCell, int>(c => -c.GridPosition.y));
+
+            return cells.Where(filter).OrderBy(keySelector).ToList();
         }
     }
 }

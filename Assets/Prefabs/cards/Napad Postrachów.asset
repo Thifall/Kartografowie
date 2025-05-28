@@ -22,5 +22,5 @@ MonoBehaviour:
   bonusShape: 0
   BackgroundImage: {fileID: 0}
   IsRuins: 0
-  startingCorner: 1
-  checkDirection: 0
+  startingCorner: 3
+  clockwiseCheck: 1

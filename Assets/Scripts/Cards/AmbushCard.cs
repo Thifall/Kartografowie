@@ -8,13 +8,7 @@ namespace Kartografowie.Cards
     {
         [Header("Ambush")]
         public AmbushStartingCorner startingCorner = AmbushStartingCorner.BOTTOM_LEFT;
-        public AmbushCheckingDirection checkDirection = AmbushCheckingDirection.COUNTERCLOCKWISE;
-    }
-
-    public enum AmbushCheckingDirection
-    {
-        CLOCKWISE,
-        COUNTERCLOCKWISE
+        public bool clockwiseCheck = false;
     }
 
     /// <summary>

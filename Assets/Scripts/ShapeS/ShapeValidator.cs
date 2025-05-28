@@ -1,3 +1,4 @@
+using Kartografowie.Cards;
 using Kartografowie.Grid;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,7 +71,7 @@ namespace Kartografowie.Shapes
                     foreach (var shape in availableShapes)
                     {
                         Debug.Log($"Shape: {shape.name}");
-                        if (CanFitShapeOnSquare(shape, square))
+                        if (CanFitShapeOnSquare(shape, square).found)
                         {
                             return true;
                         }
@@ -81,7 +82,115 @@ namespace Kartografowie.Shapes
             return false;
         }
 
-        private bool CanFitShapeOnSquare(GameObject shape, GridCell checkedSquare)
+        public void HandleAmbushShape(AmbushCard ambushCard)
+        {
+            Dictionary<Vector2Int, GridCell> emptySquares = gridManager.GetAvailableEmptySquares().ToDictionary(c => gridManager.WorldToGrid(c.transform.position));
+
+            //setting bounds
+            int minX = emptySquares.Keys.Min(v => v.x);
+            int maxX = emptySquares.Keys.Max(v => v.x);
+            int minY = emptySquares.Keys.Min(v => v.y);
+            int maxY = emptySquares.Keys.Max(v => v.y);
+
+            Vector2Int startingCorner = GetStartingCorner(ambushCard.startingCorner, minX, maxX, minY, maxY);
+            Vector2Int[] directions = GetDirections(ambushCard.startingCorner, ambushCard.clockwiseCheck);
+
+            var checkedCells = new List<GridCell>();
+            var directionIndex = 0;
+
+            var currentCorner = startingCorner;
+
+            while (emptySquares.Any() && (minX < maxX) && (minY < maxY))
+            {
+                Debug.Log($"current corner: {currentCorner}, direction: {directions[directionIndex % 4]}");
+                foreach (var cell in gridManager.GetCellsInLine(emptySquares.Values, directions[directionIndex % 4], currentCorner))
+                {
+                    var (found, matches) = CanFitShapeOnSquare(ambushCard.availableShapes[0], cell, 90);
+                    if (found)
+                    {
+                        Debug.Log($"can paint shape on square {cell.GridPosition}");
+                        foreach (var position in matches)
+                        {
+                            var cellCords = gridManager.PositionToGrid(position);
+                            gridManager.PaintCellAtGridPos(cellCords, ambushCard.availableTerrains[0]);
+                        }
+                        return;
+                    }
+                    emptySquares.Remove(cell.GridPosition);
+                }
+
+                currentCorner = GetNextCorner(currentCorner, directions[directionIndex % 4], minX, maxX, minY, maxY);
+
+                //tighten bounds if we done full circle
+
+                directionIndex++;
+                if (directionIndex > 0 && directionIndex % 4 == 3)
+                {
+                    minX++;
+                    maxX--;
+                    minY++;
+                    maxY--;
+                    currentCorner = GetStartingCorner(ambushCard.startingCorner, minX, maxX, minY, maxY);
+                }
+            }
+        }
+
+        public Vector2Int GetStartingCorner(AmbushStartingCorner startingCorner, int minX, int maxX, int minY, int maxY)
+        {
+            return startingCorner switch
+            {
+                AmbushStartingCorner.BOTTOM_LEFT => new Vector2Int(minX, minY),
+                AmbushStartingCorner.BOTTOM_RIGHT => new Vector2Int(maxX, minY),
+                AmbushStartingCorner.TOP_LEFT => new Vector2Int(minX, maxY),
+                AmbushStartingCorner.TOP_RIGHT => new Vector2Int(maxX, maxY),
+                _ => new Vector2Int(0, 0)
+            };
+        }
+        private Vector2Int[] GetDirections(AmbushStartingCorner startingCorner, bool clockwiseCheck)
+        {
+            return (startingCorner, clockwiseCheck) switch
+            {
+                //clockwise options
+                (AmbushStartingCorner.BOTTOM_LEFT, true) =>
+                    new Vector2Int[] { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left },
+                (AmbushStartingCorner.BOTTOM_RIGHT, true) =>
+                    new Vector2Int[] { Vector2Int.left, Vector2Int.up, Vector2Int.right, Vector2Int.down },
+                (AmbushStartingCorner.TOP_LEFT, true) =>
+                    new Vector2Int[] { Vector2Int.right, Vector2Int.down, Vector2Int.left, Vector2Int.up },
+                (AmbushStartingCorner.TOP_RIGHT, true) =>
+                    new Vector2Int[] { Vector2Int.down, Vector2Int.left, Vector2Int.up, Vector2Int.right },
+                //counterclockwise options
+                (AmbushStartingCorner.BOTTOM_LEFT, false) =>
+                    new Vector2Int[] { Vector2Int.right, Vector2Int.up, Vector2Int.left, Vector2Int.down },
+                (AmbushStartingCorner.BOTTOM_RIGHT, false) =>
+                    new Vector2Int[] { Vector2Int.up, Vector2Int.left, Vector2Int.down, Vector2Int.right },
+                (AmbushStartingCorner.TOP_LEFT, false) =>
+                    new Vector2Int[] { Vector2Int.down, Vector2Int.right, Vector2Int.up, Vector2Int.left },
+                (AmbushStartingCorner.TOP_RIGHT, false) =>
+                    new Vector2Int[] { Vector2Int.left, Vector2Int.down, Vector2Int.right, Vector2Int.up },
+                //should not occur, but never know :)
+                _ => new Vector2Int[] { Vector2Int.right, Vector2Int.up, Vector2Int.left, Vector2Int.down }
+            };
+        }
+
+        private Vector2Int GetNextCorner(Vector2Int currentCorner, Vector2Int direction, int minX, int maxX, int minY, int maxY)
+        {
+            var nextCorner = currentCorner;
+            bool IsCorner(Vector2Int pos) =>
+                (pos.x == minX && pos.y == maxY) || //top left
+                (pos.x == maxX && pos.y == maxY) || //top right
+                (pos.x == minX && pos.y == minY) || //bottom left
+                (pos.x == maxX && pos.y == minY); //bottom right
+
+            do
+            {
+                nextCorner += direction; //postêp w konkretnym kierunku
+            }
+            while (!IsCorner(nextCorner) && nextCorner.x <= maxX && nextCorner.x >= minX && nextCorner.y <= maxY && nextCorner.y >= minY);
+            return nextCorner;
+        }
+
+        private (bool found, List<Vector3> matches) CanFitShapeOnSquare(GameObject shape, GridCell checkedSquare, int maxRotation = 360)
         {
             Debug.Log($"Checking square {checkedSquare.transform.localPosition}");
 
@@ -89,7 +198,7 @@ namespace Kartografowie.Shapes
             var shapeSquaresBasePositions = GetShapeSquaresBasePositions(shape).ToList();
             //starting with no rotation
             var rotation = 0;
-            while (rotation < 360)
+            while (rotation < maxRotation)
             {
                 Debug.Log($"Shape: {shape.name}, rotation: {rotation},squares base positions:");
                 foreach (var square in shapeSquaresBasePositions)
@@ -106,25 +215,24 @@ namespace Kartografowie.Shapes
                     Debug.Log($"Checking traverse {traverse}");
 
                     //offset needs to be modified by traverse, to be able to check all combinations of our square being part of shape
-                    var traversedAndOffsettedPositions = offsettedPositions.Select(x => x - traverse);
+                    var traversedAndOffsettedPositions = offsettedPositions.Select(x => x - traverse).ToList();
 
                     //now with such prepared positions, we ask grid manager, if we can draw on those squares
-                    if (gridManager.CanDrawOnSquares(traversedAndOffsettedPositions.ToList()))
+                    if (gridManager.CanDrawOnSquares(traversedAndOffsettedPositions))
                     {
                         Debug.Log("Can draw shape. Match found on positions:");
                         foreach (var squarePosition in traversedAndOffsettedPositions)
                         {
                             Debug.Log($"{gridManager.GetCellNameAtPosition(squarePosition)}");
                         }
-                        return true;
+                        return (true, traversedAndOffsettedPositions);
                     }
                 }
                 //rotating base shape
                 shapeSquaresBasePositions = RotateShapeSquares(shapeSquaresBasePositions).ToList();
                 rotation += 90;
             }
-            return false;
-
+            return (false, new List<Vector3>());
         }
 
         private IEnumerable<Vector3> GetShapeSquaresBasePositions(GameObject shape)
@@ -136,5 +244,5 @@ namespace Kartografowie.Shapes
         {
             return shapeSquares.Select(v => new Vector3(-v.y, v.x, 0f));
         }
-    } 
+    }
 }

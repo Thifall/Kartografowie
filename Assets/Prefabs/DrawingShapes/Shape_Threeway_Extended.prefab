@@ -451,7 +451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02b1a28031037cd4cb0edc62005da18a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: bf16ba638faa6054e85a2e52a2f31726, type: 3}
+  Icon: {fileID: 21300000, guid: 1e5834df6c672964497d809d4ae2b30b, type: 3}
 --- !u!1 &7478217576182157578
 GameObject:
   m_ObjectHideFlags: 0

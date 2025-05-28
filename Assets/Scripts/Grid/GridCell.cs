@@ -7,6 +7,7 @@ namespace Kartografowie.Grid
     {
         public CellType CellType { get; private set;} = CellType.Default;
         public bool HasRuins = false;
+        public Vector2Int GridPosition = Vector2Int.zero;
 
         private SpriteRenderer spriteRenderer;
 
