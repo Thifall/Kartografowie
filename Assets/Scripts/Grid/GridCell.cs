@@ -5,7 +5,7 @@ namespace Kartografowie.Grid
 {
     public class GridCell : MonoBehaviour
     {
-        public CellType CellType { get; private set;} = CellType.Default;
+        public CellType CellType = CellType.Default;
         public bool HasRuins = false;
         public Vector2Int GridPosition = Vector2Int.zero;
 

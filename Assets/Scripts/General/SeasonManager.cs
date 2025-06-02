@@ -1,4 +1,3 @@
-using Kartografowie.Cards;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -11,6 +10,7 @@ namespace Kartografowie.General
     {
         public TextMeshProUGUI ProgressText;
         public TextMeshProUGUI SeasonText;
+        public SeasonEndEventSO seasonEndEvent;
         public Image seasonProgressFill;
         public Slider seasonProgressSlider;
         private Dictionary<Seasons, int> seasonLimits;
@@ -19,11 +19,11 @@ namespace Kartografowie.General
         void Start()
         {
             seasonLimits = new Dictionary<Seasons, int> {
-            { Seasons.Wiosna, 8 },
-            { Seasons.Lato, 8 },
-            { Seasons.Jesieñ, 7 },
-            { Seasons.Zima, 6 },
-        };
+                { Seasons.Wiosna, 8 },
+                { Seasons.Lato, 8 },
+                { Seasons.Jesieñ, 7 },
+                { Seasons.Zima, 6 },
+            };
             seasonProgressSlider.value = 0;
             UpdateSeasonUITexts();
         }
@@ -58,14 +58,14 @@ namespace Kartografowie.General
         internal void NextSeason()
         {
             if (!IsSeasonOver()) return;
-
+            var endingSeason = (Seasons)currentSeason;
             Debug.Log("Nowy sezon");
             currentSeason++;
             if (currentSeason >= seasonLimits.Keys.Count)
             {
                 Debug.Log("Gra siê skoñczy³a!");
-                FindFirstObjectByType<DiscoveryDeckManager>().OnSeasonEnd(true); //TODO: Should not have that reference here
-                return; // Mo¿esz dodaæ ekran koñca gry
+                seasonEndEvent.RaiseEvent(endingSeason, isGameOver: true);
+                return;
             }
 
             Seasons newSeason = (Seasons)currentSeason;
@@ -73,7 +73,7 @@ namespace Kartografowie.General
             seasonProgressSlider.maxValue = seasonLimits[newSeason];
             UpdateSeasonUITexts();
 
-            FindFirstObjectByType<DiscoveryDeckManager>().OnSeasonEnd(false);
+            seasonEndEvent.RaiseEvent(endingSeason, isGameOver: false);
         }
-    } 
+    }
 }

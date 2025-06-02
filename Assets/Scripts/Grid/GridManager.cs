@@ -24,9 +24,26 @@ namespace Kartografowie.Grid
             }
         }
 
+        /// <summary>
+        /// Checks if specific cell is restricted based on its world position. 
+        /// Used to check input from mouse cursor or other world-based interactions.
+        /// </summary>
+        /// <param name="worldPos"></param>
+        /// <returns></returns>
         public bool IsCellRestricted(Vector3 worldPos)
         {
             Vector2Int gridPos = WorldToGrid(worldPos);
+            return IsCellRestricted(gridPos); //gridCells.ContainsKey(gridPos) && gridCells[gridPos].IsRestricted();
+        }
+
+        /// <summary>
+        /// checks if specific cell is restricted based on its grid position. 
+        /// Used to check grid-based operations, like checking neighbouring cells.
+        /// </summary>
+        /// <param name="gridPos"></param>
+        /// <returns></returns>
+        public bool IsCellRestricted(Vector2Int gridPos)
+        {
             return gridCells.ContainsKey(gridPos) && gridCells[gridPos].IsRestricted();
         }
 
@@ -115,15 +132,6 @@ namespace Kartografowie.Grid
             return new Vector3(snappedX, snappedY, 0f);
         }
 
-        private void AssignGridOriginTraverse()
-        {
-            var gridLayoutPlaceholder = FindFirstObjectByType<LayoutSetup>();
-            if (gridLayoutPlaceholder != null)
-            {
-                gridOriginTraverse = gridLayoutPlaceholder.transform.position;
-            }
-        }
-
         public List<GridCell> GetCellsInLine(IEnumerable<GridCell> cells, Vector2Int direction, Vector2Int corner)
         {
             // Filtr — zale¿nie od kierunku porównujemy albo oœ Y (dla poziomego ruchu), albo X (dla pionowego)
@@ -141,6 +149,50 @@ namespace Kartografowie.Grid
                     new Func<GridCell, int>(c => -c.GridPosition.y));
 
             return cells.Where(filter).OrderBy(keySelector).ToList();
+        }
+
+        public (int minX, int maxX, int minY, int maxY) GetGridBounds()
+        {
+            if (gridCells.Count == 0)
+            {
+                return (0, 0, 0, 0);
+            }
+            int minX = gridCells.Keys.Min(k => k.x);
+            int maxX = gridCells.Keys.Max(k => k.x);
+            int minY = gridCells.Keys.Min(k => k.y);
+            int maxY = gridCells.Keys.Max(k => k.y);
+            return (minX, maxX, minY, maxY);
+        }
+
+        public List<GridCell> GetCellsInRow(int rowIndex)
+        {
+            return gridCells.Values
+                .Where(cell => cell.GridPosition.y == rowIndex)
+                .OrderBy(cell => cell.GridPosition.x)
+                .ToList();
+        }
+
+        public List<GridCell> GetCellsInColumn(int columnIndex)
+        {
+            return gridCells.Values
+                .Where(cell => cell.GridPosition.x == columnIndex)
+                .OrderBy(cell => cell.GridPosition.y)
+                .ToList();
+        }
+
+        public Dictionary<Vector2Int,GridCell> GetCells(Func<GridCell, bool> filter)
+        {
+            return gridCells.Values.Where(filter).Select(c => new KeyValuePair<Vector2Int, GridCell>(c.GridPosition, c))
+                .ToDictionary(kv => kv.Key, kv => kv.Value);
+        }
+
+        private void AssignGridOriginTraverse()
+        {
+            var gridLayoutPlaceholder = FindFirstObjectByType<LayoutSetup>();
+            if (gridLayoutPlaceholder != null)
+            {
+                gridOriginTraverse = gridLayoutPlaceholder.transform.position;
+            }
         }
     }
 }

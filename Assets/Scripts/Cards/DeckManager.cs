@@ -4,12 +4,13 @@ using Kartografowie.Shapes;
 using Kartografowie.Terrains;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Kartografowie.Cards
 {
-    public class DiscoveryDeckManager : MonoBehaviour
+    public class DeckManager : MonoBehaviour
     {
         public List<DiscoveryCard> deck; // Lista wszystkich kart odkryæ, punkt wyjœcia sezonu
         public List<AmbushCard> ambushDeck; // List kart zasadzki
@@ -17,6 +18,7 @@ namespace Kartografowie.Cards
         public CardDrawEventSO cardDrawEvent;
         public ShapeSelectedEventSO shapeSelectedEvent;
         public TerrainSelectedEventSO terrainSelectedEvent;
+        public SeasonEndEventSO seasonEndEvent;
         public GameObject NormalCardPrefab;
         public GameObject RuinsCardPrefab;
         public Transform CardStackParent;
@@ -29,11 +31,11 @@ namespace Kartografowie.Cards
         void Start()
         {
             PrepareDeckForNewSeason();
+            seasonEndEvent.OnSeasonEnd += OnSeasonEnd;
         }
 
         void PrepareDeckForNewSeason()
         {
-            ClearCardStack();
             if (gameOver)
             {
                 return;
@@ -118,18 +120,20 @@ namespace Kartografowie.Cards
         private void BlockDrawButton()
         {
             gameObject.GetComponent<Image>().color = Color.red;
+            gameObject.GetComponent<Button>().interactable = false;
+            gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Finished!";
         }
 
-        public void OnSeasonEnd(bool gameEnded)
+        public void OnSeasonEnd(Seasons endingSeason, bool gameEnded)
         {
+            ClearCardStack();
             gameOver = gameEnded;
-            // Mo¿esz dodaæ logikê np. dodawania specjalnych kart przed tasowaniem
-            PrepareDeckForNewSeason();
             if (gameOver)
             {
                 BlockDrawButton();
                 return;
             }
+            PrepareDeckForNewSeason();
         }
     }
 }

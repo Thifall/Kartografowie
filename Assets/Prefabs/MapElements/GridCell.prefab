@@ -189,6 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a633a8684b82c53429af9ca70fdc7895, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CellType: 0
   HasRuins: 0
   GridPosition: {x: 0, y: 0}
 --- !u!61 &1269541247214055041
