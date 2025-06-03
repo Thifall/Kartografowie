@@ -32,7 +32,9 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Forests
                 var mountainsTilesTouching = 0;
                 var squarestoVisit = new Queue<Vector2Int>();
                 var mountainTilesVisited = new HashSet<Vector2Int>();
+
                 squarestoVisit.Enqueue(startPosition);
+
                 while (squarestoVisit.Count > 0)
                 {
                     var currentSquare = squarestoVisit.Dequeue();

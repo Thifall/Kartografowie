@@ -1,5 +1,6 @@
 using Kartografowie.Assets.Scripts.Scoring.Rules;
 using Kartografowie.Assets.Scripts.Scoring.Rules.Forests;
+using Kartografowie.Assets.Scripts.Scoring.Rules.PlainsAndWaters;
 using Kartografowie.General;
 using Kartografowie.Grid;
 using System.Collections.Generic;
@@ -10,11 +11,10 @@ namespace Kartografowie
     public class ScoreManager : MonoBehaviour
     {
         public SeasonEndEventSO SeasonEndEvent;
-        public ScoringRule[] b;
         public List<ScoringRule> WaterAndPlainScoreRules = new();
         public List<ScoringRule> VilageScoringRules = new();
         public List<ScoringRule> ForestScoringRules = new();
-        public List<ScoringRule> GeneralScoringRules = new();
+        public List<ScoringRule> MiscScoringRules = new();
 
         private GridManager _gridManager;
         private readonly Dictionary<Seasons, List<ScoringRule>> seasonScoringRules = new();
@@ -34,7 +34,7 @@ namespace Kartografowie
 
         private void InitializeForestScoringRules()
         {
-            ForestScoringRules.Add(new GorskieOstepy());
+            ForestScoringRules.Add(new RozlegleNabrzeze());
         }
 
         private void OnSeasonEnd(Seasons endingSeason, bool isGameOver)
@@ -48,6 +48,7 @@ namespace Kartografowie
             {
                 var points = rule.CalculateScore(_gridManager);
             }
+
             Debug.Log($"Season {endingSeason} ended. Game Over: {isGameOver}");
         }
     }

@@ -29,7 +29,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules
 
     public enum RuleType
     {
-        General,
+        Misc,
         Forests,
         Vilages,
         PlainsAndWaters
