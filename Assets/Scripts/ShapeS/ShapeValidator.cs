@@ -21,7 +21,7 @@ namespace Kartografowie.Shapes
             Transform[] ghostCells = shapePreview.GetComponentsInChildren<Transform>().Where(t => t != shapePreview.transform).ToArray();
             foreach (Transform cell in ghostCells)
             {
-                if (!gridManager.IsWithinGridBounds(cell.position) || gridManager.IsCellRestricted(cell.position))
+                if (!gridManager.IsWithinGridBounds(cell.position) || gridManager.IsSquareRestricted(cell.position))
                 {
                     return true;
                 }
@@ -103,7 +103,7 @@ namespace Kartografowie.Shapes
             while (emptySquares.Any() && (minX < maxX) && (minY < maxY))
             {
                 Debug.Log($"current corner: {currentCorner}, direction: {directions[directionIndex % 4]}");
-                foreach (var cell in gridManager.GetCellsInLine(emptySquares.Values, directions[directionIndex % 4], currentCorner))
+                foreach (var cell in gridManager.GetSquaresInLine(emptySquares.Values, directions[directionIndex % 4], currentCorner))
                 {
                     var (found, matches) = CanFitShapeOnSquare(ambushCard.availableShapes[0], cell, 90);
                     if (found)
@@ -112,7 +112,7 @@ namespace Kartografowie.Shapes
                         foreach (var position in matches)
                         {
                             var cellCords = gridManager.PositionToGrid(position);
-                            gridManager.PaintCellAtGridPos(cellCords, ambushCard.availableTerrains[0]);
+                            gridManager.PaintSquareAtGridPos(cellCords, ambushCard.availableTerrains[0]);
                         }
                         return;
                     }
@@ -223,7 +223,7 @@ namespace Kartografowie.Shapes
                         Debug.Log("Can draw shape. Match found on positions:");
                         foreach (var squarePosition in traversedAndOffsettedPositions)
                         {
-                            Debug.Log($"{gridManager.GetCellNameAtPosition(squarePosition)}");
+                            Debug.Log($"{gridManager.GetSquareNameAtPosition(squarePosition)}");
                         }
                         return (true, traversedAndOffsettedPositions);
                     }

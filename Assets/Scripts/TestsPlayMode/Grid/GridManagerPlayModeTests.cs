@@ -25,7 +25,7 @@ namespace Kartografowie.TestsPlayMode
             yield return null; //delay 1 frame
 
             Assert.IsNotEmpty(gridManager.GetAvailableEmptySquares(), "Grid cells should be initialized in Start().");
-            Assert.AreEqual("A1", gridManager.GetCellNameAtPosition(new Vector3(0, 0, 0)));
+            Assert.AreEqual("A1", gridManager.GetSquareNameAtPosition(new Vector3(0, 0, 0)));
         }
 
         [UnityTest]
@@ -48,7 +48,7 @@ namespace Kartografowie.TestsPlayMode
 
             Assert.AreEqual(CellType.Default, gridCell.CellType, "Starting celltype is default");
 
-            gridManager.PaintCellAtWorldPos(new Vector2(0, 0), CellType.Forest);
+            gridManager.PaintSquareAtWorldPos(new Vector2(0, 0), CellType.Forest);
 
             Assert.AreEqual(CellType.Forest, gridCell.CellType, "Celltype should be changed");
         }

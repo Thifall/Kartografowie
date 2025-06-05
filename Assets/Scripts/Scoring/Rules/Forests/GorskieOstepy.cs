@@ -17,8 +17,8 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Forests
         {
             var points = 0;
 
-            var forestSquares = gridManager.GetCells(c => c.CellType == CellType.Forest);
-            var mountainsquares = gridManager.GetCells(c => c.CellType == CellType.Mountain);
+            var forestSquares = gridManager.GetSquares(c => c.CellType == CellType.Forest);
+            var mountainsquares = gridManager.GetSquares(c => c.CellType == CellType.Mountain);
 
             var visited = new HashSet<Vector2Int>();
 

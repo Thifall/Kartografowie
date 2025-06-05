@@ -19,8 +19,8 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.PlainsAndWaters
         {
             var points = 0;
 
-            var waters = gridManager.GetCells(c => c.CellType == CellType.Water);
-            var ruins = gridManager.GetCells(c => c.HasRuins);
+            var waters = gridManager.GetSquares(c => c.CellType == CellType.Water);
+            var ruins = gridManager.GetSquares(c => c.HasRuins);
 
             points += 3 * ruins.Count(c => c.Value.CellType == CellType.Field);
 

@@ -17,7 +17,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Forests
             var bounds = gridManager.GetGridBounds();
             int points = 0;
 
-            points += gridManager.GetCells((c) => c.CellType == General.CellType.Forest &&
+            points += gridManager.GetSquares((c) => c.CellType == General.CellType.Forest &&
             (
              c.GridPosition.x == bounds.minX || c.GridPosition.x == bounds.maxX
              || c.GridPosition.y == bounds.minY || c.GridPosition.y == bounds.maxY

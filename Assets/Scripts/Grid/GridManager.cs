@@ -30,10 +30,10 @@ namespace Kartografowie.Grid
         /// </summary>
         /// <param name="worldPos"></param>
         /// <returns></returns>
-        public bool IsCellRestricted(Vector3 worldPos)
+        public bool IsSquareRestricted(Vector3 worldPos)
         {
             Vector2Int gridPos = WorldToGrid(worldPos);
-            return IsCellRestricted(gridPos); //gridCells.ContainsKey(gridPos) && gridCells[gridPos].IsRestricted();
+            return IsSquareRestricted(gridPos); //gridCells.ContainsKey(gridPos) && gridCells[gridPos].IsRestricted();
         }
 
         /// <summary>
@@ -42,18 +42,18 @@ namespace Kartografowie.Grid
         /// </summary>
         /// <param name="gridPos"></param>
         /// <returns></returns>
-        public bool IsCellRestricted(Vector2Int gridPos)
+        public bool IsSquareRestricted(Vector2Int gridPos)
         {
             return gridCells.ContainsKey(gridPos) && gridCells[gridPos].IsRestricted();
         }
 
-        public void PaintCellAtWorldPos(Vector3 position, CellType targetCellType)
+        public void PaintSquareAtWorldPos(Vector3 position, CellType targetCellType)
         {
             var pos = WorldToGrid(position);
             gridCells[pos].SetCellType(targetCellType);
         }
 
-        public void PaintCellAtGridPos(Vector2Int position, CellType targetCellType)
+        public void PaintSquareAtGridPos(Vector2Int position, CellType targetCellType)
         {
             gridCells[position].SetCellType(targetCellType);
         }
@@ -79,12 +79,17 @@ namespace Kartografowie.Grid
             });
         }
 
-        public string GetCellNameAtPosition(Vector3 pos)
+        public string GetSquareNameAtPosition(Vector3 pos)
         {
             return gridCells[new Vector2Int(Mathf.RoundToInt(pos.x / GRID_CELL_SIZE), Mathf.RoundToInt(pos.y / GRID_CELL_SIZE))].name;
         }
 
-        public float GetCellSize()
+        public GridCell GetSquareByPosition(Vector2Int position)
+        {
+            return gridCells.GetValueOrDefault(position);
+        }
+
+        public float GetSquareSize()
         {
             return GRID_CELL_SIZE;
         }
@@ -114,7 +119,7 @@ namespace Kartografowie.Grid
             return new Vector2Int(x, y);
         }
 
-        public Vector3 GetCellPositionFromCursorPosition()
+        public Vector3 GetSquarePositionFromCursorPosition()
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -132,7 +137,7 @@ namespace Kartografowie.Grid
             return new Vector3(snappedX, snappedY, 0f);
         }
 
-        public List<GridCell> GetCellsInLine(IEnumerable<GridCell> cells, Vector2Int direction, Vector2Int corner)
+        public List<GridCell> GetSquaresInLine(IEnumerable<GridCell> cells, Vector2Int direction, Vector2Int corner)
         {
             // Filtr — zale¿nie od kierunku porównujemy albo oœ Y (dla poziomego ruchu), albo X (dla pionowego)
             Func<GridCell, bool> filter = direction.x != 0
@@ -164,7 +169,7 @@ namespace Kartografowie.Grid
             return (minX, maxX, minY, maxY);
         }
 
-        public List<GridCell> GetCellsInRow(int rowIndex)
+        public List<GridCell> GetSquaresInRow(int rowIndex)
         {
             return gridCells.Values
                 .Where(cell => cell.GridPosition.y == rowIndex)
@@ -172,7 +177,7 @@ namespace Kartografowie.Grid
                 .ToList();
         }
 
-        public List<GridCell> GetCellsInColumn(int columnIndex)
+        public List<GridCell> GetSquaresInColumn(int columnIndex)
         {
             return gridCells.Values
                 .Where(cell => cell.GridPosition.x == columnIndex)
@@ -180,7 +185,7 @@ namespace Kartografowie.Grid
                 .ToList();
         }
 
-        public Dictionary<Vector2Int,GridCell> GetCells(Func<GridCell, bool> filter)
+        public Dictionary<Vector2Int,GridCell> GetSquares(Func<GridCell, bool> filter)
         {
             return gridCells.Values.Where(filter).Select(c => new KeyValuePair<Vector2Int, GridCell>(c.GridPosition, c))
                 .ToDictionary(kv => kv.Key, kv => kv.Value);

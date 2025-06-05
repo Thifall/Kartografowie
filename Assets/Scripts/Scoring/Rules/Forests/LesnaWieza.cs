@@ -16,14 +16,14 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Forests
         {
             var points = 0;
 
-            var forestCells = gridManager.GetCells(c => c.CellType == General.CellType.Forest);
+            var forestCells = gridManager.GetSquares(c => c.CellType == General.CellType.Forest);
             foreach (var cell in forestCells)
             {
                 var gridPos = cell.Key;
-                if (gridManager.IsCellRestricted(gridPos + Vector2Int.up) &&
-                    gridManager.IsCellRestricted(gridPos + Vector2Int.down) &&
-                    gridManager.IsCellRestricted(gridPos + Vector2Int.left) &&
-                    gridManager.IsCellRestricted(gridPos + Vector2Int.right))
+                if (gridManager.IsSquareRestricted(gridPos + Vector2Int.up) &&
+                    gridManager.IsSquareRestricted(gridPos + Vector2Int.down) &&
+                    gridManager.IsSquareRestricted(gridPos + Vector2Int.left) &&
+                    gridManager.IsSquareRestricted(gridPos + Vector2Int.right))
                 {
                     points++;
                 }

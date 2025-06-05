@@ -20,14 +20,14 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Forests
             var points = 0;
             for (int i = minX; i <= maxX; i++)
             {
-                if (gridManager.GetCellsInColumn(i).Any(c => c.CellType == General.CellType.Forest))
+                if (gridManager.GetSquaresInColumn(i).Any(c => c.CellType == General.CellType.Forest))
                 {
                     points++;
                 }
             }
             for (int i = minY; i <= maxY; i++)
             {
-                if (gridManager.GetCellsInRow(i).Any(c => c.CellType == General.CellType.Forest))
+                if (gridManager.GetSquaresInRow(i).Any(c => c.CellType == General.CellType.Forest))
                 {
                     points++;
                 }

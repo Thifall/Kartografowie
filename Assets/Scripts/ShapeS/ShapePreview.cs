@@ -186,7 +186,7 @@ namespace Kartografowie.Shapes
 
             foreach (Transform cell in currentGhostShape.GetComponentsInChildren<Transform>().Where(t => t != currentGhostShape.transform))
             {
-                gridManager.PaintCellAtWorldPos(cell.transform.position, currentCellType);
+                gridManager.PaintSquareAtWorldPos(cell.transform.position, currentCellType);
             }
             shapeUsed = true;
             requiresRuins = false;
@@ -196,7 +196,7 @@ namespace Kartografowie.Shapes
 
         private Vector3 GetSnappedPosition()
         {
-            return gridManager.GetCellPositionFromCursorPosition();
+            return gridManager.GetSquarePositionFromCursorPosition();
         }
 
         private void SetGhostTransparency(float alpha)

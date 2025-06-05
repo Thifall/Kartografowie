@@ -28,8 +28,8 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.PlainsAndWaters
         private static int CountSquaresWithAtLeastOneNeighbour(CellType searchedType, CellType lookedForType, GridManager grid)
         {
             var points = 0;
-            var searchedCells = grid.GetCells(c => c.CellType == searchedType);
-            var lookedForCells = grid.GetCells(c => c.CellType == lookedForType);
+            var searchedCells = grid.GetSquares(c => c.CellType == searchedType);
+            var lookedForCells = grid.GetSquares(c => c.CellType == lookedForType);
             foreach (var kv in searchedCells)
             {
                 var currentSquare = kv.Value;

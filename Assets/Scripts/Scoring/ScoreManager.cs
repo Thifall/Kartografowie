@@ -1,6 +1,8 @@
 using Kartografowie.Assets.Scripts.Scoring.Rules;
 using Kartografowie.Assets.Scripts.Scoring.Rules.Forests;
+using Kartografowie.Assets.Scripts.Scoring.Rules.Misc;
 using Kartografowie.Assets.Scripts.Scoring.Rules.PlainsAndWaters;
+using Kartografowie.Assets.Scripts.Scoring.Rules.Vilages;
 using Kartografowie.General;
 using Kartografowie.Grid;
 using System.Collections.Generic;
@@ -30,11 +32,12 @@ namespace Kartografowie
             InitializeForestScoringRules();
             var forestRule = ForestScoringRules[Random.Range(0, ForestScoringRules.Count)];
             seasonScoringRules[Seasons.Wiosna] = new List<ScoringRule> { forestRule };
+            seasonScoringRules[Seasons.Lato] = new List<ScoringRule> { forestRule };
         }
 
         private void InitializeForestScoringRules()
         {
-            ForestScoringRules.Add(new RozlegleNabrzeze());
+            ForestScoringRules.Add(new Pogranicze());
         }
 
         private void OnSeasonEnd(Seasons endingSeason, bool isGameOver)

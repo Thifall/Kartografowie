@@ -30,7 +30,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.PlainsAndWaters
                 {
                     var unwantedCellType = cellType == CellType.Field ? CellType.Water : CellType.Field;
                     if (!IsClusterOnMapEdge(minX, maxX, minY, maxY, cluster) 
-                        && !ClusterTouchesType(cluster, gridManager.GetCells(c => c.CellType ==  unwantedCellType)))
+                        && !ClusterTouchesType(cluster, gridManager.GetSquares(c => c.CellType ==  unwantedCellType)))
                     {
                         points += 3;
                     }
@@ -61,42 +61,6 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.PlainsAndWaters
                 }
             }
             return false; // Klaster nie dotyka innego typu
-        }
-
-        private List<List<GridCell>> GetClusters(GridManager gridManager, CellType cellType)
-        {
-            var typedSquares = gridManager.GetCells(c => c.CellType == cellType);
-            var visited = new HashSet<Vector2Int>();
-            var clusters = new List<List<GridCell>>();
-            foreach (var kv in typedSquares)
-            {
-                var startPosition = kv.Key;
-
-                if (visited.Contains(startPosition)) continue;
-                var squaresToVisit = new Queue<Vector2Int>();
-
-                var cluster = new List<GridCell>();
-                squaresToVisit.Enqueue(startPosition);
-                while (squaresToVisit.Count > 0)
-                {
-                    var currentSquare = squaresToVisit.Dequeue();
-                    if (visited.Contains(currentSquare)) continue;
-                    cluster.Add(typedSquares[currentSquare]);
-                    visited.Add(currentSquare);
-                    // Sprawdzamy sąsiednie kwadraty
-                    foreach (var direction in new Vector2Int[] { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right })
-                    {
-                        var neighbor = currentSquare + direction;
-                        if (typedSquares.ContainsKey(neighbor) && !visited.Contains(neighbor))
-                        {
-                            squaresToVisit.Enqueue(neighbor);
-                        }
-                    }
-                }
-                clusters.Add(cluster);
-                Debug.Log($"Znaleziono klaster {cellType} o rozmiarze {cluster.Count} w pozycji {startPosition}");
-            }
-            return clusters;
         }
 
         private static bool IsClusterOnMapEdge(int minX, int maxX, int minY, int maxY, List<GridCell> cluster)

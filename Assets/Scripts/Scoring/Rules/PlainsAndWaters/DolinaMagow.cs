@@ -17,9 +17,9 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.PlainsAndWaters
         {
             var points = 0;
 
-            var mountainSquares = gridManager.GetCells(c => c.CellType == CellType.Mountain);
-            var waterSquares = gridManager.GetCells(c => c.CellType == CellType.Water);
-            var fieldSquares = gridManager.GetCells(c => c.CellType == CellType.Field);
+            var mountainSquares = gridManager.GetSquares(c => c.CellType == CellType.Mountain);
+            var waterSquares = gridManager.GetSquares(c => c.CellType == CellType.Water);
+            var fieldSquares = gridManager.GetSquares(c => c.CellType == CellType.Field);
 
             foreach (var kv in mountainSquares)
             {
