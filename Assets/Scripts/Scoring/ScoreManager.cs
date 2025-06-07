@@ -37,7 +37,7 @@ namespace Kartografowie
 
         private void InitializeForestScoringRules()
         {
-            ForestScoringRules.Add(new Pogranicze());
+            ForestScoringRules.Add(new UtraconeWlosci());
         }
 
         private void OnSeasonEnd(Seasons endingSeason, bool isGameOver)
