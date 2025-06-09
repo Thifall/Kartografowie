@@ -18,4 +18,12 @@ namespace Kartografowie.General
             { CellType.Monster, new Color(0.3293156f, 0.1520559f, 0.6320754f, 1) }, //purple
         };
     }
+
+    public enum Edicts
+    {
+        Edict_A,
+        Edict_B,
+        Edict_C,
+        Edict_D,
+    }
 }

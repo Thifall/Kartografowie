@@ -1,4 +1,6 @@
-﻿namespace Kartografowie.Assets.Scripts.Scoring.Rules.Vilages
+﻿using Kartografowie.General;
+
+namespace Kartografowie.Assets.Scripts.Scoring.Rules.Vilages
 {
     public abstract class VilageScoringRule : ScoringRule
     {
@@ -6,5 +8,6 @@
         {
         }
         public override RuleType RuleType => RuleType.Vilages;
+        public override Edicts EdictType => Edicts.Edict_C;
     }
 }

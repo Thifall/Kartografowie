@@ -21,7 +21,7 @@ namespace Kartografowie.General
             seasonLimits = new Dictionary<Seasons, int> {
                 { Seasons.Wiosna, 8 },
                 { Seasons.Lato, 8 },
-                { Seasons.Jesieñ, 7 },
+                { Seasons.Jesien, 7 },
                 { Seasons.Zima, 6 },
             };
             seasonProgressSlider.value = 0;
@@ -44,7 +44,7 @@ namespace Kartografowie.General
             {
                 case Seasons.Wiosna: seasonProgressFill.color = Color.green; break;
                 case Seasons.Lato: seasonProgressFill.color = Color.yellow; break;
-                case Seasons.Jesieñ: seasonProgressFill.color = new Color(1f, 0.5f, 0f); break; // Pomarañczowy
+                case Seasons.Jesien: seasonProgressFill.color = new Color(1f, 0.5f, 0f); break; // Pomarañczowy
                 case Seasons.Zima: seasonProgressFill.color = Color.cyan; break;
             }
         }

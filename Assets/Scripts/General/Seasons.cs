@@ -4,7 +4,7 @@ namespace Kartografowie.General
     {
         Wiosna,
         Lato,
-        Jesieñ,
+        Jesien,
         Zima
     }
 }

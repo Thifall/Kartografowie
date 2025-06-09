@@ -10,6 +10,8 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules
     {
         private readonly string RuleName;
         private readonly string RuleDescription;
+        public abstract Edicts EdictType { get; }
+
         public ScoringRule(string ruleName, string ruleDescription)
         {
             RuleName = ruleName;
