@@ -44,7 +44,11 @@ namespace Kartografowie.Grid
         /// <returns></returns>
         public bool IsSquareRestricted(Vector2Int gridPos)
         {
-            return gridCells.ContainsKey(gridPos) && gridCells[gridPos].IsRestricted();
+            if (!gridCells.ContainsKey(gridPos))
+            {
+                return true; 
+            }
+            return gridCells[gridPos].IsRestricted();
         }
 
         public void PaintSquareAtWorldPos(Vector3 position, CellType targetCellType)
