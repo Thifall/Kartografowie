@@ -6,6 +6,8 @@ using Kartografowie.Assets.Scripts.Scoring.Rules.Vilages;
 using Kartografowie.General;
 using Kartografowie.Grid;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 
 namespace Kartografowie
@@ -15,10 +17,11 @@ namespace Kartografowie
         public SeasonEndEventSO SeasonEndEvent;
         public OnScoringRuleAddedEventSO OnScoringRuleAdded;
         public OnScoreUpdatedEventSO OnScoreUpdated;
+        public TextMeshProUGUI TotalScore;
 
         private GridManager _gridManager;
         private readonly Dictionary<Seasons, List<ScoringRule>> seasonScoringRules = new();
-        private readonly Dictionary<(Seasons, Edicts), int> seasonsScores = new ();
+        private readonly Dictionary<(Seasons, Edicts), int> seasonsScores = new();
 
         void Start()
         {
@@ -72,12 +75,16 @@ namespace Kartografowie
             // Assign rules to seasons
             seasonsScores[(Seasons.Wiosna, edictARule.EdictType)] = 0;
             seasonsScores[(Seasons.Wiosna, edictBRule.EdictType)] = 0;
+            seasonsScores[(Seasons.Wiosna, Edicts.Monesters)] = 0;
             seasonsScores[(Seasons.Lato, edictBRule.EdictType)] = 0;
             seasonsScores[(Seasons.Lato, edictCRule.EdictType)] = 0;
+            seasonsScores[(Seasons.Lato, Edicts.Monesters)] = 0;
             seasonsScores[(Seasons.Jesien, edictCRule.EdictType)] = 0;
             seasonsScores[(Seasons.Jesien, edictDRule.EdictType)] = 0;
+            seasonsScores[(Seasons.Jesien, Edicts.Monesters)] = 0;
             seasonsScores[(Seasons.Zima, edictDRule.EdictType)] = 0;
             seasonsScores[(Seasons.Zima, edictARule.EdictType)] = 0;
+            seasonsScores[(Seasons.Zima, Edicts.Monesters)] = 0;
             seasonScoringRules[Seasons.Wiosna] = new List<ScoringRule> { edictARule, edictBRule };
             seasonScoringRules[Seasons.Lato] = new List<ScoringRule> { edictBRule, edictCRule };
             seasonScoringRules[Seasons.Jesien] = new List<ScoringRule> { edictCRule, edictDRule };
@@ -96,13 +103,35 @@ namespace Kartografowie
             {
                 _gridManager = FindFirstObjectByType<GridManager>();
             }
-
+            //calculate scores for the ending season
             foreach (var rule in seasonScoringRules[endingSeason])
             {
                 var points = rule.CalculateScore(_gridManager);
+                seasonsScores[(endingSeason, rule.EdictType)] = points;
                 OnScoreUpdated.RaiseEvent(endingSeason, rule.EdictType, points);
             }
+            //deduct points from monster tiles
+            var monsterSquares = _gridManager.GetSquares(c => c.CellType == CellType.Monster);
+            var visited = new HashSet<Vector2Int>();
+            foreach (var square in monsterSquares)
+            {
+                var cell = square.Value;
+                foreach (var neighbor in Generals.Directions.Select(d => cell.GridPosition + d))
+                {
+                    var neighborCell = _gridManager.GetSquareByPosition(neighbor);
+                    if (neighborCell != null && neighborCell.CellType == CellType.Default)
+                    {
+                        visited.Add(neighbor);
+                    }
+                }
+            }
+            var deductedPoints = visited.Count * -1;
+            seasonsScores[(endingSeason, Edicts.Monesters)] = deductedPoints;
+            OnScoreUpdated.RaiseEvent(endingSeason, Edicts.Monesters, deductedPoints);
 
+            //add bonus points for shapes, sorrounded mountains etc;
+
+            TotalScore.text = $"Total: {seasonsScores.Values.Sum()}";
             Debug.Log($"Season {endingSeason} ended. Game Over: {isGameOver}");
         }
     }

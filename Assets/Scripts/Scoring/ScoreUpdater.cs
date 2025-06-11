@@ -1,5 +1,4 @@
 using Kartografowie.General;
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -17,6 +16,16 @@ namespace Kartografowie
         void Start()
         {
             onScoreUpdatedEvent.OnScoreUpdated += HandleScoreUpdatedEvent;
+            if(edictPointsTexts.Count != edictsHandled.Count)
+            {
+                Debug.LogError("The number of edict points texts does not match the number of edicts handled.");
+                return;
+            }
+            if (edictsHandled.Count == 0)
+            {
+                Debug.LogWarning("No edicts handled, no points to display.");
+                return;
+            }
         }
 
         private void HandleScoreUpdatedEvent(Seasons seasons, Edicts edicts, int points)
@@ -26,9 +35,14 @@ namespace Kartografowie
                 int edictIndex = edictsHandled.IndexOf(edicts);
                 if (edictIndex >= 0 && edictIndex < edictPointsTexts.Count)
                 {
-                    edictPointsTexts[edictIndex].text = points.ToString();
+                    edictPointsTexts[edictIndex].text = EdictScorePointText(edicts, points);
                 }
             }
+        }
+
+        private string EdictScorePointText(Edicts edict, int points)
+        {
+            return $"{edict.EdictName()}: {points}";
         }
     }
 }

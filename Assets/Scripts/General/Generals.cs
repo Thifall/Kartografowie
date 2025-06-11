@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Kartografowie.General
 {
-    public class Generals
+    public static class Generals
     {
 
         public static Dictionary<CellType, Color> CellTypeColors = new()
@@ -17,7 +18,30 @@ namespace Kartografowie.General
             { CellType.Chasm, new Color(0, 0, 0, 1) }, //black
             { CellType.Monster, new Color(0.3293156f, 0.1520559f, 0.6320754f, 1) }, //purple
         };
+
+        public static List<Vector2Int> Directions = new()
+        {
+            Vector2Int.up,
+            Vector2Int.down,
+            Vector2Int.left,
+            Vector2Int.right
+        };
+
+
+        public static string EdictName(this Edicts edict)
+        {
+            return edict switch
+            {
+                Edicts.Edict_A => "A",
+                Edicts.Edict_B => "B",
+                Edicts.Edict_C => "C",
+                Edicts.Edict_D => "D",
+                Edicts.Monesters => "M",
+                _ => "Unknown Edict"
+            };
+        }
     }
+
 
     public enum Edicts
     {
@@ -25,5 +49,6 @@ namespace Kartografowie.General
         Edict_B,
         Edict_C,
         Edict_D,
+        Monesters
     }
 }
