@@ -181,6 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: 98d42469720a66148b5a0b0a71e25ca3, type: 3}
+  IsBonusShape: 1
 --- !u!1 &7478217576182157578
 GameObject:
   m_ObjectHideFlags: 0

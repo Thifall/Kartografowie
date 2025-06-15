@@ -12,6 +12,7 @@ namespace Kartografowie.Shapes
         public TerrainSelectedEventSO TerrainSelectedEvent;
         public ShapeSelectedEventSO ShapeSelectedEvent;
         public ForceSingleSquareEventSO ForceSingleSquareEvent;
+        public ShapeDrawnEventSO ShapeDrawnEvent;
         public CardDrawEventSO CardDrawEvent;
         private GameObject currentGhostShape;
         private ShapeSelector shapeSelector;
@@ -190,6 +191,8 @@ namespace Kartografowie.Shapes
             }
             shapeUsed = true;
             requiresRuins = false;
+            //invoke on shape placed event if needed
+            ShapeDrawnEvent.RaiseEvent(currentGhostShape.GetComponent<Shape>());
             shapeSelector.ResetShape();
             Destroy(currentGhostShape);
         }

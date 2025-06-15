@@ -37,6 +37,7 @@ namespace Kartografowie.General
                 Edicts.Edict_C => "C",
                 Edicts.Edict_D => "D",
                 Edicts.Monesters => "M",
+                Edicts.Coins => "P",
                 _ => "Unknown Edict"
             };
         }
@@ -49,6 +50,7 @@ namespace Kartografowie.General
         Edict_B,
         Edict_C,
         Edict_D,
-        Monesters
+        Monesters,
+        Coins
     }
 }
