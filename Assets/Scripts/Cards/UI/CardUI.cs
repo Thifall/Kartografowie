@@ -16,6 +16,7 @@ namespace Kartografowie.Cards.UI
         public TextMeshProUGUI CardNameTextBox;
         public TextMeshProUGUI SeasonTimeValueTextBox;
         public Image BackgroundImage;
+        public GameObject bonusShapeCoin;
         public Button[] terrainButtons;
         public Button[] shapeButtons;
 
@@ -34,7 +35,22 @@ namespace Kartografowie.Cards.UI
                 SetTerains(card.availableTerrains);
                 SetShapeIcons(card.ShapeIcons);
             }
+            if (card.bonusShape)
+            {
+                if (bonusShapeCoin != null)
+                {
+                    bonusShapeCoin?.SetActive(true);
+                }
+            }
+            else
+            {
+                if (bonusShapeCoin != null)
+                {
+                    bonusShapeCoin?.SetActive(false);
+                }
+            }
         }
+
 
         private void SetTerains(CellType[] availableTerrains)
         {
@@ -67,6 +83,7 @@ namespace Kartografowie.Cards.UI
                 {
                     shapeButtons[i].image.sprite = shapeIcons[i];
                     shapeButtons[i].gameObject.SetActive(true);
+                    shapeButtons[i].GetComponentInParent<Transform>().gameObject.SetActive(true);
 
                     int index = i;
                     shapeButtons[i].onClick.RemoveAllListeners();
@@ -78,6 +95,7 @@ namespace Kartografowie.Cards.UI
                 else
                 {
                     shapeButtons[i].gameObject.SetActive(false);
+                    shapeButtons[i].GetComponentInParent<Transform>().gameObject.SetActive(false);
                 }
             }
         }
