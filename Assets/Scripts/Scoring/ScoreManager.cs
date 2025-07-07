@@ -187,7 +187,7 @@ namespace Kartografowie
                 Destroy(toRemove.gameObject);
             }
             var newCoin = Instantiate(FilledCoinPrefab, GoldCoinTrack.transform);
-            newCoin.transform.SetSiblingIndex(0);
+            newCoin.transform.SetSiblingIndex(coinsFilled);
             coinsFilled++;
         }
 

@@ -1,4 +1,5 @@
 using Kartografowie.General;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -25,6 +26,20 @@ namespace Kartografowie
             {
                 Debug.LogWarning("No edicts handled, no points to display.");
                 return;
+            }
+            SetupInitialValues();
+        }
+
+        private void SetupInitialValues()
+        {
+            foreach (var edict in edictsHandled)
+            {
+                int initialPoints = 0; // Assuming initial points are zero, adjust as necessary
+                int edictIndex = edictsHandled.IndexOf(edict);
+                if (edictIndex >= 0 && edictIndex < edictPointsTexts.Count)
+                {
+                    edictPointsTexts[edictIndex].text = EdictScorePointText(edict, initialPoints);
+                }
             }
         }
 

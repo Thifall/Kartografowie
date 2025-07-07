@@ -1,6 +1,7 @@
 using Kartografowie.General;
 using Kartografowie.Shapes;
 using Kartografowie.Terrains;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,28 @@ namespace Kartografowie.Cards.UI
         public GameObject bonusShapeCoin;
         public Button[] terrainButtons;
         public Button[] shapeButtons;
+
+        private float coinSpinAnimationCooldown = 2f;
+        private float timeSinceLastCoinSpin = 0f;
+
+        private void Update()
+        {
+            if (bonusShapeCoin != null && bonusShapeCoin.activeInHierarchy)
+            {
+                timeSinceLastCoinSpin += Time.deltaTime;
+                if (timeSinceLastCoinSpin >= coinSpinAnimationCooldown)
+                {
+                    timeSinceLastCoinSpin = 0f;
+                    TriggerCoinSpin();
+                }
+            }
+        }
+
+        private void TriggerCoinSpin()
+        {
+            var animator = bonusShapeCoin.GetComponent<Animator>();
+            animator?.SetTrigger("triggerSpin");
+        }
 
         public void SetupCardUI(DiscoveryCard card)
         {
