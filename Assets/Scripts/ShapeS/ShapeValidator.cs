@@ -1,5 +1,6 @@
 using Kartografowie.Cards;
 using Kartografowie.Grid;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -109,11 +110,7 @@ namespace Kartografowie.Shapes
                     if (found)
                     {
                         Debug.Log($"can paint shape on square {cell.GridPosition}");
-                        foreach (var position in matches)
-                        {
-                            var cellCords = gridManager.PositionToGrid(position);
-                            gridManager.PaintSquareAtGridPos(cellCords, ambushCard.availableTerrains[0]);
-                        }
+                        gridManager.StartCoroutine(PaintSquares(ambushCard, cell, matches));
                         return;
                     }
                     emptySquares.Remove(cell.GridPosition);
@@ -135,6 +132,16 @@ namespace Kartografowie.Shapes
             }
         }
 
+        private IEnumerator PaintSquares(AmbushCard ambushCard, GridCell cell, List<Vector3> matches)
+        {
+            foreach (var position in matches)
+            {                
+                var cellCords = gridManager.PositionToGrid(position);
+                gridManager.PaintSquareAtGridPos(cellCords, ambushCard.availableTerrains[0]);
+                yield return new WaitForSeconds(.5f);
+            }
+        }
+
         public Vector2Int GetStartingCorner(AmbushStartingCorner startingCorner, int minX, int maxX, int minY, int maxY)
         {
             return startingCorner switch
@@ -146,6 +153,7 @@ namespace Kartografowie.Shapes
                 _ => new Vector2Int(0, 0)
             };
         }
+
         private Vector2Int[] GetDirections(AmbushStartingCorner startingCorner, bool clockwiseCheck)
         {
             return (startingCorner, clockwiseCheck) switch

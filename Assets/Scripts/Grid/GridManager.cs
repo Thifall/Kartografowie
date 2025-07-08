@@ -1,5 +1,6 @@
 using Kartografowie.General;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -49,6 +50,15 @@ namespace Kartografowie.Grid
                 return true; 
             }
             return gridCells[gridPos].IsRestricted();
+        }
+
+        public IEnumerator PaintShapeAtWorldPos(IEnumerable<Vector3> positions, CellType targetCellType)
+        {
+            foreach (var pos in positions)
+            {
+                PaintSquareAtWorldPos(pos, targetCellType);
+                yield return new WaitForSeconds(.25f);
+            }
         }
 
         public void PaintSquareAtWorldPos(Vector3 position, CellType targetCellType)

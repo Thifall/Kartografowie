@@ -18,6 +18,15 @@ namespace Kartografowie.General
             { CellType.Monster, new Color(0.3293156f, 0.1520559f, 0.6320754f, 1) }, //purple
         };
 
+        public static Dictionary<CellType, Sprite> CellTypeIcons = new()
+        {
+            { CellType.Village, Resources.Load<Sprite>("CommonElements/Village") },
+            { CellType.Field, Resources.Load<Sprite>("CommonElements/Field") },
+            { CellType.Forest, Resources.Load<Sprite>("CommonElements/Forest") },
+            { CellType.Water, Resources.Load<Sprite>("CommonElements/Water") },
+            { CellType.Monster, Resources.Load<Sprite>("CommonElements/Monster") }
+        };
+
         public static List<Vector2Int> Directions = new()
         {
             Vector2Int.up,

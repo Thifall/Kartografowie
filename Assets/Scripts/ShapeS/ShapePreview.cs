@@ -2,6 +2,8 @@ using Kartografowie.Cards;
 using Kartografowie.General;
 using Kartografowie.Grid;
 using Kartografowie.Terrains;
+using NUnit.Framework;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -61,7 +63,7 @@ namespace Kartografowie.Shapes
             }
             if (Input.GetMouseButtonDown(0))
             {
-                ConfirmDrawing();
+                StartCoroutine(ConfirmDrawing());
                 return;
             }
             UpdateGhostShape();
@@ -114,7 +116,7 @@ namespace Kartografowie.Shapes
                 ForceSingleSquareEvent.RaiseEvent();
                 requiresRuins = false;
             }
-
+            
             shapeUsed = false;
         }
 
@@ -175,20 +177,18 @@ namespace Kartografowie.Shapes
             }
         }
 
-        private void ConfirmDrawing()
+        private IEnumerator ConfirmDrawing()
         {
-            if (currentGhostShape == null) return;
+            if (currentGhostShape == null) yield break;
 
             if (shapeValidator.IsOverInvalidCells(currentGhostShape, requiresRuins))
             {
                 Debug.Log("Cannot draw shape here");
-                return;
+                yield break;
             }
-
-            foreach (Transform cell in currentGhostShape.GetComponentsInChildren<Transform>().Where(t => t != currentGhostShape.transform))
-            {
-                gridManager.PaintSquareAtWorldPos(cell.transform.position, currentCellType);
-            }
+            var positions = currentGhostShape.GetComponentsInChildren<Transform>().Where(t => t != currentGhostShape.transform).Select(t => t.position).ToList();
+            currentGhostShape.SetActive(false);
+            yield return gridManager.StartCoroutine(gridManager.PaintShapeAtWorldPos(positions, currentCellType));
             shapeUsed = true;
             requiresRuins = false;
             //invoke on shape placed event if needed
