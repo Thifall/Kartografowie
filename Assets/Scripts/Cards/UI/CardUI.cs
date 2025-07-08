@@ -2,6 +2,7 @@ using Kartografowie.General;
 using Kartografowie.Shapes;
 using Kartografowie.Terrains;
 using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -77,23 +78,22 @@ namespace Kartografowie.Cards.UI
 
         private void SetTerains(CellType[] availableTerrains)
         {
-            for (int i = 0; i < terrainButtons.Length; i++)
+            foreach (var btn in terrainButtons)
             {
-                if (i < availableTerrains.Length)
-                {
-                    terrainButtons[i].image.color = Generals.CellTypeColors[availableTerrains[i]];
-                    terrainButtons[i].gameObject.SetActive(true);
+                btn.gameObject.SetActive(false);
+                btn.onClick.RemoveAllListeners();
+            }
 
-                    int index = i;
-                    terrainButtons[i].onClick.RemoveAllListeners();
-                    terrainButtons[i].onClick.AddListener(() =>
-                    {
-                        SelectTerrain(availableTerrains[index]);
-                    });
-                }
-                else
+            foreach (var terrain in availableTerrains)
+            {
+                var btn = terrainButtons.FirstOrDefault(b => b.name.Contains(terrain.ToString()));
+                if (btn != null)
                 {
-                    terrainButtons[i].gameObject.SetActive(false);
+                    btn.gameObject.SetActive(true);
+                    btn.onClick.AddListener(() =>
+                    {
+                        SelectTerrain(terrain);
+                    });
                 }
             }
         }

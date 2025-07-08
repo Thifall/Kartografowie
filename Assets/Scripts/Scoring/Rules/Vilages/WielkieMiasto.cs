@@ -17,7 +17,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Vilages
         {
             var points = 0;
 
-            var clusters = GetClusters(gridManager, CellType.Vilage).OrderByDescending(c => c.Count).ToList(); //wszystkie klastry od największego do najmniejszego
+            var clusters = GetClusters(gridManager, CellType.Village).OrderByDescending(c => c.Count).ToList(); //wszystkie klastry od największego do najmniejszego
             var mountainSquares = gridManager.GetSquares(c => c.CellType == CellType.Mountain);
 
 

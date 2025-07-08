@@ -5,7 +5,7 @@ namespace Kartografowie.General
         Default,
         Forest,
         Field,
-        Vilage,
+        Village,
         Water,
         Mountain,
         Chasm,

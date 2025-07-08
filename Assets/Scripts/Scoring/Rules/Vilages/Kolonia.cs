@@ -18,7 +18,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Vilages
         {
             var points = 0;
 
-            var villageClusters = GetClusters(gridManager, CellType.Vilage);
+            var villageClusters = GetClusters(gridManager, CellType.Village);
             points += villageClusters
                 .Where(cluster => cluster.Count >= 6) // Sprawdzamy, czy klaster ma co najmniej 6 obszarów wioski
                 .Count() * 8; // Każdy taki klaster daje 8 punktów

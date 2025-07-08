@@ -19,7 +19,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Vilages
         {
             var points = 0;
 
-            var clusters = GetClusters(gridManager, CellType.Vilage);
+            var clusters = GetClusters(gridManager, CellType.Village);
 
             foreach (var cluster in clusters)
             {

@@ -8,7 +8,7 @@ namespace Kartografowie.TestsEditorMode
     {
         [TestCase(CellType.Forest)]
         [TestCase(CellType.Field)]
-        [TestCase(CellType.Vilage)]
+        [TestCase(CellType.Village)]
         [TestCase(CellType.Water)]
         [TestCase(CellType.Mountain)]
         [TestCase(CellType.Chasm)]
@@ -31,7 +31,7 @@ namespace Kartografowie.TestsEditorMode
 
         [TestCase(CellType.Forest)]
         [TestCase(CellType.Field)]
-        [TestCase(CellType.Vilage)]
+        [TestCase(CellType.Village)]
         [TestCase(CellType.Water)]
         [TestCase(CellType.Mountain)]
         [TestCase(CellType.Chasm)]

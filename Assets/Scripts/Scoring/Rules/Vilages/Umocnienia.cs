@@ -16,7 +16,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Vilages
         public override int CalculateScore(GridManager gridManager)
         {
             var points = 0;
-            var clusters = GetClusters(gridManager, CellType.Vilage);
+            var clusters = GetClusters(gridManager, CellType.Village);
 
             var gruppedClusters = clusters.GroupBy(cluster => cluster.Count).
                 OrderByDescending(g => g.Key).ToList();
