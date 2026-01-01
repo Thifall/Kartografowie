@@ -4,8 +4,10 @@ namespace Kartografowie.Assets.Scripts.Grid.Core
 {
     public class CellState
     {
-        public CellType CellType { get; private set; } = CellType.Default;
-        public bool HasRuins { get; } = false;
+        public CellType CellType { get; private set; }
+        public bool HasRuins { get; }
+        public bool IsEmpty => CellType == CellType.Default;
+        public bool IsFilled => CellType != CellType.Default;
 
         public CellState(CellConfig cellConfig)
         {
@@ -16,11 +18,6 @@ namespace Kartografowie.Assets.Scripts.Grid.Core
         public void SetCellType(CellType type)
         {
             CellType = type;
-        }
-
-        public bool IsRestricted()
-        {
-            return CellType != CellType.Default;
         }
     }
 }

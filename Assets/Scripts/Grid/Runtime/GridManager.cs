@@ -1,3 +1,4 @@
+using Kartografowie.Assets.Scripts.Grid.Core;
 using Kartografowie.General;
 using System;
 using System.Collections;
@@ -24,20 +25,21 @@ namespace Kartografowie.Assets.Scripts.Grid.Runtime
                 cell.GridPosition = gridPos;
             }
         }
+        public bool TryGetCell(Vector2Int gridPos, out GridCell cell) => gridCells.TryGetValue(gridPos, out cell);
 
         public bool IsSquareRestricted(Vector3 worldPos)
         {
             Vector2Int gridPos = WorldToGrid(worldPos);
-            return IsSquareRestricted(gridPos); //gridCells.ContainsKey(gridPos) && gridCells[gridPos].IsRestricted();
+            return IsSquareRestricted(gridPos);
         }
 
         public bool IsSquareRestricted(Vector2Int gridPos)
         {
-            if (!gridCells.ContainsKey(gridPos))
+            if (!gridCells.TryGetValue(gridPos, out var cell))
             {
-                return true; 
+                return true;
             }
-            return gridCells[gridPos].IsRestricted();
+            return GridRuleset.IsCellRestricted(cell.CellState);
         }
 
         public IEnumerator PaintShapeAtWorldPos(IEnumerable<Vector3> positions, CellType targetCellType)
@@ -52,18 +54,31 @@ namespace Kartografowie.Assets.Scripts.Grid.Runtime
         public void PaintSquareAtWorldPos(Vector3 position, CellType targetCellType)
         {
             var pos = WorldToGrid(position);
-            gridCells[pos].SetCellType(targetCellType);
+            PaintCell(pos, targetCellType);
         }
 
         public void PaintSquareAtGridPos(Vector2Int position, CellType targetCellType)
         {
-            gridCells[position].SetCellType(targetCellType);
+            PaintCell(position, targetCellType);
         }
 
         public bool HasRuinsAtPosition(Vector3 worldPos)
         {
             Vector2Int gridPos = WorldToGrid(worldPos);
-            return gridCells[gridPos].HasRuins;
+            if (!TryGetCell(gridPos, out var cell))
+            {
+                return false;
+            }
+            return cell.HasRuins;
+        }
+
+        public void PaintCell(Vector2Int gridPos, CellType targetCellType)
+        {
+            if (!TryGetCell(gridPos, out var cell))
+            {
+                return;
+            }
+            cell.SetCellType(targetCellType);
         }
 
         public IEnumerable<GridCell> GetAvailableEmptySquares(bool requiresRuins = false)
@@ -76,11 +91,16 @@ namespace Kartografowie.Assets.Scripts.Grid.Runtime
             return traversedAndOffsettedPositions
             .All((v) =>
             {
-                Vector2Int key = new(Mathf.RoundToInt(v.x / GRID_CELL_SIZE), Mathf.RoundToInt(v.y / GRID_CELL_SIZE));
-                return gridCells.ContainsKey(key) && gridCells[key].CurrentCellType == CellType.Default;
+                Vector2Int key = PositionToGrid(v);
+                if (!TryGetCell(key, out var cell))
+                {
+                    return false;
+                }
+                return GridRuleset.CanDrawOnCell(cell.CellState);
             });
         }
 
+        //kinda debug purpose, but not really needed anymore. Used in testing to check for cell names, probably can be removed
         public string GetSquareNameAtPosition(Vector3 pos)
         {
             return gridCells[new Vector2Int(Mathf.RoundToInt(pos.x / GRID_CELL_SIZE), Mathf.RoundToInt(pos.y / GRID_CELL_SIZE))].name;
@@ -103,8 +123,7 @@ namespace Kartografowie.Assets.Scripts.Grid.Runtime
 
         public bool IsWithinGridBounds(Vector3 position)
         {
-
-            return gridCells.ContainsKey(WorldToGrid(position));
+            return TryGetCell(WorldToGrid(position), out _);
         }
 
         public Vector2Int WorldToGrid(Vector3 worldPos)
@@ -187,7 +206,7 @@ namespace Kartografowie.Assets.Scripts.Grid.Runtime
                 .ToList();
         }
 
-        public Dictionary<Vector2Int,GridCell> GetSquares(Func<GridCell, bool> filter)
+        public Dictionary<Vector2Int, GridCell> GetSquares(Func<GridCell, bool> filter)
         {
             return gridCells.Values.Where(filter).Select(c => new KeyValuePair<Vector2Int, GridCell>(c.GridPosition, c))
                 .ToDictionary(kv => kv.Key, kv => kv.Value);

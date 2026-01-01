@@ -9,24 +9,24 @@ namespace Kartografowie.Assets.Scripts.Grid.Runtime
     {
         private const float _animationRevealDuration = 0.5f;
         private const float _animationScaleFactor = 1.2f;
+        private SpriteRenderer spriteRenderer;
+        private Coroutine updateVisualCoroutine;
+        public Vector2Int GridPosition = Vector2Int.zero;
 
         [SerializeField]
         private CellConfig _cellConfig;
-        private CellState _cellState;
 
-        public CellType CurrentCellType => _cellState.CellType;
-        public bool HasRuins => _cellState.HasRuins;
-        public bool IsRestricted() => _cellState.IsRestricted();
+        public CellState CellState { get; private set; }
+
+        public CellType CurrentCellType => CellState.CellType;
+        public bool HasRuins => CellState.HasRuins;
 
 
-        public Vector2Int GridPosition = Vector2Int.zero;
-        private SpriteRenderer spriteRenderer;
-        private Coroutine updateVisualCoroutine;
 
         private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
-            _cellState = new CellState(_cellConfig);
+            CellState = new CellState(_cellConfig);
             UpdateVisualFromState();
         }
 
@@ -41,21 +41,21 @@ namespace Kartografowie.Assets.Scripts.Grid.Runtime
         private void UpdateVisualFromState()
         {
             if (spriteRenderer == null) return;
-            if (_cellState is null) return;
-            if (Generals.CellTypeIcons.ContainsKey(_cellState.CellType))
+            if (CellState is null) return;
+            if (Generals.CellTypeIcons.ContainsKey(CellState.CellType))
             {
-                spriteRenderer.sprite = Generals.CellTypeIcons[_cellState.CellType];
+                spriteRenderer.sprite = Generals.CellTypeIcons[CellState.CellType];
                 spriteRenderer.color = Color.white;
             }
             else
             {
-                spriteRenderer.color = Generals.CellTypeColors[_cellState.CellType];
+                spriteRenderer.color = Generals.CellTypeColors[CellState.CellType];
             }
         }
 
         public void SetCellType(CellType newType)
         {
-            _cellState.SetCellType(newType);
+            CellState.SetCellType(newType);
             if (updateVisualCoroutine != null)
             {
                 StopCoroutine(updateVisualCoroutine);
@@ -75,14 +75,14 @@ namespace Kartografowie.Assets.Scripts.Grid.Runtime
             startColor.a = 0f;
             Color endColor;
 
-            if (Generals.CellTypeIcons.ContainsKey(_cellState.CellType))
+            if (Generals.CellTypeIcons.ContainsKey(CellState.CellType))
             {
-                spriteRenderer.sprite = Generals.CellTypeIcons[_cellState.CellType];
+                spriteRenderer.sprite = Generals.CellTypeIcons[CellState.CellType];
                 endColor = Color.white;
             }
             else
             {
-                endColor = Generals.CellTypeColors[_cellState.CellType];
+                endColor = Generals.CellTypeColors[CellState.CellType];
             }
             spriteRenderer.color = startColor;
 

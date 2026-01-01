@@ -23,10 +23,17 @@ namespace Kartografowie.TestsEditorMode
         }
 
         [Test]
-        public void IsRestricted_WhenCellTypeIsDefault_ShouldReturnFalse()
+        public void IsEmpty_WhenCellTypeIsDefault_ShouldBeTrue()
         {
             CellState state = new(new CellConfig());
-            Assert.IsFalse(state.IsRestricted());
+            Assert.IsTrue(state.IsEmpty);
+        }
+
+        [Test]
+        public void IsFilled_WhenCellTypeIsDefault_ShouldBeFalse()
+        {
+            CellState state = new(new CellConfig());
+            Assert.IsFalse(state.IsFilled);
         }
 
         [TestCase(CellType.Forest)]
@@ -36,11 +43,25 @@ namespace Kartografowie.TestsEditorMode
         [TestCase(CellType.Mountain)]
         [TestCase(CellType.Chasm)]
         [TestCase(CellType.Monster)]
-        public void IsRestricted_WhenCellTypeIsNotDefault_ShouldReturnTrue(CellType cellType)
+        public void IsEmpty_WhenCellTypeIsNotDefault_ShouldReturnFalse(CellType cellType)
         {
             CellState state = new(new CellConfig() { InitialCellType = cellType});
             state.SetCellType(cellType);
-            Assert.IsTrue(state.IsRestricted());
+            Assert.IsFalse(state.IsEmpty);
+        }
+
+        [TestCase(CellType.Forest)]
+        [TestCase(CellType.Field)]
+        [TestCase(CellType.Village)]
+        [TestCase(CellType.Water)]
+        [TestCase(CellType.Mountain)]
+        [TestCase(CellType.Chasm)]
+        [TestCase(CellType.Monster)]
+        public void IsFilled_WhenCellTypeIsNotDefault_ShouldReturnTrue(CellType cellType)
+        {
+            CellState state = new(new CellConfig() { InitialCellType = cellType});
+            state.SetCellType(cellType);
+            Assert.IsTrue(state.IsFilled);
         }
 
         [TestCase]
