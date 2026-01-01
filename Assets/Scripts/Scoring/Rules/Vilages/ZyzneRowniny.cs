@@ -1,5 +1,5 @@
-﻿using Kartografowie.General;
-using Kartografowie.Grid;
+﻿using Kartografowie.Assets.Scripts.Grid.Runtime;
+using Kartografowie.General;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -35,11 +35,11 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Vilages
                         }
                         if (neighbor != null
                             && !cluster.Contains(neighbor)
-                            && neighbor.CellType != CellType.Default
-                            && neighbor.CellType != CellType.Chasm) 
+                            && neighbor.CurrentCellType != CellType.Default
+                            && neighbor.CurrentCellType != CellType.Chasm) 
                         {
-                            distinctNeighbours.Add(neighbor.CellType);
-                            Debug.Log($"Found non-vilage filled square: {neighbor.CellType} at {neighbor.GridPosition}:");
+                            distinctNeighbours.Add(neighbor.CurrentCellType);
+                            Debug.Log($"Found non-vilage filled square: {neighbor.CurrentCellType} at {neighbor.GridPosition}:");
                         }
                     }
                 }

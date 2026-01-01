@@ -1,6 +1,6 @@
 using System.Collections;
+using Kartografowie.Assets.Scripts.Grid.Runtime;
 using Kartografowie.General;
-using Kartografowie.Grid;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -46,11 +46,11 @@ namespace Kartografowie.TestsPlayMode
 
             yield return null; 
 
-            Assert.AreEqual(CellType.Default, gridCell.CellType, "Starting celltype is default");
+            Assert.AreEqual(CellType.Default, gridCell.CurrentCellType, "Starting celltype is default");
 
             gridManager.PaintSquareAtWorldPos(new Vector2(0, 0), CellType.Forest);
 
-            Assert.AreEqual(CellType.Forest, gridCell.CellType, "Celltype should be changed");
+            Assert.AreEqual(CellType.Forest, gridCell.CurrentCellType, "Celltype should be changed");
         }
     }
 }

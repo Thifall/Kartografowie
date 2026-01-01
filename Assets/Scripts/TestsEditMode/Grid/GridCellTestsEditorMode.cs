@@ -1,5 +1,5 @@
+using Kartografowie.Assets.Scripts.Grid.Core;
 using Kartografowie.General;
-using Kartografowie.Grid;
 using NUnit.Framework;
 
 namespace Kartografowie.TestsEditorMode
@@ -13,20 +13,20 @@ namespace Kartografowie.TestsEditorMode
         [TestCase(CellType.Mountain)]
         [TestCase(CellType.Chasm)]
         [TestCase(CellType.Monster)]
-        public void SetCellType_CellType_Should_Match_Target_CellType(CellType targetCellType)
+        public void SetCellType_WhenInvoked_ShouldSetCorrectCellType(CellType targetCellType)
         {
-            GridCell cell = new();
-            Assert.IsTrue(cell.CellType == CellType.Default);
+            CellState state = new(new CellConfig());
+            Assert.IsTrue(state.CellType == CellType.Default);
 
-            cell.SetCellType(targetCellType);
-            Assert.That(() => cell.CellType == targetCellType);
+            state.SetCellType(targetCellType);
+            Assert.AreEqual(targetCellType, state.CellType);
         }
 
         [Test]
-        public void IsRestricted_CellType_Default_Should_Be_False()
+        public void IsRestricted_WhenCellTypeIsDefault_ShouldReturnFalse()
         {
-            GridCell cell = new();
-            Assert.IsFalse(cell.IsRestricted());
+            CellState state = new(new CellConfig());
+            Assert.IsFalse(state.IsRestricted());
         }
 
         [TestCase(CellType.Forest)]
@@ -36,11 +36,25 @@ namespace Kartografowie.TestsEditorMode
         [TestCase(CellType.Mountain)]
         [TestCase(CellType.Chasm)]
         [TestCase(CellType.Monster)]
-        public void IsRestricted_CellType_NonDefault_Should_Be_True(CellType cellType)
+        public void IsRestricted_WhenCellTypeIsNotDefault_ShouldReturnTrue(CellType cellType)
         {
-            GridCell cell = new();
-            cell.SetCellType(cellType);
-            Assert.IsTrue(cell.IsRestricted());
+            CellState state = new(new CellConfig() { InitialCellType = cellType});
+            state.SetCellType(cellType);
+            Assert.IsTrue(state.IsRestricted());
+        }
+
+        [TestCase]
+        public void HasRuins_WhenPassedCellConfigWithRuins_ShouldReturnTrue()
+        {
+            CellState state = new(new CellConfig() { HasRuins = true });
+            Assert.IsTrue(state.HasRuins);
+        }
+
+        [TestCase]
+        public void HasRuins_WhenPassedCellConfigWithoutRuins_ShouldReturnFalse()
+        {
+            CellState state = new(new CellConfig() { HasRuins = false });
+            Assert.IsFalse(state.HasRuins);
         }
 
     }

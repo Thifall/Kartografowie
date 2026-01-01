@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Kartografowie.Grid
+namespace Kartografowie.Assets.Scripts.Grid.Runtime
 {
     public class GridManager : MonoBehaviour
     {
@@ -25,24 +25,12 @@ namespace Kartografowie.Grid
             }
         }
 
-        /// <summary>
-        /// Checks if specific cell is restricted based on its world position. 
-        /// Used to check input from mouse cursor or other world-based interactions.
-        /// </summary>
-        /// <param name="worldPos"></param>
-        /// <returns></returns>
         public bool IsSquareRestricted(Vector3 worldPos)
         {
             Vector2Int gridPos = WorldToGrid(worldPos);
             return IsSquareRestricted(gridPos); //gridCells.ContainsKey(gridPos) && gridCells[gridPos].IsRestricted();
         }
 
-        /// <summary>
-        /// checks if specific cell is restricted based on its grid position. 
-        /// Used to check grid-based operations, like checking neighbouring cells.
-        /// </summary>
-        /// <param name="gridPos"></param>
-        /// <returns></returns>
         public bool IsSquareRestricted(Vector2Int gridPos)
         {
             if (!gridCells.ContainsKey(gridPos))
@@ -80,7 +68,7 @@ namespace Kartografowie.Grid
 
         public IEnumerable<GridCell> GetAvailableEmptySquares(bool requiresRuins = false)
         {
-            return gridCells.Values.Where(gc => gc.HasRuins == requiresRuins && gc.CellType == CellType.Default);
+            return gridCells.Values.Where(gc => gc.HasRuins == requiresRuins && gc.CurrentCellType == CellType.Default);
         }
 
         public bool CanDrawOnSquares(IList<Vector3> traversedAndOffsettedPositions)
@@ -89,7 +77,7 @@ namespace Kartografowie.Grid
             .All((v) =>
             {
                 Vector2Int key = new(Mathf.RoundToInt(v.x / GRID_CELL_SIZE), Mathf.RoundToInt(v.y / GRID_CELL_SIZE));
-                return gridCells.ContainsKey(key) && gridCells[key].CellType == CellType.Default;
+                return gridCells.ContainsKey(key) && gridCells[key].CurrentCellType == CellType.Default;
             });
         }
 
@@ -160,12 +148,12 @@ namespace Kartografowie.Grid
 
             // Klucz sortuj¹cy — zale¿nie od kierunku porz¹dkujemy rosn¹co lub malej¹co
             Func<GridCell, int> keySelector = direction.x != 0
-                ? (direction.x > 0 ?
+                ? direction.x > 0 ?
                     new Func<GridCell, int>(c => c.GridPosition.x) :
-                    new Func<GridCell, int>(c => -c.GridPosition.x))
-                : (direction.y > 0 ?
+                    new Func<GridCell, int>(c => -c.GridPosition.x)
+                : direction.y > 0 ?
                     new Func<GridCell, int>(c => c.GridPosition.y) :
-                    new Func<GridCell, int>(c => -c.GridPosition.y));
+                    new Func<GridCell, int>(c => -c.GridPosition.y);
 
             return cells.Where(filter).OrderBy(keySelector).ToList();
         }

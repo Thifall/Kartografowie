@@ -1,23 +1,33 @@
+using Kartografowie.Assets.Scripts.Grid.Core;
 using Kartografowie.General;
 using System.Collections;
 using UnityEngine;
 
-namespace Kartografowie.Grid
+namespace Kartografowie.Assets.Scripts.Grid.Runtime
 {
     public class GridCell : MonoBehaviour
     {
-        public CellType CellType = CellType.Default;
-        public bool HasRuins = false;
-        public Vector2Int GridPosition = Vector2Int.zero;
+        private const float _animationRevealDuration = 0.5f;
+        private const float _animationScaleFactor = 1.2f;
 
-        private float revealDuration = 0.5f;
-        private float scaleFactor = 1.2f;
+        [SerializeField]
+        private CellConfig _cellConfig;
+        private CellState _cellState;
+
+        public CellType CurrentCellType => _cellState.CellType;
+        public bool HasRuins => _cellState.HasRuins;
+        public bool IsRestricted() => _cellState.IsRestricted();
+
+
+        public Vector2Int GridPosition = Vector2Int.zero;
         private SpriteRenderer spriteRenderer;
         private Coroutine updateVisualCoroutine;
 
-        void Start()
+        private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
+            _cellState = new CellState(_cellConfig);
+            UpdateVisualFromState();
         }
 
         private void OnValidate()
@@ -25,66 +35,62 @@ namespace Kartografowie.Grid
             if (spriteRenderer == null)
                 spriteRenderer = GetComponent<SpriteRenderer>();
 
-            UpdateVisual(); // Aktualizuje kolor po zmianie wartoœci w Inspectorze
+            UpdateVisualFromState(); // Aktualizuje kolor po zmianie wartoœci w Inspectorze
         }
 
-        private void UpdateVisual()
+        private void UpdateVisualFromState()
         {
             if (spriteRenderer == null) return;
-            if (Generals.CellTypeIcons.ContainsKey(CellType))
+            if (_cellState is null) return;
+            if (Generals.CellTypeIcons.ContainsKey(_cellState.CellType))
             {
-                spriteRenderer.sprite = Generals.CellTypeIcons[CellType];
+                spriteRenderer.sprite = Generals.CellTypeIcons[_cellState.CellType];
                 spriteRenderer.color = Color.white;
             }
             else
             {
-                spriteRenderer.color = Generals.CellTypeColors[CellType];
+                spriteRenderer.color = Generals.CellTypeColors[_cellState.CellType];
             }
-        }
-
-        public bool IsRestricted()
-        {
-            return CellType != CellType.Default;
         }
 
         public void SetCellType(CellType newType)
         {
-            CellType = newType;
+            _cellState.SetCellType(newType);
             if (updateVisualCoroutine != null)
             {
                 StopCoroutine(updateVisualCoroutine);
             }
-            updateVisualCoroutine = StartCoroutine(RevealCoroutine());
+            updateVisualCoroutine = StartCoroutine(TypeTransitionCoroutine());
         }
 
-        private IEnumerator RevealCoroutine()
+        private IEnumerator TypeTransitionCoroutine()
         {
             if (spriteRenderer == null)
                 yield break;
 
             Vector3 originalScale = transform.localScale;
-            Vector3 targetScale = originalScale * scaleFactor;
+            Vector3 targetScale = originalScale * _animationScaleFactor;
 
             Color startColor = Color.white;
             startColor.a = 0f;
             Color endColor;
 
-            if (Generals.CellTypeIcons.ContainsKey(CellType))
+            if (Generals.CellTypeIcons.ContainsKey(_cellState.CellType))
             {
-                spriteRenderer.sprite = Generals.CellTypeIcons[CellType];
+                spriteRenderer.sprite = Generals.CellTypeIcons[_cellState.CellType];
                 endColor = Color.white;
             }
             else
             {
-                endColor = Generals.CellTypeColors[CellType];
+                endColor = Generals.CellTypeColors[_cellState.CellType];
             }
             spriteRenderer.color = startColor;
 
             float t = 0f;
-            while (t < revealDuration)
+            while (t < _animationRevealDuration)
             {
                 t += Time.deltaTime;
-                float normalized = t / revealDuration;
+                float normalized = t / _animationRevealDuration;
 
                 // Lerp przezroczystoœci i skali
                 spriteRenderer.color = Color.Lerp(startColor, endColor, normalized);

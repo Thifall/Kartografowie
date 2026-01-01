@@ -1,5 +1,5 @@
-﻿using Kartografowie.General;
-using Kartografowie.Grid;
+﻿using Kartografowie.Assets.Scripts.Grid.Runtime;
+using Kartografowie.General;
 using System.Linq;
 using UnityEngine;
 
@@ -18,7 +18,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Vilages
             var points = 0;
 
             var clusters = GetClusters(gridManager, CellType.Village).OrderByDescending(c => c.Count).ToList(); //wszystkie klastry od największego do najmniejszego
-            var mountainSquares = gridManager.GetSquares(c => c.CellType == CellType.Mountain);
+            var mountainSquares = gridManager.GetSquares(c => c.CurrentCellType == CellType.Mountain);
 
 
             if (clusters.Count() == 0)

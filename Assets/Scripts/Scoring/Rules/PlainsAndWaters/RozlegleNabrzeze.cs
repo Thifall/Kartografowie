@@ -1,5 +1,5 @@
-﻿using Kartografowie.General;
-using Kartografowie.Grid;
+﻿using Kartografowie.Assets.Scripts.Grid.Runtime;
+using Kartografowie.General;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.PlainsAndWaters
                 {
                     var unwantedCellType = cellType == CellType.Field ? CellType.Water : CellType.Field;
                     if (!IsClusterOnMapEdge(minX, maxX, minY, maxY, cluster) 
-                        && !ClusterTouchesType(cluster, gridManager.GetSquares(c => c.CellType ==  unwantedCellType)))
+                        && !ClusterTouchesType(cluster, gridManager.GetSquares(c => c.CurrentCellType ==  unwantedCellType)))
                     {
                         points += 3;
                     }
@@ -55,7 +55,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.PlainsAndWaters
                 {
                     if(unwantedTypeSquares.ContainsKey(neighbor))
                     {
-                        Debug.Log($"Klaster {cell.CellType} sąsiaduje z {unwantedTypeSquares[neighbor].CellType} w pozycji {neighbor}.");
+                        Debug.Log($"Klaster {cell.CurrentCellType} sąsiaduje z {unwantedTypeSquares[neighbor].CurrentCellType} w pozycji {neighbor}.");
                         return true; // Klaster dotyka innego typu
                     }
                 }

@@ -1,5 +1,5 @@
-﻿using Kartografowie.General;
-using Kartografowie.Grid;
+﻿using Kartografowie.Assets.Scripts.Grid.Runtime;
+using Kartografowie.General;
 using System.Linq;
 using UnityEngine;
 

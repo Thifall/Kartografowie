@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 namespace Kartografowie
 {
-    public class MainMenuNavigation : MonoBehaviour
+    public class MenuNavigation : MonoBehaviour
     {
         public void LoadScene(string sceneName)
         {

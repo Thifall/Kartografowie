@@ -1,10 +1,10 @@
+using Kartografowie.Assets.Scripts.Grid.Runtime;
 using Kartografowie.Assets.Scripts.Scoring.Rules;
 using Kartografowie.Assets.Scripts.Scoring.Rules.Forests;
 using Kartografowie.Assets.Scripts.Scoring.Rules.Misc;
 using Kartografowie.Assets.Scripts.Scoring.Rules.PlainsAndWaters;
 using Kartografowie.Assets.Scripts.Scoring.Rules.Vilages;
 using Kartografowie.General;
-using Kartografowie.Grid;
 using Kartografowie.Shapes;
 using System.Collections.Generic;
 using System.Linq;
@@ -135,7 +135,7 @@ namespace Kartografowie
                 OnScoreUpdated.RaiseEvent(endingSeason, rule.EdictType, points);
             }
             //deduct points from monster tiles
-            var monsterSquares = _gridManager.GetSquares(c => c.CellType == CellType.Monster);
+            var monsterSquares = _gridManager.GetSquares(c => c.CurrentCellType == CellType.Monster);
             var visited = new HashSet<Vector2Int>();
             foreach (var square in monsterSquares)
             {
@@ -143,7 +143,7 @@ namespace Kartografowie
                 foreach (var neighbor in Generals.Directions.Select(d => cell.GridPosition + d))
                 {
                     var neighborCell = _gridManager.GetSquareByPosition(neighbor);
-                    if (neighborCell != null && neighborCell.CellType == CellType.Default)
+                    if (neighborCell != null && neighborCell.CurrentCellType == CellType.Default)
                     {
                         visited.Add(neighbor);
                     }
@@ -194,7 +194,7 @@ namespace Kartografowie
         private void CheckForSurroundedMountains()
         {
             EnsureGridManagerInstance();
-            var mountains = _gridManager.GetSquares(c => c.CellType == CellType.Mountain).ToList();
+            var mountains = _gridManager.GetSquares(c => c.CurrentCellType == CellType.Mountain).ToList();
             foreach (var square in mountains)
             {
                 var cell = square.Value;
@@ -202,7 +202,7 @@ namespace Kartografowie
                 foreach (var neighbor in Generals.Directions.Select(d => cell.GridPosition + d))
                 {
                     var neighborCell = _gridManager.GetSquareByPosition(neighbor);
-                    if (neighborCell != null && neighborCell.CellType == CellType.Default)
+                    if (neighborCell != null && neighborCell.CurrentCellType == CellType.Default)
                     {
                         isSurrounded = false; // Found an empty neighbor, not surrounded
                         break;

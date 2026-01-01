@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Kartografowie.Grid
+namespace Kartografowie.Assets.Scripts.Grid.Runtime
 {
     public class LayoutSetup : MonoBehaviour
     {

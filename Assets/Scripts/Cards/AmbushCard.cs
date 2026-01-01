@@ -10,12 +10,6 @@ namespace Kartografowie.Cards
         public AmbushStartingCorner startingCorner = AmbushStartingCorner.BOTTOM_LEFT;
         public bool clockwiseCheck = false;
     }
-
-    /// <summary>
-    /// Intends to select starting corner for shape fit check for ambush cards.
-    /// Assuming regular coordinate system, where x rises horizontaly from left to right,
-    /// and y rises vertically from bottom to top
-    /// </summary>
     public enum AmbushStartingCorner
     {
         /// <summary>

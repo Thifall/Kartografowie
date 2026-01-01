@@ -1,5 +1,5 @@
-﻿using Kartografowie.General;
-using Kartografowie.Grid;
+﻿using Kartografowie.Assets.Scripts.Grid.Runtime;
+using Kartografowie.General;
 using System.Linq;
 using UnityEngine;
 
@@ -19,10 +19,10 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.PlainsAndWaters
         {
             var points = 0;
 
-            var waters = gridManager.GetSquares(c => c.CellType == CellType.Water);
+            var waters = gridManager.GetSquares(c => c.CurrentCellType == CellType.Water);
             var ruins = gridManager.GetSquares(c => c.HasRuins);
 
-            points += 3 * ruins.Count(c => c.Value.CellType == CellType.Field);
+            points += 3 * ruins.Count(c => c.Value.CurrentCellType == CellType.Field);
 
             foreach (var kv in waters)
             {

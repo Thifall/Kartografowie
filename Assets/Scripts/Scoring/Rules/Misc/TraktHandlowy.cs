@@ -1,5 +1,5 @@
-﻿using Kartografowie.General;
-using Kartografowie.Grid;
+﻿using Kartografowie.Assets.Scripts.Grid.Runtime;
+using Kartografowie.General;
 using UnityEngine;
 
 namespace Kartografowie.Assets.Scripts.Scoring.Rules.Misc
@@ -39,7 +39,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Misc
                 return true;
             }
 
-            if (currentSquare.CellType == CellType.Default)
+            if (currentSquare.CurrentCellType == CellType.Default)
             {
                 return false;
             }

@@ -1,5 +1,5 @@
-﻿using Kartografowie.General;
-using Kartografowie.Grid;
+﻿using Kartografowie.Assets.Scripts.Grid.Runtime;
+using Kartografowie.General;
 using UnityEngine;
 
 namespace Kartografowie.Assets.Scripts.Scoring.Rules.PlainsAndWaters
@@ -17,10 +17,10 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.PlainsAndWaters
         {
             var points = 0;
 
-            var mountainSquares = gridManager.GetSquares(c => c.CellType == CellType.Mountain);
-            var waterSquares = gridManager.GetSquares(c => c.CellType == CellType.Water);
-            var fieldSquares = gridManager.GetSquares(c => c.CellType == CellType.Field);
-
+            var mountainSquares = gridManager.GetSquares(c => c.CurrentCellType == CellType.Mountain);
+            var waterSquares = gridManager.GetSquares(c => c.CurrentCellType == CellType.Water);
+            var fieldSquares = gridManager.GetSquares(c => c.CurrentCellType == CellType.Field);
+            
             foreach (var kv in mountainSquares)
             {
                 var mountain = kv.Value;

@@ -1,5 +1,5 @@
-﻿using Kartografowie.General;
-using Kartografowie.Grid;
+﻿using Kartografowie.Assets.Scripts.Grid.Runtime;
+using Kartografowie.General;
 using UnityEngine;
 
 namespace Kartografowie.Assets.Scripts.Scoring.Rules.PlainsAndWaters
@@ -28,8 +28,8 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.PlainsAndWaters
         private static int CountSquaresWithAtLeastOneNeighbour(CellType searchedType, CellType lookedForType, GridManager grid)
         {
             var points = 0;
-            var searchedCells = grid.GetSquares(c => c.CellType == searchedType);
-            var lookedForCells = grid.GetSquares(c => c.CellType == lookedForType);
+            var searchedCells = grid.GetSquares(c => c.CurrentCellType == searchedType);
+            var lookedForCells = grid.GetSquares(c => c.CurrentCellType == lookedForType);
             foreach (var kv in searchedCells)
             {
                 var currentSquare = kv.Value;

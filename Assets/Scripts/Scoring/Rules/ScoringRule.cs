@@ -1,5 +1,5 @@
-﻿using Kartografowie.General;
-using Kartografowie.Grid;
+﻿using Kartografowie.Assets.Scripts.Grid.Runtime;
+using Kartografowie.General;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,7 +33,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules
 
         protected List<List<GridCell>> GetClusters(GridManager gridManager, CellType cellType)
         {
-            var typedSquares = gridManager.GetSquares(c => c.CellType == cellType);
+            var typedSquares = gridManager.GetSquares(c => c.CurrentCellType == cellType);
             var visited = new HashSet<Vector2Int>();
             var clusters = new List<List<GridCell>>();
             foreach (var kv in typedSquares)

@@ -1,4 +1,4 @@
-﻿using Kartografowie.Grid;
+﻿using Kartografowie.Assets.Scripts.Grid.Runtime;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;

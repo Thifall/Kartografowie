@@ -1,4 +1,4 @@
-﻿using Kartografowie.Grid;
+﻿using Kartografowie.Assets.Scripts.Grid.Runtime;
 using UnityEngine;
 
 namespace Kartografowie.Assets.Scripts.Scoring.Rules.Forests
@@ -16,7 +16,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Forests
         {
             var points = 0;
 
-            var forestCells = gridManager.GetSquares(c => c.CellType == General.CellType.Forest);
+            var forestCells = gridManager.GetSquares(c => c.CurrentCellType == General.CellType.Forest);
             foreach (var cell in forestCells)
             {
                 var gridPos = cell.Key;

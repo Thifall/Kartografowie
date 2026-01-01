@@ -1,5 +1,5 @@
-﻿using Kartografowie.General;
-using Kartografowie.Grid;
+﻿using Kartografowie.Assets.Scripts.Grid.Runtime;
+using Kartografowie.General;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -30,8 +30,8 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Misc
                     while (hasOnlyFilledCells && checkStartPosition.x <= maxX && checkStartPosition.y <= maxY)
                     {
                         Debug.Log(GetName() + $" Sprawdzanie pozycji: {checkStartPosition}");
-                        if (gridManager.GetSquareByPosition(checkStartPosition).CellType == CellType.Default
-                            || gridManager.GetSquareByPosition(checkStartPosition).CellType == CellType.Chasm)
+                        if (gridManager.GetSquareByPosition(checkStartPosition).CurrentCellType == CellType.Default
+                            || gridManager.GetSquareByPosition(checkStartPosition).CurrentCellType == CellType.Chasm)
                         {
                             hasOnlyFilledCells = false;
                             Debug.Log(GetName() + $" Pozycja {checkStartPosition} nie jest wypełniona.");
@@ -45,10 +45,10 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Misc
                             {
                                 checkLeft += Vector2Int.left; // Sprawdzamy w lewo
                                 checkDown += Vector2Int.down; // Sprawdzamy w dół
-                                if (gridManager.GetSquareByPosition(checkLeft).CellType == CellType.Default
-                                    || gridManager.GetSquareByPosition(checkLeft).CellType == CellType.Chasm
-                                    || gridManager.GetSquareByPosition(checkDown).CellType == CellType.Default
-                                    || gridManager.GetSquareByPosition(checkDown).CellType == CellType.Chasm)
+                                if (gridManager.GetSquareByPosition(checkLeft).CurrentCellType == CellType.Default
+                                    || gridManager.GetSquareByPosition(checkLeft).CurrentCellType == CellType.Chasm
+                                    || gridManager.GetSquareByPosition(checkDown).CurrentCellType == CellType.Default
+                                    || gridManager.GetSquareByPosition(checkDown).CurrentCellType == CellType.Chasm)
                                 {
                                     hasOnlyFilledCells = false;
                                 }

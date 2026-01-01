@@ -552,34 +552,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1266627174138323976, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 0.254183
       objectReference: {fileID: 0}
     - target: {fileID: 1266627174138323976, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: m_Color.g
-      value: 0.15
+      value: 0.432272
       objectReference: {fileID: 0}
     - target: {fileID: 1266627174138323976, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: m_Color.r
-      value: 0.3
+      value: 0.4528302
       objectReference: {fileID: 0}
     - target: {fileID: 2825959252833419923, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: HasRuins
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2825959252833419923, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
+      propertyPath: _cellConfig.HasRuins
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3121520188372444909, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 0.254183
       objectReference: {fileID: 0}
     - target: {fileID: 3121520188372444909, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: m_Color.g
-      value: 0.15
+      value: 0.432272
       objectReference: {fileID: 0}
     - target: {fileID: 3121520188372444909, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: m_Color.r
-      value: 0.3
+      value: 0.4528302
       objectReference: {fileID: 0}
     - target: {fileID: 3449185042134668606, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: HasRuins
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449185042134668606, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
+      propertyPath: _cellConfig.HasRuins
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3525351745706088131, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
@@ -606,21 +614,25 @@ PrefabInstance:
       propertyPath: HasRuins
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3984153724872745390, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
+      propertyPath: _cellConfig.HasRuins
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4441228247040448123, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: m_Name
       value: Variant_A
       objectReference: {fileID: 0}
     - target: {fileID: 5264830879115995394, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 0.254183
       objectReference: {fileID: 0}
     - target: {fileID: 5264830879115995394, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: m_Color.g
-      value: 0.15
+      value: 0.432272
       objectReference: {fileID: 0}
     - target: {fileID: 5264830879115995394, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: m_Color.r
-      value: 0.3
+      value: 0.4528302
       objectReference: {fileID: 0}
     - target: {fileID: 5510608289913992787, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: CellType
@@ -632,15 +644,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6001321597984519598, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 0.254183
       objectReference: {fileID: 0}
     - target: {fileID: 6001321597984519598, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: m_Color.g
-      value: 0.15
+      value: 0.432272
       objectReference: {fileID: 0}
     - target: {fileID: 6001321597984519598, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: m_Color.r
-      value: 0.3
+      value: 0.4528302
       objectReference: {fileID: 0}
     - target: {fileID: 6019997618379020350, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: m_LocalScale.x
@@ -718,25 +730,37 @@ PrefabInstance:
       propertyPath: HasRuins
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8436831761445028884, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
+      propertyPath: _cellConfig.HasRuins
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8838384245115397248, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: HasRuins
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8838384245115397248, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
+      propertyPath: _cellConfig.HasRuins
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9075131134237238576, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: HasRuins
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9075131134237238576, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
+      propertyPath: _cellConfig.HasRuins
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9182631940159786900, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 0.254183
       objectReference: {fileID: 0}
     - target: {fileID: 9182631940159786900, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: m_Color.g
-      value: 0.15
+      value: 0.432272
       objectReference: {fileID: 0}
     - target: {fileID: 9182631940159786900, guid: 5e722019283d2624b8d41352c69b558c, type: 3}
       propertyPath: m_Color.r
-      value: 0.3
+      value: 0.4528302
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

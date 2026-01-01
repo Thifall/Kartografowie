@@ -1,4 +1,4 @@
-﻿using Kartografowie.Grid;
+﻿using Kartografowie.Assets.Scripts.Grid.Runtime;
 using System.Linq;
 using UnityEngine;
 
@@ -22,13 +22,13 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Misc
             for (var i = minX; i <= maxX; i++)
             {
                 var column = gridManager.GetSquaresInColumn(i);
-                if(!column.Any(c => c.CellType == default))
+                if(!column.Any(c => c.CurrentCellType == default))
                 {
                     points += 6;
                 }
 
                 var row = gridManager.GetSquaresInRow(i);
-                if(!row.Any(c => c.CellType == default))
+                if(!row.Any(c => c.CurrentCellType == default))
                 {
                     points += 6;
                 }

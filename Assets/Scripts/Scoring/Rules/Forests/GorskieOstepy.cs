@@ -1,5 +1,5 @@
-﻿using Kartografowie.General;
-using Kartografowie.Grid;
+﻿using Kartografowie.Assets.Scripts.Grid.Runtime;
+using Kartografowie.General;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,8 +17,8 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Forests
         {
             var points = 0;
 
-            var forestSquares = gridManager.GetSquares(c => c.CellType == CellType.Forest);
-            var mountainsquares = gridManager.GetSquares(c => c.CellType == CellType.Mountain);
+            var forestSquares = gridManager.GetSquares(c => c.CurrentCellType == CellType.Forest);
+            var mountainsquares = gridManager.GetSquares(c => c.CurrentCellType == CellType.Mountain);
 
             var visited = new HashSet<Vector2Int>();
 
