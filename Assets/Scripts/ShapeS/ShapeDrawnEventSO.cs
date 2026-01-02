@@ -9,7 +9,7 @@ namespace Kartografowie
     {
         public Action<Shape> OnShapeDrawn;
 
-        public void RaiseEvent(Shape shape)
+        public void RaiseOnShapeDrawnEvent(Shape shape)
         {
             OnShapeDrawn?.Invoke(shape);
         }

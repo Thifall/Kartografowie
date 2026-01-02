@@ -1,4 +1,5 @@
 using Kartografowie.Assets.Scripts.Grid.Runtime;
+using Kartografowie.Assets.Scripts.Scoring.Events;
 using Kartografowie.Assets.Scripts.Scoring.Rules;
 using Kartografowie.Assets.Scripts.Scoring.Rules.Forests;
 using Kartografowie.Assets.Scripts.Scoring.Rules.Misc;
@@ -11,7 +12,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-namespace Kartografowie
+namespace Kartografowie.Assets.Scripts.Scoring.Core
 {
     public class ScoreManager : MonoBehaviour
     {
@@ -24,15 +25,15 @@ namespace Kartografowie
         public GameObject FilledCoinPrefab;
         public GameObject GoldCoinTrack;
 
-        private const int maxCoins = 14;
+        private const int _maxCoins = 14;
+        private ScoringContext _scoringContext;
         private GridManager _gridManager;
-        private readonly Dictionary<Seasons, List<ScoringRule>> seasonScoringRules = new();
-        private readonly Dictionary<(Seasons, Edicts), int> seasonsScores = new();
-        private readonly Dictionary<Vector2Int, GridCell> visitedMountains = new();
-        private int coinsFilled = 0;
+        private readonly Dictionary<Vector2Int, GridCell> _visitedMountains = new();
+        private int _coinsFilled = 0;
 
         void Start()
         {
+            _scoringContext = new ScoringContext();
             SeasonEndEvent.OnSeasonEnd += OnSeasonEnd;
             ShapeDrawnEvent.OnShapeDrawn += OnShapeDrawn;
             InitializeCoins();
@@ -45,7 +46,7 @@ namespace Kartografowie
             {
                 Destroy(child.gameObject);
             }
-            for (int i = 0; i < maxCoins; i++)
+            for (int i = 0; i < _maxCoins; i++)
             {
                 var coin = Instantiate(EmptyCoinPrefab, GoldCoinTrack.transform);
                 coin.name = $"Coin {i + 1}";
@@ -96,26 +97,26 @@ namespace Kartografowie
             var edictDRule = MiscScoringRules[Random.Range(0, MiscScoringRules.Count)];
 
             // Assign rules to seasons
-            seasonsScores[(Seasons.Wiosna, edictARule.EdictType)] = 0;
-            seasonsScores[(Seasons.Wiosna, edictBRule.EdictType)] = 0;
-            seasonsScores[(Seasons.Wiosna, Edicts.Monesters)] = 0;
-            seasonsScores[(Seasons.Wiosna, Edicts.Coins)] = 0;
-            seasonsScores[(Seasons.Lato, edictBRule.EdictType)] = 0;
-            seasonsScores[(Seasons.Lato, edictCRule.EdictType)] = 0;
-            seasonsScores[(Seasons.Lato, Edicts.Monesters)] = 0;
-            seasonsScores[(Seasons.Lato, Edicts.Coins)] = 0;
-            seasonsScores[(Seasons.Jesien, edictCRule.EdictType)] = 0;
-            seasonsScores[(Seasons.Jesien, edictDRule.EdictType)] = 0;
-            seasonsScores[(Seasons.Jesien, Edicts.Monesters)] = 0;
-            seasonsScores[(Seasons.Jesien, Edicts.Coins)] = 0;
-            seasonsScores[(Seasons.Zima, edictDRule.EdictType)] = 0;
-            seasonsScores[(Seasons.Zima, edictARule.EdictType)] = 0;
-            seasonsScores[(Seasons.Zima, Edicts.Monesters)] = 0;
-            seasonsScores[(Seasons.Zima, Edicts.Coins)] = 0;
-            seasonScoringRules[Seasons.Wiosna] = new List<ScoringRule> { edictARule, edictBRule };
-            seasonScoringRules[Seasons.Lato] = new List<ScoringRule> { edictBRule, edictCRule };
-            seasonScoringRules[Seasons.Jesien] = new List<ScoringRule> { edictCRule, edictDRule };
-            seasonScoringRules[Seasons.Zima] = new List<ScoringRule> { edictDRule, edictARule };
+            _scoringContext.RegisterSeasonRules(Seasons.Wiosna, new List<ScoringRule> { edictARule, edictBRule });
+            _scoringContext.SetScore(Seasons.Wiosna, edictARule.EdictType, 0);
+            _scoringContext.SetScore(Seasons.Wiosna, edictBRule.EdictType, 0);
+            _scoringContext.SetScore(Seasons.Wiosna, Edicts.Monesters, 0);
+            _scoringContext.SetScore(Seasons.Wiosna, Edicts.Coins, 0);
+            _scoringContext.RegisterSeasonRules(Seasons.Lato, new List<ScoringRule> { edictBRule, edictCRule });
+            _scoringContext.SetScore(Seasons.Lato, edictBRule.EdictType, 0);
+            _scoringContext.SetScore(Seasons.Lato, edictCRule.EdictType, 0);
+            _scoringContext.SetScore(Seasons.Lato, Edicts.Monesters, 0);
+            _scoringContext.SetScore(Seasons.Lato, Edicts.Coins, 0);
+            _scoringContext.RegisterSeasonRules(Seasons.Jesien, new List<ScoringRule> { edictCRule, edictDRule });
+            _scoringContext.SetScore(Seasons.Jesien, edictCRule.EdictType, 0);
+            _scoringContext.SetScore(Seasons.Jesien, edictDRule.EdictType, 0);
+            _scoringContext.SetScore(Seasons.Jesien, Edicts.Monesters, 0);
+            _scoringContext.SetScore(Seasons.Jesien, Edicts.Coins, 0);
+            _scoringContext.RegisterSeasonRules(Seasons.Zima, new List<ScoringRule> { edictDRule, edictARule });
+            _scoringContext.SetScore(Seasons.Zima, edictDRule.EdictType, 0);
+            _scoringContext.SetScore(Seasons.Zima, edictARule.EdictType, 0);
+            _scoringContext.SetScore(Seasons.Zima, Edicts.Monesters, 0);
+            _scoringContext.SetScore(Seasons.Zima, Edicts.Coins, 0);
 
             //raise events for UI to update
             OnScoringRuleAdded.RaiseEvent(edictARule, Edicts.Edict_A, this);
@@ -128,10 +129,10 @@ namespace Kartografowie
         {
             EnsureGridManagerInstance();
             //calculate scores for the ending season
-            foreach (var rule in seasonScoringRules[endingSeason])
+            foreach (var rule in _scoringContext.ActiveRules[endingSeason])
             {
                 var points = rule.CalculateScore(_gridManager);
-                seasonsScores[(endingSeason, rule.EdictType)] = points;
+                _scoringContext.SetScore(endingSeason, rule.EdictType, points);
                 OnScoreUpdated.RaiseEvent(endingSeason, rule.EdictType, points);
             }
             //deduct points from monster tiles
@@ -150,14 +151,14 @@ namespace Kartografowie
                 }
             }
             var deductedPoints = visited.Count * -1;
-            seasonsScores[(endingSeason, Edicts.Monesters)] = deductedPoints;
+            _scoringContext.SetScore(endingSeason, Edicts.Monesters, deductedPoints);
             OnScoreUpdated.RaiseEvent(endingSeason, Edicts.Monesters, deductedPoints);
 
             //add bonus points for shapes, sorrounded mountains etc;
-            seasonsScores[(endingSeason, Edicts.Coins)] = coinsFilled;
-            OnScoreUpdated.RaiseEvent(endingSeason, Edicts.Coins, coinsFilled);
+            _scoringContext.SetScore(endingSeason, Edicts.Coins, _coinsFilled);
+            OnScoreUpdated.RaiseEvent(endingSeason, Edicts.Coins, _coinsFilled);
 
-            TotalScore.text = $"Total: {seasonsScores.Values.Sum()}";
+            TotalScore.text = $"Total: {_scoringContext.TotalScore}";
             Debug.Log($"Season {endingSeason} ended. Game Over: {isGameOver}");
         }
 
@@ -171,6 +172,10 @@ namespace Kartografowie
 
         private void OnShapeDrawn(Shape shape)
         {
+            if (shape == null)
+            {
+                return;
+            }
             if (shape.IsBonusShape)
             {
                 AddCoinToTracker();
@@ -181,14 +186,14 @@ namespace Kartografowie
 
         private void AddCoinToTracker()
         {
-            var toRemove = GoldCoinTrack.transform.GetChild(maxCoins - 1);
+            var toRemove = GoldCoinTrack.transform.GetChild(_maxCoins - 1);
             if (toRemove != null)
             {
                 Destroy(toRemove.gameObject);
             }
             var newCoin = Instantiate(FilledCoinPrefab, GoldCoinTrack.transform);
-            newCoin.transform.SetSiblingIndex(coinsFilled);
-            coinsFilled++;
+            newCoin.transform.SetSiblingIndex(_coinsFilled);
+            _coinsFilled++;
         }
 
         private void CheckForSurroundedMountains()
@@ -208,11 +213,11 @@ namespace Kartografowie
                         break;
                     }
                 }
-                if (isSurrounded && !visitedMountains.ContainsKey(cell.GridPosition))
+                if (isSurrounded && !_visitedMountains.ContainsKey(cell.GridPosition))
                 {
                     Debug.Log($"Mountain at {cell.GridPosition} is surrounded by other mountains.");
                     AddCoinToTracker();
-                    visitedMountains[cell.GridPosition] = cell; // Mark this mountain as visited
+                    _visitedMountains[cell.GridPosition] = cell; // Mark this mountain as visited
                 }
             }
         }

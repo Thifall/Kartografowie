@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace Kartografowie
+namespace Kartografowie.Assets.Scripts.Scoring.Events
 {
     [CreateAssetMenu(fileName = "OnScoringRuleAddedEvent", menuName = "Events/On Scoring Rule Added")]
     public class OnScoringRuleAddedEventSO : ScriptableObject

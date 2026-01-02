@@ -2,7 +2,7 @@ using Kartografowie.General;
 using System;
 using UnityEngine;
 
-namespace Kartografowie
+namespace Kartografowie.Assets.Scripts.Scoring.Events
 {
     [CreateAssetMenu(fileName = "OnScoreUpdatedEventSO", menuName = "Events/On Score Updated")]
     public class OnScoreUpdatedEventSO : ScriptableObject

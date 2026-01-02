@@ -6,15 +6,17 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Kartografowie.Shapes
+namespace Kartografowie.Assets.Scripts.Shapes
 {
     public class ShapeValidator
     {
-        private readonly GridManager gridManager;
+        private readonly GridManager _gridManager;
+        private readonly ShapeDrawnEventSO _shapeDrawnEvent;
 
-        public ShapeValidator(GridManager gridManager)
+        public ShapeValidator(GridManager gridManager, ShapeDrawnEventSO shapeDrawnEvent)
         {
-            this.gridManager = gridManager;
+            _gridManager = gridManager;
+            _shapeDrawnEvent = shapeDrawnEvent;
         }
 
         public bool IsOverInvalidCells(GameObject shapePreview, bool requiresRuins)
@@ -22,7 +24,7 @@ namespace Kartografowie.Shapes
             Transform[] ghostCells = shapePreview.GetComponentsInChildren<Transform>().Where(t => t != shapePreview.transform).ToArray();
             foreach (Transform cell in ghostCells)
             {
-                if (!gridManager.IsWithinGridBounds(cell.position) || gridManager.IsSquareRestricted(cell.position))
+                if (!_gridManager.IsWithinGridBounds(cell.position) || _gridManager.IsSquareRestricted(cell.position))
                 {
                     return true;
                 }
@@ -33,7 +35,7 @@ namespace Kartografowie.Shapes
             {
                 foreach (Transform cell in ghostCells)
                 {
-                    if (gridManager.HasRuinsAtPosition(cell.position))
+                    if (_gridManager.HasRuinsAtPosition(cell.position))
                     {
                         //we found ruins square, so we return false as we are over good squares
                         return false;
@@ -55,7 +57,7 @@ namespace Kartografowie.Shapes
             //3) ruins card is inactive, can fit shape anywhere with regular drawing ruleset
 
             //Take all empty squares, if requiresRuinsSquare == true, then we only take empty ruins squares
-            var emptySquares = gridManager.GetAvailableEmptySquares(requiresRuins: requiresRuinsSquare).ToList();
+            var emptySquares = _gridManager.GetAvailableEmptySquares(requiresRuins: requiresRuinsSquare).ToList();
             if (!emptySquares.Any())
             {
                 //we don't have any free squares matching criteria, so we cannot fit shape :)
@@ -85,7 +87,7 @@ namespace Kartografowie.Shapes
 
         public void HandleAmbushShape(AmbushCard ambushCard)
         {
-            Dictionary<Vector2Int, GridCell> emptySquares = gridManager.GetAvailableEmptySquares().ToDictionary(c => gridManager.WorldToGrid(c.transform.position));
+            Dictionary<Vector2Int, GridCell> emptySquares = _gridManager.GetAvailableEmptySquares().ToDictionary(c => _gridManager.WorldToGrid(c.transform.position));
 
             //setting bounds
             int minX = emptySquares.Keys.Min(v => v.x);
@@ -101,16 +103,16 @@ namespace Kartografowie.Shapes
 
             var currentCorner = startingCorner;
 
-            while (emptySquares.Any() && (minX < maxX) && (minY < maxY))
+            while (emptySquares.Any() && minX < maxX && minY < maxY)
             {
                 Debug.Log($"current corner: {currentCorner}, direction: {directions[directionIndex % 4]}");
-                foreach (var cell in gridManager.GetSquaresInLine(emptySquares.Values, directions[directionIndex % 4], currentCorner))
+                foreach (var cell in _gridManager.GetSquaresInLine(emptySquares.Values, directions[directionIndex % 4], currentCorner))
                 {
                     var (found, matches) = CanFitShapeOnSquare(ambushCard.availableShapes[0], cell, 90);
                     if (found)
                     {
                         Debug.Log($"can paint shape on square {cell.GridPosition}");
-                        gridManager.StartCoroutine(PaintSquares(ambushCard, cell, matches));
+                        _gridManager.StartCoroutine(PaintSquares(ambushCard, matches));
                         return;
                     }
                     emptySquares.Remove(cell.GridPosition);
@@ -132,14 +134,15 @@ namespace Kartografowie.Shapes
             }
         }
 
-        private IEnumerator PaintSquares(AmbushCard ambushCard, GridCell cell, List<Vector3> matches)
+        private IEnumerator PaintSquares(AmbushCard ambushCard, List<Vector3> matches)
         {
             foreach (var position in matches)
             {                
-                var cellCords = gridManager.PositionToGrid(position);
-                gridManager.PaintSquareAtGridPos(cellCords, ambushCard.availableTerrains[0]);
+                var cellCords = _gridManager.PositionToGrid(position);
+                _gridManager.PaintSquareAtGridPos(cellCords, ambushCard.availableTerrains[0]);
                 yield return new WaitForSeconds(.5f);
             }
+            _shapeDrawnEvent.RaiseOnShapeDrawnEvent(null);
         }
 
         public Vector2Int GetStartingCorner(AmbushStartingCorner startingCorner, int minX, int maxX, int minY, int maxY)
@@ -185,10 +188,10 @@ namespace Kartografowie.Shapes
         {
             var nextCorner = currentCorner;
             bool IsCorner(Vector2Int pos) =>
-                (pos.x == minX && pos.y == maxY) || //top left
-                (pos.x == maxX && pos.y == maxY) || //top right
-                (pos.x == minX && pos.y == minY) || //bottom left
-                (pos.x == maxX && pos.y == minY); //bottom right
+                pos.x == minX && pos.y == maxY || //top left
+                pos.x == maxX && pos.y == maxY || //top right
+                pos.x == minX && pos.y == minY || //bottom left
+                pos.x == maxX && pos.y == minY; //bottom right
 
             do
             {
@@ -226,12 +229,12 @@ namespace Kartografowie.Shapes
                     var traversedAndOffsettedPositions = offsettedPositions.Select(x => x - traverse).ToList();
 
                     //now with such prepared positions, we ask grid manager, if we can draw on those squares
-                    if (gridManager.CanDrawOnSquares(traversedAndOffsettedPositions))
+                    if (_gridManager.CanDrawOnSquares(traversedAndOffsettedPositions))
                     {
                         Debug.Log("Can draw shape. Match found on positions:");
                         foreach (var squarePosition in traversedAndOffsettedPositions)
                         {
-                            Debug.Log($"{gridManager.GetSquareNameAtPosition(squarePosition)}");
+                            Debug.Log($"{_gridManager.GetSquareNameAtPosition(squarePosition)}");
                         }
                         return (true, traversedAndOffsettedPositions);
                     }

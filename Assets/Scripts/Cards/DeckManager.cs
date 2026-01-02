@@ -1,3 +1,4 @@
+using Kartografowie.Assets.Scripts.Shapes;
 using Kartografowie.Cards.UI;
 using Kartografowie.General;
 using Kartografowie.Shapes;
@@ -19,6 +20,7 @@ namespace Kartografowie.Cards
         public ShapeSelectedEventSO shapeSelectedEvent;
         public TerrainSelectedEventSO terrainSelectedEvent;
         public SeasonEndEventSO seasonEndEvent;
+        public ShapeDrawnEventSO shapeDrawnEvent;
         public GameObject NormalCardPrefab;
         public GameObject RuinsCardPrefab;
         public Transform CardStackParent;
@@ -32,6 +34,12 @@ namespace Kartografowie.Cards
         {
             PrepareDeckForNewSeason();
             seasonEndEvent.OnSeasonEnd += OnSeasonEnd;
+            shapeDrawnEvent.OnShapeDrawn += OnShapeDrawn;
+        }
+
+        private void OnShapeDrawn(Shape shape)
+        {
+            SetDrawButtonInteractable(true);
         }
 
         void PrepareDeckForNewSeason()
@@ -97,6 +105,7 @@ namespace Kartografowie.Cards
                 shapeSelectedEvent.RaiseEvent(currentCard.ShapeIcons[0]);
                 terrainSelectedEvent.RaiseEvent(currentCard.availableTerrains[0]);
             }
+            SetDrawButtonInteractable(currentCard.IsRuins);
         }
 
         private void CreateNewCardUI()
@@ -111,17 +120,27 @@ namespace Kartografowie.Cards
         {
             if (seasonDeck.Count < 1)
             {
-                BlockDrawButton();
+                SetDrawButtonInteractable(false);
+                SetDrawButtonColor(Color.gray);
+                SetDrawButtonText("No More Cards");
             }
             //season manager update -> should react to event
             seasonManager.ProgressSeason(card.TimeValue);
         }
 
-        private void BlockDrawButton()
+        private void SetDrawButtonInteractable(bool interactable)
         {
-            gameObject.GetComponent<Image>().color = Color.red;
-            gameObject.GetComponent<Button>().interactable = false;
-            gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Finished!";
+            gameObject.GetComponent<Button>().interactable = interactable;
+        }
+
+        private void SetDrawButtonColor(Color color)
+        {
+            gameObject.GetComponent<Image>().color = color;
+        }
+
+        private void SetDrawButtonText(string text)
+        {
+            gameObject.GetComponentInChildren<TextMeshProUGUI>().text = text;
         }
 
         public void OnSeasonEnd(Seasons endingSeason, bool gameEnded)
@@ -130,7 +149,9 @@ namespace Kartografowie.Cards
             gameOver = gameEnded;
             if (gameOver)
             {
-                BlockDrawButton();
+                SetDrawButtonInteractable(false);
+                SetDrawButtonColor(Color.red);
+                SetDrawButtonText("Game Over");
                 return;
             }
             PrepareDeckForNewSeason();
