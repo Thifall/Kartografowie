@@ -1,7 +1,6 @@
 ﻿using Kartografowie.Assets.Scripts.Grid.Runtime;
 using Kartografowie.Assets.Scripts.Scoring.Core;
 using Kartografowie.General;
-using System;
 
 namespace Kartografowie.Assets.Scripts.Scoring.Rules.Coins
 {
@@ -9,9 +8,9 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Coins
     {
         private const string _ruleName = "Tor Monet";
         private const string _ruleDescription = "Zdobądź 1 punkty za złotą monetę na torze monet";
-        private readonly CoinTrackerUI _coinTracker;
+        private readonly CoinTracker _coinTracker;
 
-        public CoinsScoringRule(CoinTrackerUI coinTracker) : base(_ruleName, _ruleDescription)
+        public CoinsScoringRule(CoinTracker coinTracker) : base(_ruleName, _ruleDescription)
         {
             _coinTracker = coinTracker;
         }
@@ -22,7 +21,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Coins
 
         public override int CalculateScore(GridManager gridManager)
         {
-            throw new NotImplementedException();
+            return _coinTracker.CoinsCount;
         }
     }
 }

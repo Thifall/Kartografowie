@@ -48,7 +48,7 @@ namespace Kartografowie.Assets.Scripts.Shapes
             return false;
         }
 
-        public bool CanFitShape(GameObject[] availableShapes, bool requiresRuinsSquare = false)
+        public bool CanFitShape(GameObject[] availableShapes, bool requiresRuinsSquare = false, bool shouldRotate = true)
         {
             //Scenarios to check:
             //1) Ruins card is active, but all ruins fields are already painted -> force single square shape
@@ -74,7 +74,7 @@ namespace Kartografowie.Assets.Scripts.Shapes
                     foreach (var shape in availableShapes)
                     {
                         Debug.Log($"Shape: {shape.name}");
-                        if (CanFitShapeOnSquare(shape, square).found)
+                        if (CanFitShapeOnSquare(shape, square, shouldRotate).found)
                         {
                             return true;
                         }
@@ -87,13 +87,6 @@ namespace Kartografowie.Assets.Scripts.Shapes
 
         public void HandleAmbushShape(AmbushCard ambushCard)
         {
-            if(!CanFitShape(ambushCard.availableShapes))
-            {
-                Debug.Log("Cannot fit ambush shape anywhere on grid.");
-                _shapeDrawnEvent.RaiseOnShapeDrawnEvent(null);
-                return;
-            }
-
             Dictionary<Vector2Int, GridCell> emptySquares = _gridManager.GetAvailableEmptySquares()
                 .ToDictionary(c => _gridManager.WorldToGrid(c.transform.position));
 
@@ -116,7 +109,7 @@ namespace Kartografowie.Assets.Scripts.Shapes
                 Debug.Log($"current corner: {currentCorner}, direction: {directions[directionIndex % 4]}");
                 foreach (var cell in _gridManager.GetSquaresInLine(emptySquares.Values, directions[directionIndex % 4], currentCorner))
                 {
-                    var (found, matches) = CanFitShapeOnSquare(ambushCard.availableShapes[0], cell, 90);
+                    var (found, matches) = CanFitShapeOnSquare(ambushCard.availableShapes[0], cell, false);
                     if (found)
                     {
                         Debug.Log($"can paint shape on square {cell.GridPosition}");
@@ -140,12 +133,14 @@ namespace Kartografowie.Assets.Scripts.Shapes
                     currentCorner = GetStartingCorner(ambushCard.startingCorner, minX, maxX, minY, maxY);
                 }
             }
+            Debug.Log("No valid position found for ambush shape, raising event with null shape");
+            _shapeDrawnEvent.RaiseOnShapeDrawnEvent(null);
         }
 
         private IEnumerator PaintSquares(AmbushCard ambushCard, List<Vector3> matches)
         {
             foreach (var position in matches)
-            {                
+            {
                 var cellCords = _gridManager.PositionToGrid(position);
                 _gridManager.PaintSquareAtGridPos(cellCords, ambushCard.availableTerrains[0]);
                 yield return new WaitForSeconds(.5f);
@@ -209,7 +204,7 @@ namespace Kartografowie.Assets.Scripts.Shapes
             return nextCorner;
         }
 
-        private (bool found, List<Vector3> matches) CanFitShapeOnSquare(GameObject shape, GridCell checkedSquare, int maxRotation = 360)
+        private (bool found, List<Vector3> matches) CanFitShapeOnSquare(GameObject shape, GridCell checkedSquare, bool shouldRotate)
         {
             Debug.Log($"Checking square {checkedSquare.transform.localPosition}");
 
@@ -217,7 +212,8 @@ namespace Kartografowie.Assets.Scripts.Shapes
             var shapeSquaresBasePositions = GetShapeSquaresBasePositions(shape).ToList();
             //starting with no rotation
             var rotation = 0;
-            while (rotation < maxRotation)
+            int maxRotation = 360;
+            do
             {
                 Debug.Log($"Shape: {shape.name}, rotation: {rotation},squares base positions:");
                 foreach (var square in shapeSquaresBasePositions)
@@ -248,9 +244,13 @@ namespace Kartografowie.Assets.Scripts.Shapes
                     }
                 }
                 //rotating base shape
-                shapeSquaresBasePositions = RotateShapeSquares(shapeSquaresBasePositions).ToList();
-                rotation += 90;
+                if (shouldRotate)
+                {
+                    shapeSquaresBasePositions = RotateShapeSquares(shapeSquaresBasePositions).ToList();
+                    rotation += 90;
+                }
             }
+            while (shouldRotate && rotation < maxRotation);
             return (false, new List<Vector3>());
         }
 

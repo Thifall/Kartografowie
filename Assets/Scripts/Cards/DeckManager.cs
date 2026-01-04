@@ -96,6 +96,7 @@ namespace Kartografowie.Cards
                 return;
             }
             currentCard = seasonDeck[0];
+            SetDrawButtonInteractable(currentCard.IsRuins);
             seasonDeck.RemoveAt(0);
             ApplyCardEffects(currentCard);
             CreateNewCardUI();
@@ -105,7 +106,6 @@ namespace Kartografowie.Cards
                 shapeSelectedEvent.RaiseEvent(currentCard.ShapeIcons[0]);
                 terrainSelectedEvent.RaiseEvent(currentCard.availableTerrains[0]);
             }
-            SetDrawButtonInteractable(currentCard.IsRuins);
         }
 
         private void CreateNewCardUI()

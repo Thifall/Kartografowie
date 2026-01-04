@@ -25,7 +25,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Core
 
         private void OnShapeDrawn(Shape shape)
         {
-            if (shape.IsBonusShape)
+            if (shape != null && shape.IsBonusShape)
             {
                 CoinsCount++;
                 _onCoinAddedEvent.RaiseOnCoinAddedEvent();

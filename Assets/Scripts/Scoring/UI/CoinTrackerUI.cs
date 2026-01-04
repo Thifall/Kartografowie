@@ -1,8 +1,7 @@
 using Kartografowie.Assets.Scripts.Scoring.Events;
-using System;
 using UnityEngine;
 
-namespace Kartografowie
+namespace Kartografowie.Assets.Scripts.Scoring.UI
 {
     public class CoinTrackerUI : MonoBehaviour
     {
