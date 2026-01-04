@@ -8,9 +8,10 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Forests
 {
     public class GorskieOstepy : ForestsScoringRule
     {
-        private const string RULE_NAME = "Górskie Ostępy";
-        private const string RULE_DESCRIPTION = "Zdobądź 3 punkty za każdy obszar gór, połączony z innym obszarem gór przez klaster lasu";
-        public GorskieOstepy() : base(RULE_NAME, RULE_DESCRIPTION)
+        private const string _ruleName = "Górskie Ostępy";
+        private const string _ruleDescription = "Zdobądź 3 punkty za każdy obszar gór, połączony z innym obszarem gór przez klaster lasu";
+
+        public GorskieOstepy() : base(_ruleName, _ruleDescription)
         {
         }
         public override int CalculateScore(GridManager gridManager)
@@ -71,7 +72,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Forests
                 }
             }
 
-            Debug.Log($"Punkty za regułę \"{RULE_NAME}\": {points}");
+            Debug.Log($"Punkty za regułę \"{_ruleName}\": {points}");
             return points;
         }
     }

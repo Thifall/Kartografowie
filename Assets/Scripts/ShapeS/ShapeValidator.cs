@@ -87,7 +87,15 @@ namespace Kartografowie.Assets.Scripts.Shapes
 
         public void HandleAmbushShape(AmbushCard ambushCard)
         {
-            Dictionary<Vector2Int, GridCell> emptySquares = _gridManager.GetAvailableEmptySquares().ToDictionary(c => _gridManager.WorldToGrid(c.transform.position));
+            if(!CanFitShape(ambushCard.availableShapes))
+            {
+                Debug.Log("Cannot fit ambush shape anywhere on grid.");
+                _shapeDrawnEvent.RaiseOnShapeDrawnEvent(null);
+                return;
+            }
+
+            Dictionary<Vector2Int, GridCell> emptySquares = _gridManager.GetAvailableEmptySquares()
+                .ToDictionary(c => _gridManager.WorldToGrid(c.transform.position));
 
             //setting bounds
             int minX = emptySquares.Keys.Min(v => v.x);

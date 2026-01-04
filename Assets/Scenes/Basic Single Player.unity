@@ -1922,10 +1922,8 @@ MonoBehaviour:
   OnScoringRuleAdded: {fileID: 11400000, guid: 0cc20ccebc062164a9fd9ab832c670fe, type: 2}
   OnScoreUpdated: {fileID: 11400000, guid: 9ff0e671dba18664fa212fcdeaf8886a, type: 2}
   ShapeDrawnEvent: {fileID: 11400000, guid: c711704c96a817f4a807fde87f2339e6, type: 2}
+  OnCoinAddedEvent: {fileID: 11400000, guid: 202e5efea4640a8419173ab4ed77d478, type: 2}
   TotalScore: {fileID: 1570149004}
-  EmptyCoinPrefab: {fileID: 5558372497114924670, guid: bcee426ea04b9fb4fb5952a607f90a59, type: 3}
-  FilledCoinPrefab: {fileID: 5558372497114924670, guid: d7b8e78f4e6346f47a99ae5e42482666, type: 3}
-  GoldCoinTrack: {fileID: 1590472412}
 --- !u!224 &949267984 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6203100730302465691, guid: 61c848b5b19b0d64da33b1a197bd602c, type: 3}
@@ -2762,6 +2760,7 @@ GameObject:
   - component: {fileID: 1590472416}
   - component: {fileID: 1590472415}
   - component: {fileID: 1590472417}
+  - component: {fileID: 1590472418}
   m_Layer: 5
   m_Name: coinTrack
   m_TagString: Untagged
@@ -2853,6 +2852,22 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1590472418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590472412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3339d9a7ce6638f40898787c10083d10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Kartografowie::Kartografowie.CoinTracker
+  _maxCoins: 14
+  onCoinAddedEvent: {fileID: 11400000, guid: 202e5efea4640a8419173ab4ed77d478, type: 2}
+  InactiveCoinPrefab: {fileID: 5558372497114924670, guid: bcee426ea04b9fb4fb5952a607f90a59, type: 3}
+  ActiveCoinPrefab: {fileID: 5558372497114924670, guid: d7b8e78f4e6346f47a99ae5e42482666, type: 3}
 --- !u!1001 &1624574059
 PrefabInstance:
   m_ObjectHideFlags: 0

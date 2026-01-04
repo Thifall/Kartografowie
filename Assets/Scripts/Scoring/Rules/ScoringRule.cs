@@ -73,6 +73,8 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules
         Misc,
         Forests,
         Vilages,
-        PlainsAndWaters
+        PlainsAndWaters,
+        Monsters,
+        Coins
     }
 }

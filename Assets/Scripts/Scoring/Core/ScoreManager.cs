@@ -6,7 +6,7 @@ using Kartografowie.Assets.Scripts.Scoring.Rules.Misc;
 using Kartografowie.Assets.Scripts.Scoring.Rules.PlainsAndWaters;
 using Kartografowie.Assets.Scripts.Scoring.Rules.Vilages;
 using Kartografowie.General;
-using Kartografowie.Shapes;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -20,37 +20,24 @@ namespace Kartografowie.Assets.Scripts.Scoring.Core
         public OnScoringRuleAddedEventSO OnScoringRuleAdded;
         public OnScoreUpdatedEventSO OnScoreUpdated;
         public ShapeDrawnEventSO ShapeDrawnEvent;
+        public OnCoinAddedEventSO OnCoinAddedEvent;
         public TextMeshProUGUI TotalScore;
-        public GameObject EmptyCoinPrefab;
-        public GameObject FilledCoinPrefab;
-        public GameObject GoldCoinTrack;
 
-        private const int _maxCoins = 14;
         private ScoringContext _scoringContext;
         private GridManager _gridManager;
-        private readonly Dictionary<Vector2Int, GridCell> _visitedMountains = new();
-        private int _coinsFilled = 0;
+        private CoinTracker _coinTracker;
 
-        void Start()
+        private IEnumerator Start()
         {
+            while (_gridManager == null)
+            {
+                _gridManager = FindFirstObjectByType<GridManager>();
+                yield return null;
+            }
             _scoringContext = new ScoringContext();
             SeasonEndEvent.OnSeasonEnd += OnSeasonEnd;
-            ShapeDrawnEvent.OnShapeDrawn += OnShapeDrawn;
-            InitializeCoins();
             InitializeScoringRules();
-        }
-
-        private void InitializeCoins()
-        {
-            foreach (Transform child in GoldCoinTrack.transform)
-            {
-                Destroy(child.gameObject);
-            }
-            for (int i = 0; i < _maxCoins; i++)
-            {
-                var coin = Instantiate(EmptyCoinPrefab, GoldCoinTrack.transform);
-                coin.name = $"Coin {i + 1}";
-            }
+            _coinTracker = new CoinTracker(ShapeDrawnEvent, OnCoinAddedEvent, _gridManager);
         }
 
         private void InitializeScoringRules()
@@ -127,7 +114,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Core
 
         private void OnSeasonEnd(Seasons endingSeason, bool isGameOver)
         {
-            EnsureGridManagerInstance();
+            //EnsureGridManagerInstance();
             //calculate scores for the ending season
             foreach (var rule in _scoringContext.ActiveRules[endingSeason])
             {
@@ -155,71 +142,12 @@ namespace Kartografowie.Assets.Scripts.Scoring.Core
             OnScoreUpdated.RaiseEvent(endingSeason, Edicts.Monesters, deductedPoints);
 
             //add bonus points for shapes, sorrounded mountains etc;
-            _scoringContext.SetScore(endingSeason, Edicts.Coins, _coinsFilled);
-            OnScoreUpdated.RaiseEvent(endingSeason, Edicts.Coins, _coinsFilled);
+            var coinsPoints = _coinTracker.CoinsCount;
+            _scoringContext.SetScore(endingSeason, Edicts.Coins, coinsPoints);
+            OnScoreUpdated.RaiseEvent(endingSeason, Edicts.Coins, coinsPoints);
 
             TotalScore.text = $"Total: {_scoringContext.TotalScore}";
             Debug.Log($"Season {endingSeason} ended. Game Over: {isGameOver}");
-        }
-
-        private void EnsureGridManagerInstance()
-        {
-            if (_gridManager == null)
-            {
-                _gridManager = FindFirstObjectByType<GridManager>();
-            }
-        }
-
-        private void OnShapeDrawn(Shape shape)
-        {
-            if (shape == null)
-            {
-                return;
-            }
-            if (shape.IsBonusShape)
-            {
-                AddCoinToTracker();
-            }
-            Debug.Log($"Shape drawn: {shape.name}. Is bonus shape: {shape.IsBonusShape}");
-            CheckForSurroundedMountains();
-        }
-
-        private void AddCoinToTracker()
-        {
-            var toRemove = GoldCoinTrack.transform.GetChild(_maxCoins - 1);
-            if (toRemove != null)
-            {
-                Destroy(toRemove.gameObject);
-            }
-            var newCoin = Instantiate(FilledCoinPrefab, GoldCoinTrack.transform);
-            newCoin.transform.SetSiblingIndex(_coinsFilled);
-            _coinsFilled++;
-        }
-
-        private void CheckForSurroundedMountains()
-        {
-            EnsureGridManagerInstance();
-            var mountains = _gridManager.GetSquares(c => c.CurrentCellType == CellType.Mountain).ToList();
-            foreach (var square in mountains)
-            {
-                var cell = square.Value;
-                bool isSurrounded = true;
-                foreach (var neighbor in Generals.Directions.Select(d => cell.GridPosition + d))
-                {
-                    var neighborCell = _gridManager.GetSquareByPosition(neighbor);
-                    if (neighborCell != null && neighborCell.CurrentCellType == CellType.Default)
-                    {
-                        isSurrounded = false; // Found an empty neighbor, not surrounded
-                        break;
-                    }
-                }
-                if (isSurrounded && !_visitedMountains.ContainsKey(cell.GridPosition))
-                {
-                    Debug.Log($"Mountain at {cell.GridPosition} is surrounded by other mountains.");
-                    AddCoinToTracker();
-                    _visitedMountains[cell.GridPosition] = cell; // Mark this mountain as visited
-                }
-            }
         }
     }
 }
