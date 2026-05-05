@@ -8,7 +8,7 @@ namespace Kartografowie.Assets.Scripts.Scoring.Rules.Vilages
     public class WielkieMiasto : VilageScoringRule
     {
         private const string RULE_NAME = "Wielkie Miasto";
-        private const string RULE_DESCRIPTION = "Zdobądź 1 punkt za każdy obszar wioski w największym klastzre wiosek, który nie sąsiaduje z obszarem gór";
+        private const string RULE_DESCRIPTION = "Zdobądź 1 punkt za każdy obszar wioski w największym klastrze wiosek, który nie sąsiaduje z obszarem gór";
         public WielkieMiasto() : base(RULE_NAME, RULE_DESCRIPTION)
         {
         }

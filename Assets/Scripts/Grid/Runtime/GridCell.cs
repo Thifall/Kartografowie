@@ -26,7 +26,7 @@ namespace Kartografowie.Assets.Scripts.Grid.Runtime
         private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
-            CellState = new CellState(_cellConfig);
+            CellState = new CellState(_cellConfig ?? new CellConfig());
             UpdateVisualFromState();
         }
 
